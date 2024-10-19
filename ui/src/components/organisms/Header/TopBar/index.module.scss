@@ -1,0 +1,76 @@
+@import '@styles/partials/variables.scss';
+
+.wrapper {
+    background-color: black;
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h5 {
+        font-weight: normal;
+        font-size: 0.875rem;
+        color: $white;
+    }
+
+    .socialIcons {
+        column-gap: 0.5rem;
+
+        a {
+            height: 1.25rem;
+            width: 1.25rem;
+            border-radius: 50%;
+            transition: 0.3s all ease;
+
+            i {
+                font-size: 0.75rem;
+                color: $white;
+            }
+        }
+    }
+
+    .selectorDropdown {
+        width: 3.5rem;
+
+        .selectedValue {
+            display: flex;
+            align-items: center;
+            column-gap: 0.5rem;
+            cursor: pointer;
+            background-color: transparent;
+            padding: 0;
+            border: unset;
+
+            &::after {
+                display: none;
+            }
+
+            span {
+                font-size: 0.875rem;
+                color: $white;
+            }
+
+            i {
+                font-size: 0.375rem;
+                color: $white;
+                transition: 0.3s all ease;
+            }
+        }
+
+        .options {
+            background-color: $white;
+            min-width: 3.5rem;
+            padding: 0;
+
+            button {
+                display: block;
+                border: unset;
+                background-color: transparent;
+                text-align: left;
+                padding: 0 0.25rem;
+                width: 100%;
+                font-size: 0.75rem;
+            }
+        }
+    }
+}

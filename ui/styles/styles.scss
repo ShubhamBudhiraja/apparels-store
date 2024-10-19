@@ -1,0 +1,40 @@
+@import '@styles/partials/bootstrap/bootstrap';
+@import '@styles/partials/bootstrap/bootstrap-overrides';
+@import '@styles/icons.scss';
+
+html,
+head,
+body,
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}

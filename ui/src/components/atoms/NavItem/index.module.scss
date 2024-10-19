@@ -1,0 +1,11 @@
+.itemWrapper {
+    .item {
+        font-size: 0.75rem;
+    }
+
+    &:hover {
+        .dropdownList {
+            display: block;
+        }
+    }
+}

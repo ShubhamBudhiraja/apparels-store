@@ -1,0 +1,35 @@
+@font-face {
+    font-family: "icons";
+    src: url("../public/fonts/icons.ttf?1a1105a2fc437f72cb1c1c15d15cefd8") format("truetype"),
+url("../public/fonts/icons.woff?1a1105a2fc437f72cb1c1c15d15cefd8") format("woff"),
+url("../public/fonts/icons.woff2?1a1105a2fc437f72cb1c1c15d15cefd8") format("woff2"),
+url("../public/fonts/icons.svg?1a1105a2fc437f72cb1c1c15d15cefd8#icons") format("svg"),
+url("../public/fonts/icons.eot?1a1105a2fc437f72cb1c1c15d15cefd8#iefix") format("embedded-opentype");
+}
+
+.font:before {
+    font-family: icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.font.icon-youtube:before {
+    content: "\f101";
+}
+.font.icon-twitter:before {
+    content: "\f102";
+}
+.font.icon-instagram:before {
+    content: "\f103";
+}
+.font.icon-facebook:before {
+    content: "\f104";
+}
+.font.icon-down:before {
+    content: "\f105";
+}
