@@ -1,0 +1,25 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.inputWrapper {
+    width: 100%;
+    position: relative;
+
+    input {
+        border: $borderColor;
+        padding: 0.5rem 0.625rem;
+        width: 100%;
+
+        &:focus-visible {
+            border: unset;
+            outline: unset;
+        }
+    }
+
+    .error {
+        display: block;
+        position: absolute;
+        bottom: -1.5rem;
+        left: 0;
+    }
+}

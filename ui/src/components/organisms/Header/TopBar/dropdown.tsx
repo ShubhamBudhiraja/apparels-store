@@ -13,12 +13,11 @@ const TopBarDropDown = (props: ITopBarDropDown) => {
     const { options, selected, setSelected } = props;
 
     const [toggle, setToggle] = useState(false);
-    console.log('ss');
+
     return (
         <Dropdown
             className={style.selectorDropdown}
             onToggle={(isOpen) => {
-                console.log(isOpen);
                 setToggle(isOpen);
             }}
             show={toggle}
@@ -28,8 +27,9 @@ const TopBarDropDown = (props: ITopBarDropDown) => {
                 <i className="font icon-down"></i>
             </Dropdown.Toggle>
             <Dropdown.Menu className={style.options}>
-                {options?.map((option: IDropdownOptions) => (
+                {options?.map((option: IDropdownOptions, index: number) => (
                     <button
+                        key={`topbar_option_${index}`}
                         onClick={() => {
                             setSelected?.(option);
                             setToggle(false);

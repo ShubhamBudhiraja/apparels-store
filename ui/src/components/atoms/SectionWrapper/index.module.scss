@@ -1,0 +1,14 @@
+@import '@styles/partials/mixins';
+@import '@styles/partials/variables';
+
+.section {
+    @include toRem(margin-bottom, 52);
+
+    @media (min-width: $md) {
+        @include toRem(margin-bottom, 72);
+    }
+
+    @media (min-width: $lg) {
+        @include toRem(margin-bottom, 100);
+    }
+}

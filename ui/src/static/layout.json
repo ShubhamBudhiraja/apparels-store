@@ -1,0 +1,115 @@
+{
+    "headerData": {
+        "topBar": {
+            "heading": "FREE SHIPPING WORLDWIDE",
+            "socialIcons": [
+                {
+                    "iconName": "facebook",
+                    "iconUrl": "/facebook"
+                },
+                {
+                    "iconName": "instagram",
+                    "iconUrl": "/instagram"
+                },
+                {
+                    "iconName": "youtube",
+                    "iconUrl": "/youtube"
+                },
+                {
+                    "iconName": "twitter",
+                    "iconUrl": "/twitter"
+                }
+            ],
+            "currencySelector": [
+                {
+                    "title": "INR",
+                    "id": "inr"
+                },
+                {
+                    "title": "USD",
+                    "id": "usd"
+                },
+                {
+                    "title": "EUR",
+                    "id": "euro"
+                }
+            ]
+        },
+        "primaryMenu": [
+            {
+                "title": "Home",
+                "link": "/"
+            },
+            {
+                "title": "Shop",
+                "link": "/shop"
+            },
+            {
+                "title": "Blog",
+                "link": "/blog"
+            },
+            {
+                "title": "About",
+                "link": "/about"
+            },
+            {
+                "title": "Contact",
+                "link": "/contact"
+            }
+        ]
+    },
+    "footerData": {
+        "signupForm": {
+            "heading": "Get 30% Off",
+            "description": "Be the first to get the latest news about trends, promotions, and much more!",
+            "placeholder": "Enter your email address",
+            "btnText": "Join",
+            "fieldId": "emailId"
+        },
+        "siteInformation": {
+            "logo": "/images/logo-white.png",
+            "email": "sales@website.com",
+            "phone": "+91-9385638759",
+            "address": "B-1, Borivili, Timbaktu, Bahamas",
+            "quickMenu": [
+                {
+                    "title": "Company",
+                    "items": [
+                        { "linkText": "About Us", "linkUrl": "/about-us" },
+                        { "linkText": "Careers", "linkUrl": "/careers" },
+                        { "linkText": "Blog", "linkUrl": "/blog" },
+                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                    ]
+                },
+                {
+                    "title": "Company",
+                    "items": [
+                        { "linkText": "About Us", "linkUrl": "/about-us" },
+                        { "linkText": "Careers", "linkUrl": "/careers" },
+                        { "linkText": "Blog", "linkUrl": "/blog" },
+                        { "linkText": "Contact Us", "linkUrl": "/contact-us" },
+                        { "linkText": "Affiliates", "linkUrl": "/affiliates" }
+                    ]
+                },
+                {
+                    "title": "Company",
+                    "items": [
+                        { "linkText": "About Us", "linkUrl": "/about-us" },
+                        { "linkText": "Careers", "linkUrl": "/careers" },
+                        { "linkText": "Blog", "linkUrl": "/blog" },
+                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                    ]
+                },
+                {
+                    "title": "Company",
+                    "items": [
+                        { "linkText": "About Us", "linkUrl": "/about-us" },
+                        { "linkText": "Careers", "linkUrl": "/careers" },
+                        { "linkText": "Blog", "linkUrl": "/blog" },
+                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                    ]
+                }
+            ]
+        }
+    }
+}

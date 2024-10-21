@@ -1,0 +1,115 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.footerWrapper {
+    @include toRem(margin-top, 100);
+    padding: 6.25rem 0 5rem;
+    background-color: $color222;
+
+    .signupForm {
+        @include toRem(max-width, 720);
+        margin: 0 auto;
+
+        h3 {
+            @include toRem(font-size, 26);
+            @include toRem(margin-bottom, 18);
+            text-align: center;
+            color: $white;
+        }
+
+        p {
+            @include toRem(margin-bottom, 24);
+            text-align: center;
+            color: $white;
+        }
+
+        form {
+            column-gap: 1.25rem;
+
+            .customInput {
+                flex: 1;
+
+                input {
+                    background-color: $color35;
+                    padding: 0.75rem 1rem;
+                    color: $white;
+
+                    &::placeholder {
+                        color: $white;
+                    }
+                }
+            }
+
+            button {
+                @include toRem(width, 132);
+                @include toRem(height, 48);
+                border-radius: 0;
+                border: unset;
+                text-transform: uppercase;
+                background-color: $color5c;
+            }
+        }
+    }
+
+    .siteSummary {
+        display: flex;
+        column-gap: 1.25rem;
+
+        .summaryCol {
+            width: 20%;
+
+            &.info {
+                a {
+                    display: inline-block;
+                    margin-bottom: 2.25rem;
+                }
+
+                p {
+                    color: $white;
+                    font-size: 0.875rem;
+
+                    &:not(:last-child) {
+                        margin-bottom: 0.625rem;
+                    }
+                }
+            }
+
+            &.quickLinks {
+                h5 {
+                    font-size: 1rem;
+                    color: $white;
+                    margin-bottom: 1.875rem;
+                }
+
+                li {
+                    margin-bottom: 0.875rem;
+                    overflow: hidden;
+
+                    a {
+                        font-size: 0.875rem;
+                        color: $white;
+                        position: relative;
+
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            @include toRem(top, 18);
+                            left: -2rem;
+                            width: 2rem;
+                            height: 0.063rem;
+                            background-color: $white;
+                            border-radius: 0.5rem;
+                            transition: 0.3s all ease;
+                        }
+
+                        &:hover {
+                            &::after {
+                                left: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

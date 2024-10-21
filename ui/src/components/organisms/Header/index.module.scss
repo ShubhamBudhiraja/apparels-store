@@ -1,0 +1,53 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.wrapper {
+    background-color: $white;
+    padding: 1.5rem 0;
+
+    .primaryMenu {
+        column-gap: 1.25rem;
+
+        .hamburger {
+            width: 2.25rem;
+            height: 2.25rem;
+            cursor: pointer;
+            position: relative;
+
+            span {
+                display: block;
+                background-color: $black;
+                height: 0.063rem;
+                border-radius: 0.5rem;
+                position: absolute;
+                transition: 0.3s all ease;
+
+                &:first-child {
+                    @include toRem(top, 10);
+                    width: 100%;
+                    margin-bottom: 0.625rem;
+                }
+
+                &:last-child {
+                    @include toRem(top, 21);
+                    width: 75%;
+                }
+            }
+
+            &.open {
+                span {
+                    &:first-child {
+                        @include toRem(top, 18);
+                        transform: rotate(45deg);
+                    }
+
+                    &:last-child {
+                        @include toRem(top, 18);
+                        width: 100%;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+    }
+}

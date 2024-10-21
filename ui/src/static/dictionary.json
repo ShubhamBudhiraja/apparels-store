@@ -1,3 +1,4 @@
 {
-    "continueLabel": "Continue"
+    "continueLabel": "Continue",
+    "requiredFieldError": "This field is required"
 }
