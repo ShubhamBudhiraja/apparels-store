@@ -1,7 +1,7 @@
 'use client';
 import Footer from 'src/components/organisms/Footer';
 import Header from 'src/components/organisms/Header';
-import React from 'react';
+import React, { useState } from 'react';
 import { ISocialIcons } from 'src/lib/interface/layout';
 
 interface ILayout {
@@ -13,23 +13,30 @@ interface ILayout {
 
 const Layout = (props: ILayout) => {
     const { headerData, footerData, socialIcons, children } = props;
+    const [showHamburger, setShowHamburger] = useState(true);
+
     return (
-        <>
-            <Header
-                topBar={headerData?.topBar}
-                primaryMenu={headerData?.primaryMenu}
-                secondaryMenu={headerData?.secondaryMenu}
-                logo={headerData?.logo}
-                socialIcons={socialIcons}
-            />
-            {children}
-            <Footer
-                formData={footerData?.signupForm}
-                siteInfo={footerData?.siteInformation}
-                copyrightInfo={footerData?.copyrightText}
-                socialIcons={socialIcons}
-            />
-        </>
+        <body className={showHamburger ? 'overflow-hidden' : ''}>
+            <main>
+                <Header
+                    topBar={headerData?.topBar}
+                    primaryMenu={headerData?.primaryMenu}
+                    secondaryMenu={headerData?.secondaryMenu}
+                    logo={headerData?.logo}
+                    socialIcons={socialIcons}
+                    setShowHamburger={setShowHamburger}
+                    showHamburger={showHamburger}
+                    hamburgerData={headerData?.hamburger}
+                />
+                {children}
+                <Footer
+                    formData={footerData?.signupForm}
+                    siteInfo={footerData?.siteInformation}
+                    copyrightInfo={footerData?.copyrightText}
+                    socialIcons={socialIcons}
+                />
+            </main>
+        </body>
     );
 };
 

@@ -11,19 +11,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-            <body>
-                <LayoutContextProvider dictionary={dictionaryData}>
-                    <main>
-                        <Layout
-                            headerData={layoutData?.headerData}
-                            footerData={layoutData?.footerData}
-                            socialIcons={layoutData?.socialIcons}
-                        >
-                            {children}
-                        </Layout>
-                    </main>
-                </LayoutContextProvider>
-            </body>
+            <LayoutContextProvider dictionary={dictionaryData}>
+                <Layout
+                    headerData={layoutData?.headerData}
+                    footerData={layoutData?.footerData}
+                    socialIcons={layoutData?.socialIcons}
+                >
+                    {children}
+                </Layout>
+            </LayoutContextProvider>
         </html>
     );
 }

@@ -3,6 +3,7 @@ import TopBar from './TopBar';
 import { ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
+import Hamburger from './Hamburger';
 
 interface IHeader {
     topBar?: any;
@@ -10,12 +11,15 @@ interface IHeader {
     secondaryMenu?: any;
     socialIcons?: ISocialIcons[];
     logo?: string;
+    showHamburger: boolean;
+    setShowHamburger: React.Dispatch<React.SetStateAction<boolean>>;
+    hamburgerData?: any;
 }
 
 const Header = (props: IHeader) => {
-    const { topBar, primaryMenu, secondaryMenu, socialIcons, logo } = props;
+    const { topBar, primaryMenu, secondaryMenu, socialIcons, logo, showHamburger, setShowHamburger, hamburgerData } =
+        props;
 
-    const [openHam, setOpenHam] = useState(false);
     const [stickyHeader, setStickyHeader] = useState(false);
 
     const cartItemsCount = 3; // temporary
@@ -36,45 +40,58 @@ const Header = (props: IHeader) => {
     }, []);
 
     return (
-        <header id="main-header" className={`${style.headerWrapper} ${stickyHeader ? style.fixed : ''}`}>
-            <section>
-                <TopBar
-                    heading={topBar?.heading}
-                    socialIcons={socialIcons}
-                    currencySelector={topBar?.currencySelector}
-                />
-                <div className={style.wrapper}>
-                    <Container fluid className="flex">
-                        <div className={`${style.primaryMenu} flex`} onClick={() => setOpenHam(!openHam)}>
-                            <div className={`${style.hamburger} ${openHam ? style.open : ''}`}>
-                                <span />
-                                <span />
+        <>
+            <header id="main-header" className={`${style.headerWrapper} ${stickyHeader ? style.fixed : ''}`}>
+                <section>
+                    <TopBar
+                        heading={topBar?.heading}
+                        socialIcons={socialIcons}
+                        currencySelector={topBar?.currencySelector}
+                    />
+                    <div className={style.wrapper}>
+                        <Container fluid className="flex">
+                            <div className={`${style.primaryMenu} flex`}>
+                                <div
+                                    className={`${style.hamburger} ${showHamburger ? style.open : ''}`}
+                                    onClick={() => {
+                                        setShowHamburger(!showHamburger);
+                                    }}
+                                >
+                                    <span />
+                                    <span />
+                                </div>
+                                <ul className="flex">
+                                    {primaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
+                                        <li key={`primaryMenuItem_${index}`}>
+                                            <a href={menuItem?.link}>{menuItem?.title}</a>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
-                            <ul className="flex">
-                                {primaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
-                                    <li key={`primaryMenuItem_${index}`}>
-                                        <a href={menuItem?.link}>{menuItem?.title}</a>
-                                    </li>
+                            <a href="/" className={style.logo}>
+                                <img src={logo} alt="site logo" />
+                            </a>
+                            <ul className={`${style.secondaryNav} flex-end`}>
+                                {secondaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
+                                    <SecondaryNavItem
+                                        key={`secondaryNav_${index}`}
+                                        menuItem={menuItem}
+                                        cartCount={cartItemsCount}
+                                        wishlistCount={wishlistItemsCount}
+                                    />
                                 ))}
                             </ul>
-                        </div>
-                        <a href="/" className={style.logo}>
-                            <img src={logo} alt="site logo" />
-                        </a>
-                        <ul className={`${style.secondaryNav} flex-end`}>
-                            {secondaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
-                                <SecondaryNavItem
-                                    key={`secondaryNav_${index}`}
-                                    menuItem={menuItem}
-                                    cartCount={cartItemsCount}
-                                    wishlistCount={wishlistItemsCount}
-                                />
-                            ))}
-                        </ul>
-                    </Container>
-                </div>
-            </section>
-        </header>
+                        </Container>
+                    </div>
+                </section>
+            </header>
+            <Hamburger
+                show={showHamburger}
+                bannerImg={hamburgerData?.bannerImage}
+                heading={hamburgerData?.heading}
+                menuList={hamburgerData?.menuItems}
+            />
+        </>
     );
 };
 

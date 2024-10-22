@@ -1,0 +1,95 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.wrapper {
+    opacity: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(100vh - 7.5rem);
+    transition: 0.3s all ease;
+    background-color: $white;
+    z-index: 9;
+    overflow: hidden;
+    display: flex;
+
+    &.show {
+        opacity: 1;
+    }
+
+    figure {
+        width: 50%;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .content {
+        padding: 1.5rem 2.5rem;
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: bold;
+            position: relative;
+            margin-bottom: 3rem;
+            width: max-content;
+
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 105%;
+                margin: auto 0;
+                width: 10rem;
+                height: 0.125rem;
+                background-color: $black;
+                border-radius: 0.5rem;
+            }
+        }
+
+        .categoryMenu {
+            display: flex;
+            column-gap: 4rem;
+            margin-bottom: 1.5rem;
+
+            h5 {
+                width: 6rem;
+            }
+
+            ul {
+                flex: 1;
+                row-gap: 1.25rem;
+
+                a {
+                    color: $black;
+                    position: relative;
+                    display: inline-block;
+                    overflow: hidden;
+                    line-height: 1.875rem;
+
+                    &::after {
+                        content: '';
+                        height: 0.125rem;
+                        width: 2rem;
+                        background-color: $black;
+                        position: absolute;
+                        @include toRem(top, 28);
+                        left: -2rem;
+                        transition: 0.3s all ease;
+                        border-radius: 0.5rem;
+                    }
+
+                    &:hover {
+                        &::after {
+                            left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
