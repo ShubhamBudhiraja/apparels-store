@@ -4,16 +4,9 @@ import { Button, Form } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import TextInput from '@atoms/TextInput';
 import { LayoutContextData } from 'src/lib/context/layout';
+import { ISignupFormData } from 'src/lib/interface/layout';
 
-interface ISignupForm {
-    fieldId: string;
-    heading?: string;
-    description?: string;
-    placeholder?: string;
-    btnText?: string;
-}
-
-const SignupForm = (props: ISignupForm) => {
+const SignupForm = (props: ISignupFormData) => {
     const { fieldId, heading, description, placeholder, btnText } = props;
 
     const { handleSubmit, control } = useForm();

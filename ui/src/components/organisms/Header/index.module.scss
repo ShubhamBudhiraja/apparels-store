@@ -85,7 +85,7 @@
                         width: 2rem;
                         background-color: $black;
                         position: absolute;
-                        @include toRem(top, 24);
+                        @include toRem(top, 22);
                         left: -2rem;
                         transition: 0.3s all ease;
                         border-radius: 0.5rem;

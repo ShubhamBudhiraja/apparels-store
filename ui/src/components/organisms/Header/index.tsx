@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import TopBar from './TopBar';
-import { ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
+import { IHeaderData, ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
 import Hamburger from './Hamburger';
 
-interface IHeader {
-    topBar?: any;
-    primaryMenu?: ISingleNavItem[];
-    secondaryMenu?: any;
+interface IHeader extends IHeaderData {
     socialIcons?: ISocialIcons[];
-    logo?: string;
     showHamburger: boolean;
     setShowHamburger: React.Dispatch<React.SetStateAction<boolean>>;
-    hamburgerData?: any;
 }
 
 const Header = (props: IHeader) => {
@@ -87,9 +82,9 @@ const Header = (props: IHeader) => {
             </header>
             <Hamburger
                 show={showHamburger}
-                bannerImg={hamburgerData?.bannerImage}
+                bannerImage={hamburgerData?.bannerImage}
                 heading={hamburgerData?.heading}
-                menuList={hamburgerData?.menuItems}
+                menuItems={hamburgerData?.menuItems}
             />
         </>
     );

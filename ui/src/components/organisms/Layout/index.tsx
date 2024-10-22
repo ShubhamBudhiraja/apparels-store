@@ -2,7 +2,7 @@
 import Footer from 'src/components/organisms/Footer';
 import Header from 'src/components/organisms/Header';
 import React, { useState } from 'react';
-import { ISocialIcons } from 'src/lib/interface/layout';
+import { IHeaderData, ISocialIcons } from 'src/lib/interface/layout';
 
 interface ILayout {
     headerData?: any;
@@ -13,7 +13,7 @@ interface ILayout {
 
 const Layout = (props: ILayout) => {
     const { headerData, footerData, socialIcons, children } = props;
-    const [showHamburger, setShowHamburger] = useState(true);
+    const [showHamburger, setShowHamburger] = useState(false);
 
     return (
         <body className={showHamburger ? 'overflow-hidden' : ''}>
@@ -26,11 +26,11 @@ const Layout = (props: ILayout) => {
                     socialIcons={socialIcons}
                     setShowHamburger={setShowHamburger}
                     showHamburger={showHamburger}
-                    hamburgerData={headerData?.hamburger}
+                    hamburgerData={headerData?.hamburgerData}
                 />
                 {children}
                 <Footer
-                    formData={footerData?.signupForm}
+                    formData={footerData?.formData}
                     siteInfo={footerData?.siteInformation}
                     copyrightInfo={footerData?.copyrightText}
                     socialIcons={socialIcons}

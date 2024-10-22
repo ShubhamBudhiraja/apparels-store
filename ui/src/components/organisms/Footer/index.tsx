@@ -2,28 +2,9 @@ import style from './index.module.scss';
 import React from 'react';
 import SignupForm from './signupform';
 import { Container } from 'react-bootstrap';
-import SectionWrapper from '@atoms/SectionWrapper';
-import { ISocialIcons } from 'src/lib/interface/layout';
+import { IFooterData, IFooterQuickMenu, ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
 
-interface IMenuItem {
-    linkText?: string;
-    linkUrl?: string;
-}
-
-interface IFooterQuickMenu {
-    title?: string;
-    items?: IMenuItem[];
-}
-
-interface IFooter {
-    formData?: {
-        heading?: string;
-        description?: string;
-        placeholder?: string;
-        btnText?: string;
-    };
-    siteInfo?: { logo?: string; address?: string; email?: string; phone?: string; quickMenu?: IFooterQuickMenu[] };
-    copyrightInfo?: string;
+interface IFooter extends IFooterData {
     socialIcons?: ISocialIcons[];
 }
 
@@ -48,9 +29,9 @@ const Footer = (props: IFooter) => {
                             <div className={`${style.summaryCol} ${style.quickLinks}`} key={`item_${index}`}>
                                 <h5>{menu?.title}</h5>
                                 <ul>
-                                    {menu?.items?.map((subItem: IMenuItem, subIndex: number) => (
+                                    {menu?.items?.map((subItem: ISingleNavItem, subIndex: number) => (
                                         <li key={`subItem_${index}_${subIndex}`}>
-                                            <a href={subItem?.linkUrl}>{subItem?.linkText}</a>
+                                            <a href={subItem?.link}>{subItem?.title}</a>
                                         </li>
                                     ))}
                                 </ul>

@@ -63,7 +63,7 @@
             { "icon": "wishlist", "link": "/wishlist" },
             { "icon": "bag", "link": "/cart" }
         ],
-        "hamburger": {
+        "hamburgerData": {
             "bannerImage": "/images/hamburger-banner.jpg",
             "heading": "Shop By Category",
             "menuItems": [
@@ -77,7 +77,7 @@
                         { "title": "Bags", "link": "/shop?category=men&subCategory=bags" },
                         { "title": "Jackets", "link": "/shop?category=men&subCategory=jackets" },
                         { "title": "Trousers", "link": "/shop?category=men&subCategory=trousers" },
-                        { "title": "shorts", "link": "/shop?category=men&subCategory=shorts" },
+                        { "title": "Shorts", "link": "/shop?category=men&subCategory=shorts" },
                         { "title": "Shoes", "link": "/shop?category=men&subCategory=shoes" }
                     ]
                 },
@@ -91,7 +91,7 @@
                         { "title": "Bags", "link": "/shop?category=men&subCategory=bags" },
                         { "title": "Jackets", "link": "/shop?category=men&subCategory=jackets" },
                         { "title": "Trousers", "link": "/shop?category=men&subCategory=trousers" },
-                        { "title": "shorts", "link": "/shop?category=men&subCategory=shorts" },
+                        { "title": "Shorts", "link": "/shop?category=men&subCategory=shorts" },
                         { "title": "Shoes", "link": "/shop?category=men&subCategory=shoes" }
                     ]
                 },
@@ -105,7 +105,7 @@
                         { "title": "Bags", "link": "/shop?category=men&subCategory=bags" },
                         { "title": "Jackets", "link": "/shop?category=men&subCategory=jackets" },
                         { "title": "Trousers", "link": "/shop?category=men&subCategory=trousers" },
-                        { "title": "shorts", "link": "/shop?category=men&subCategory=shorts" },
+                        { "title": "Shorts", "link": "/shop?category=men&subCategory=shorts" },
                         { "title": "Shoes", "link": "/shop?category=men&subCategory=shoes" }
                     ]
                 }
@@ -113,7 +113,7 @@
         }
     },
     "footerData": {
-        "signupForm": {
+        "formData": {
             "heading": "Get 30% Off",
             "description": "Be the first to get the latest news about trends, promotions, and much more!",
             "placeholder": "Enter your email address",
@@ -129,38 +129,38 @@
                 {
                     "title": "Company",
                     "items": [
-                        { "linkText": "About Us", "linkUrl": "/about-us" },
-                        { "linkText": "Careers", "linkUrl": "/careers" },
-                        { "linkText": "Blog", "linkUrl": "/blog" },
-                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                        { "title": "About Us", "link": "/about-us" },
+                        { "title": "Careers", "link": "/careers" },
+                        { "title": "Blog", "link": "/blog" },
+                        { "title": "Contact Us", "link": "/contact-us" }
                     ]
                 },
                 {
                     "title": "Company",
                     "items": [
-                        { "linkText": "About Us", "linkUrl": "/about-us" },
-                        { "linkText": "Careers", "linkUrl": "/careers" },
-                        { "linkText": "Blog", "linkUrl": "/blog" },
-                        { "linkText": "Contact Us", "linkUrl": "/contact-us" },
-                        { "linkText": "Affiliates", "linkUrl": "/affiliates" }
+                        { "title": "About Us", "link": "/about-us" },
+                        { "title": "Careers", "link": "/careers" },
+                        { "title": "Blog", "link": "/blog" },
+                        { "title": "Contact Us", "link": "/contact-us" },
+                        { "title": "Affiliates", "link": "/affiliates" }
                     ]
                 },
                 {
                     "title": "Company",
                     "items": [
-                        { "linkText": "About Us", "linkUrl": "/about-us" },
-                        { "linkText": "Careers", "linkUrl": "/careers" },
-                        { "linkText": "Blog", "linkUrl": "/blog" },
-                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                        { "title": "About Us", "link": "/about-us" },
+                        { "title": "Careers", "link": "/careers" },
+                        { "title": "Blog", "link": "/blog" },
+                        { "title": "Contact Us", "link": "/contact-us" }
                     ]
                 },
                 {
                     "title": "Company",
                     "items": [
-                        { "linkText": "About Us", "linkUrl": "/about-us" },
-                        { "linkText": "Careers", "linkUrl": "/careers" },
-                        { "linkText": "Blog", "linkUrl": "/blog" },
-                        { "linkText": "Contact Us", "linkUrl": "/contact-us" }
+                        { "title": "About Us", "link": "/about-us" },
+                        { "title": "Careers", "link": "/careers" },
+                        { "title": "Blog", "link": "/blog" },
+                        { "title": "Contact Us", "link": "/contact-us" }
                     ]
                 }
             ]

@@ -6,12 +6,10 @@ import { IDropdownOptions } from 'src/lib/interface/common';
 import TopBarDropDown from './dropdown';
 import { getStorageItem, setStorageItem } from '@utils/storage';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-import { ISocialIcons } from 'src/lib/interface/layout';
+import { ISocialIcons, ITopBarData } from 'src/lib/interface/layout';
 
-interface ITopBar {
-    heading?: string;
+interface ITopBar extends ITopBarData {
     socialIcons?: ISocialIcons[];
-    currencySelector?: { title?: string; id?: string }[];
 }
 
 const TopBar = (props: ITopBar) => {
