@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './index.module.scss';
 import { Button, Form } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import TextInput from '@atoms/TextInput';
-import dictionaryData from '@staticData/dictionary.json';
+import { LayoutContextData } from 'src/lib/context/layout';
 
 interface ISignupForm {
     fieldId: string;
@@ -17,6 +17,7 @@ const SignupForm = (props: ISignupForm) => {
     const { fieldId, heading, description, placeholder, btnText } = props;
 
     const { handleSubmit, control } = useForm();
+    const { dictionary } = useContext(LayoutContextData);
 
     const handleEmailSubmit = (values?: any) => {
         console.info(values);
@@ -30,7 +31,7 @@ const SignupForm = (props: ISignupForm) => {
                 <Controller
                     control={control}
                     name={fieldId}
-                    rules={{ required: dictionaryData?.requiredFieldError }}
+                    rules={{ required: dictionary?.requiredFieldError }}
                     render={({ field: { value, onChange }, fieldState: { error } }) => (
                         <TextInput
                             placeholder={placeholder}

@@ -2,13 +2,12 @@
 @import '@styles/partials/mixins';
 
 .footerWrapper {
-    @include toRem(margin-top, 100);
-    padding: 6.25rem 0 5rem;
+    padding: 5rem 0 4rem;
     background-color: $color222;
 
     .signupForm {
         @include toRem(max-width, 720);
-        margin: 0 auto;
+        margin: 0 auto 4rem;
 
         h3 {
             @include toRem(font-size, 26);
@@ -82,8 +81,11 @@
                 }
 
                 li {
-                    margin-bottom: 0.875rem;
                     overflow: hidden;
+
+                    &:not(:last-child) {
+                        margin-bottom: 0.875rem;
+                    }
 
                     a {
                         font-size: 0.875rem;
@@ -109,6 +111,33 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+.slimFooter {
+    border-top: 0.063rem solid $fadedBorder;
+    padding: 1rem 0;
+    background-color: $color222;
+
+    span {
+        color: $white;
+        font-size: 0.875rem;
+    }
+
+    .socialIcons {
+        column-gap: 0.5rem;
+
+        a {
+            display: block;
+            width: 1.25rem;
+            height: 1.25rem;
+            color: $white;
+            font-size: 0.875rem;
+
+            &:hover {
+                color: $color76;
             }
         }
     }

@@ -12,9 +12,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body>
-                <LayoutContextProvider dictionaryData={dictionaryData}>
+                <LayoutContextProvider dictionary={dictionaryData}>
                     <main>
-                        <Layout headerData={layoutData?.headerData} footerData={layoutData?.footerData}>
+                        <Layout
+                            headerData={layoutData?.headerData}
+                            footerData={layoutData?.footerData}
+                            socialIcons={layoutData?.socialIcons}
+                        >
                             {children}
                         </Layout>
                     </main>

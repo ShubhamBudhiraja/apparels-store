@@ -1,12 +1,29 @@
 @import '@styles/partials/variables';
 @import '@styles/partials/mixins';
 
+.headerWrapper {
+    @include toRem(min-height, 121);
+    position: relative;
+    z-index: 9;
+
+    &.fixed {
+        section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            animation: headerSlide 0.4s;
+        }
+    }
+}
+
 .wrapper {
     background-color: $white;
     padding: 1.5rem 0;
 
     .primaryMenu {
-        column-gap: 1.25rem;
+        column-gap: 3.5rem;
+        width: 40%;
 
         .hamburger {
             width: 2.25rem;
@@ -49,5 +66,85 @@
                 }
             }
         }
+
+        ul {
+            column-gap: 2.5rem;
+
+            li {
+                overflow: hidden;
+                line-height: 2rem;
+
+                a {
+                    font-size: 1rem;
+                    color: $black;
+                    position: relative;
+
+                    &::after {
+                        content: '';
+                        height: 0.125rem;
+                        width: 2rem;
+                        background-color: $black;
+                        position: absolute;
+                        @include toRem(top, 24);
+                        left: -2rem;
+                        transition: 0.3s all ease;
+                        border-radius: 0.5rem;
+                    }
+
+                    &:hover {
+                        &::after {
+                            left: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .logo {
+        display: block;
+        width: 20%;
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .secondaryNav {
+        column-gap: 2.5rem;
+        width: 40%;
+
+        a {
+            color: $black;
+            font-size: 1.5rem;
+            position: relative;
+
+            span {
+                position: absolute;
+                top: -0.125rem;
+                right: -0.5rem;
+                width: 1.25rem;
+                height: 1.25rem;
+                border-radius: 50%;
+                background-color: $headerCounter;
+                color: $white;
+                font-size: 0.625rem;
+                line-height: 1.25rem;
+                text-align: center;
+            }
+        }
+    }
+}
+
+@keyframes headerSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

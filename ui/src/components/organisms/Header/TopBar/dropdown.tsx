@@ -6,11 +6,11 @@ import { Dropdown } from 'react-bootstrap';
 interface ITopBarDropDown {
     options?: IDropdownOptions[];
     selected?: IDropdownOptions;
-    setSelected?: React.Dispatch<React.SetStateAction<IDropdownOptions | undefined>>;
+    handleItemClick: (item: IDropdownOptions) => void;
 }
 
 const TopBarDropDown = (props: ITopBarDropDown) => {
-    const { options, selected, setSelected } = props;
+    const { options, selected, handleItemClick } = props;
 
     const [toggle, setToggle] = useState(false);
 
@@ -31,7 +31,7 @@ const TopBarDropDown = (props: ITopBarDropDown) => {
                     <button
                         key={`topbar_option_${index}`}
                         onClick={() => {
-                            setSelected?.(option);
+                            handleItemClick(option);
                             setToggle(false);
                         }}
                     >

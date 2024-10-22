@@ -1,5 +1,11 @@
 export interface ISingleNavItem {
     title?: string;
     link?: string;
-    dropdownList: ISingleNavItem[];
+    icon?: string;
+    dropdownList?: ISingleNavItem[];
+}
+
+export interface ISocialIcons {
+    iconName?: string;
+    iconUrl?: string;
 }

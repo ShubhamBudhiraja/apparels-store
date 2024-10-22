@@ -4,13 +4,9 @@ import { Container } from 'react-bootstrap';
 import { CURRENCY } from 'src/lib/constants/product';
 import { IDropdownOptions } from 'src/lib/interface/common';
 import TopBarDropDown from './dropdown';
-import { setStorageItem } from '@utils/storage';
+import { getStorageItem, setStorageItem } from '@utils/storage';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-
-interface ISocialIcons {
-    iconName?: string;
-    iconUrl?: string;
-}
+import { ISocialIcons } from 'src/lib/interface/layout';
 
 interface ITopBar {
     heading?: string;
@@ -23,16 +19,22 @@ const TopBar = (props: ITopBar) => {
 
     const [currency, setCurrency] = useState<IDropdownOptions>();
 
-    useEffect(() => {
-        if (currencySelector?.length) {
-            const inr = currencySelector?.find((cur: IDropdownOptions) => cur?.id === CURRENCY.INR);
-            setCurrency(inr);
-        }
-    }, [currencySelector]);
+    const handleCurrencyChange = (currency: IDropdownOptions) => {
+        setCurrency(currency);
+        setStorageItem({ key: STORAGE_KEY.CURRENCY, value: currency?.id, storageType: STORAGE_TYPE.LOCAL });
+        window.location.reload();
+    };
 
     useEffect(() => {
-        setStorageItem({ key: STORAGE_KEY.CURRENCY, value: currency?.id, storageType: STORAGE_TYPE.LOCAL });
-    }, [currency]);
+        const currentCurrency = getStorageItem({ key: STORAGE_KEY.CURRENCY, storageType: STORAGE_TYPE.LOCAL });
+        let selectedCurrency: any = {};
+        if (!currentCurrency) {
+            selectedCurrency = currencySelector?.find((cur: IDropdownOptions) => cur?.id === CURRENCY.INR);
+        } else {
+            selectedCurrency = currencySelector?.find((cur: IDropdownOptions) => cur?.id === currentCurrency);
+        }
+        setCurrency(selectedCurrency);
+    }, [currencySelector]);
 
     return (
         <div className={style.wrapper}>
@@ -45,7 +47,7 @@ const TopBar = (props: ITopBar) => {
                     ))}
                 </div>
                 <h5>{heading}</h5>
-                <TopBarDropDown options={currencySelector} selected={currency} setSelected={setCurrency} />
+                <TopBarDropDown options={currencySelector} selected={currency} handleItemClick={handleCurrencyChange} />
             </Container>
         </div>
     );

@@ -1,25 +1,25 @@
 {
+    "socialIcons": [
+        {
+            "iconName": "facebook",
+            "iconUrl": "/facebook"
+        },
+        {
+            "iconName": "instagram",
+            "iconUrl": "/instagram"
+        },
+        {
+            "iconName": "youtube",
+            "iconUrl": "/youtube"
+        },
+        {
+            "iconName": "twitter",
+            "iconUrl": "/twitter"
+        }
+    ],
     "headerData": {
         "topBar": {
             "heading": "FREE SHIPPING WORLDWIDE",
-            "socialIcons": [
-                {
-                    "iconName": "facebook",
-                    "iconUrl": "/facebook"
-                },
-                {
-                    "iconName": "instagram",
-                    "iconUrl": "/instagram"
-                },
-                {
-                    "iconName": "youtube",
-                    "iconUrl": "/youtube"
-                },
-                {
-                    "iconName": "twitter",
-                    "iconUrl": "/twitter"
-                }
-            ],
             "currencySelector": [
                 {
                     "title": "INR",
@@ -56,6 +56,12 @@
                 "title": "Contact",
                 "link": "/contact"
             }
+        ],
+        "logo": "/images/logo.png",
+        "secondaryMenu": [
+            { "icon": "person", "link": "/my-profile" },
+            { "icon": "wishlist", "link": "/wishlist" },
+            { "icon": "bag", "link": "/cart" }
         ]
     },
     "footerData": {
@@ -110,6 +116,7 @@
                     ]
                 }
             ]
-        }
+        },
+        "copyrightText": "©2023 Uomo"
     }
 }
