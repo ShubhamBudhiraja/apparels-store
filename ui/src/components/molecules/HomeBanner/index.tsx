@@ -30,7 +30,7 @@ const HomeBanner = (props: IHomeBanner) => {
                         <div
                             className={style.singleSlide}
                             key={`homeslide_${index}`}
-                            style={{ backgroundImage: `url(/images/slider${index + 1}.jpg)` }}
+                            style={{ backgroundImage: `url(${item?.backgroundImage})` }}
                         >
                             <div className={style.content}>
                                 <Container fluid>

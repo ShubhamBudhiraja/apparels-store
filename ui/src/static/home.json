@@ -5,21 +5,50 @@
             "subHeading": "SUMMER 2024",
             "description": "Limited time offer - up to 20% off & free shipping",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop"
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/slider1.jpg"
         },
         {
             "heading": "SPRING COLLECTION",
             "subHeading": "SUMMER 2024",
             "description": "Limited time offer - up to 60% off & free shipping",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop"
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/slider2.jpg"
         },
         {
             "heading": "WINTER COLLECTION",
             "subHeading": "SUMMER 2024",
             "description": "Limited time offer - up to 40% off & free shipping",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop"
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/slider3.jpg"
+        }
+    ],
+    "collectionCards": [
+        {
+            "heading": "NEW HORIZONS",
+            "subHeading": "",
+            "description": "",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/collection1.jpg"
+        },
+        {
+            "heading": "SUMMER HATS",
+            "subHeading": "",
+            "description": "",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/collection2.jpg"
+        },
+        {
+            "heading": "FADED COLLECTION",
+            "subHeading": "",
+            "description": "",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop",
+            "backgroundImage": "/images/collection3.jpg"
         }
     ]
 }

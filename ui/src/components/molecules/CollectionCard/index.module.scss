@@ -1,0 +1,29 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.cardWrapper {
+    @include toRem(height, 400);
+    width: 100%;
+    background-size: cover;
+    background-position: center center;
+
+    h3 {
+        @include toRem(max-width, 200);
+        font-size: 2rem;
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+    }
+
+    a {
+        text-align: center;
+        display: block;
+        font-weight: 500;
+        text-decoration: underline;
+        @include toRem(text-decoration-thickness, 2);
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}

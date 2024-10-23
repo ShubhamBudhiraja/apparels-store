@@ -9,4 +9,5 @@ export interface ISingleSlide {
     description?: string;
     buttonText?: string;
     buttonLink?: string;
+    backgroundImage?: string;
 }
