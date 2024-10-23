@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './index.module.scss';
 import { IHamburgerData, ISingleNavItem } from 'src/lib/interface/layout';
-import { Col, Row } from 'react-bootstrap';
 
 interface IHamburger extends IHamburgerData {
     show: boolean;

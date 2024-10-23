@@ -10,12 +10,13 @@
     height: calc(100vh - 7.5rem);
     transition: 0.3s all ease;
     background-color: $white;
-    z-index: 9;
+    z-index: -1;
     overflow: hidden;
     display: flex;
 
     &.show {
         opacity: 1;
+        z-index: 9;
     }
 
     figure {

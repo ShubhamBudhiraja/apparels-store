@@ -1,0 +1,25 @@
+{
+    "bannerSlides": [
+        {
+            "heading": "NEW ARRIVAL TOPS",
+            "subHeading": "SUMMER 2024",
+            "description": "Limited time offer - up to 20% off & free shipping",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop"
+        },
+        {
+            "heading": "SPRING COLLECTION",
+            "subHeading": "SUMMER 2024",
+            "description": "Limited time offer - up to 60% off & free shipping",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop"
+        },
+        {
+            "heading": "WINTER COLLECTION",
+            "subHeading": "SUMMER 2024",
+            "description": "Limited time offer - up to 40% off & free shipping",
+            "buttonText": "SHOP NOW",
+            "buttonLink": "/shop"
+        }
+    ]
+}

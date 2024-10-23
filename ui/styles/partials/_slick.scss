@@ -1,0 +1,13 @@
+.slick-slider {
+    .slick-list {
+        overflow: hidden;
+
+        .slick-track {
+            display: flex;
+
+            .slick-slide {
+                z-index: 1 !important;
+            }
+        }
+    }
+}
