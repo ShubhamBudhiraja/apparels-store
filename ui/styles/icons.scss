@@ -1,10 +1,10 @@
 @font-face {
     font-family: "icons";
-    src: url("../public/fonts/icons.ttf?025c85a5ab2fbabbca0cf778b8d3e7f7") format("truetype"),
-url("../public/fonts/icons.woff?025c85a5ab2fbabbca0cf778b8d3e7f7") format("woff"),
-url("../public/fonts/icons.woff2?025c85a5ab2fbabbca0cf778b8d3e7f7") format("woff2"),
-url("../public/fonts/icons.svg?025c85a5ab2fbabbca0cf778b8d3e7f7#icons") format("svg"),
-url("../public/fonts/icons.eot?025c85a5ab2fbabbca0cf778b8d3e7f7#iefix") format("embedded-opentype");
+    src: url("../public/fonts/icons.ttf?5d61a58645c6edaad980c1c20de458b3") format("truetype"),
+url("../public/fonts/icons.woff?5d61a58645c6edaad980c1c20de458b3") format("woff"),
+url("../public/fonts/icons.woff2?5d61a58645c6edaad980c1c20de458b3") format("woff2"),
+url("../public/fonts/icons.svg?5d61a58645c6edaad980c1c20de458b3#icons") format("svg"),
+url("../public/fonts/icons.eot?5d61a58645c6edaad980c1c20de458b3#iefix") format("embedded-opentype");
 }
 
 .font:before {
@@ -24,21 +24,42 @@ url("../public/fonts/icons.eot?025c85a5ab2fbabbca0cf778b8d3e7f7#iefix") format("
 .font.icon-wishlist:before {
     content: "\f102";
 }
-.font.icon-twitter:before {
+.font.icon-user:before {
     content: "\f103";
 }
-.font.icon-person:before {
+.font.icon-twitter:before {
     content: "\f104";
 }
-.font.icon-instagram:before {
+.font.icon-search:before {
     content: "\f105";
 }
-.font.icon-facebook:before {
+.font.icon-right:before {
     content: "\f106";
 }
-.font.icon-down:before {
+.font.icon-person:before {
     content: "\f107";
 }
-.font.icon-bag:before {
+.font.icon-left:before {
     content: "\f108";
+}
+.font.icon-instagram:before {
+    content: "\f109";
+}
+.font.icon-heart:before {
+    content: "\f10a";
+}
+.font.icon-heart-filled:before {
+    content: "\f10b";
+}
+.font.icon-facebook:before {
+    content: "\f10c";
+}
+.font.icon-down:before {
+    content: "\f10d";
+}
+.font.icon-bag:before {
+    content: "\f10e";
+}
+.font.icon-bag-filled:before {
+    content: "\f10f";
 }

@@ -14,7 +14,6 @@ const HomeBanner = (props: IHomeBanner) => {
 
     const sliderSettings: Settings = useMemo(
         () => ({
-            swipe: false,
             dots: true,
             fade: true,
             dotsClass: `${style.customDots} d-flex`,

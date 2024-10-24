@@ -1,11 +1,14 @@
 'use client';
 import HomeBanner from '@molecules/HomeBanner';
-import React from 'react';
+import React, { useContext } from 'react';
 import style from './index.module.scss';
 import { ISingleSlide } from 'src/lib/interface/common';
 import CollectionCard from '@molecules/CollectionCard';
 import { Container } from 'react-bootstrap';
 import SectionWrapper from '@atoms/SectionWrapper';
+import ProductsCarousel from '@molecules/ProductsCarousel';
+import SectionHeader from '@atoms/SectionHeader';
+import { LayoutContextData } from 'src/lib/context/layout';
 
 interface IHome {
     serverData?: any;
@@ -13,6 +16,8 @@ interface IHome {
 
 const Home = (props: IHome) => {
     const { serverData } = props;
+
+    const { dictionary } = useContext(LayoutContextData);
 
     return (
         <>
@@ -28,6 +33,10 @@ const Home = (props: IHome) => {
                             </div>
                         ))}
                     </div>
+                </SectionWrapper>
+                <SectionWrapper>
+                    <SectionHeader heading={dictionary?.bestSellerLabel} className="text-center" />
+                    <ProductsCarousel productsList={serverData?.products} />
                 </SectionWrapper>
             </Container>
         </>

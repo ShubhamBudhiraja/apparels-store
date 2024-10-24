@@ -7,10 +7,8 @@ const CollectionCard = (props: ISingleSlide) => {
 
     return (
         <div className={`${style.cardWrapper} flex-center`} style={{ backgroundImage: `url(${backgroundImage})` }}>
-            <div>
-                <h3>{heading}</h3>
-                <a href={buttonLink}>{buttonText}</a>
-            </div>
+            <h3>{heading}</h3>
+            <a href={buttonLink}>{buttonText}</a>
         </div>
     );
 };

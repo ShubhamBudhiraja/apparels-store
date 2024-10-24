@@ -1,0 +1,65 @@
+{
+    "products": [
+        {
+            "title": "Calvin Jeans",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 99,
+            "discountPer": 0,
+            "discountAmount": 0,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"],
+            "units": 2
+        },
+        {
+            "title": "Cableknit Jeans",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 90,
+            "discountPer": 10,
+            "discountAmount": 9,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
+        },
+        {
+            "title": "Denim Jeans",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 99,
+            "discountPer": 0,
+            "discountAmount": 0,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
+        },
+        {
+            "title": "Kudrow Pants",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 99,
+            "discountPer": 0,
+            "discountAmount": 0,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
+        },
+        {
+            "title": "Cargo Pants",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 99,
+            "discountPer": 0,
+            "discountAmount": 0,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
+        },
+        {
+            "title": "Chinos",
+            "shortDescription": "Handcrafted from original cotton",
+            "price": 99,
+            "offerPrice": 99,
+            "discountPer": 0,
+            "discountAmount": 0,
+            "currencySymbol": "$",
+            "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
+        }
+    ]
+}

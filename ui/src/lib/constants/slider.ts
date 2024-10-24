@@ -11,4 +11,7 @@ export const DefaultSliderSettings: Settings = {
     arrows: false,
     centerPadding: '0',
     adaptiveHeight: true,
+    dots: false,
+    swipe: false,
+    centerMode: false,
 };

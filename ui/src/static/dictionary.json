@@ -1,4 +1,6 @@
 {
     "continueLabel": "Continue",
-    "requiredFieldError": "This field is required"
+    "requiredFieldError": "This field is required",
+    "fewPiecesLabel": "Hurry! only $ pieces left in stock",
+    "bestSellerLabel": "Best Sellers"
 }

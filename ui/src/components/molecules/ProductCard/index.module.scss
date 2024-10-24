@@ -1,0 +1,93 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.cardWrapper {
+    width: 100%;
+    cursor: pointer;
+
+    .thumbnail {
+        width: 100%;
+        @include toRem(height, 360);
+        margin-bottom: 1rem;
+        overflow: hidden;
+        position: relative;
+
+        img {
+            object-fit: cover;
+        }
+
+        span {
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            background-color: $headerCounter;
+            width: 2.5rem;
+            height: 1.25rem;
+            color: $white;
+            padding: 0.25rem;
+            font-size: 0.75rem;
+            line-height: 1;
+            text-align: right;
+        }
+
+        .cta {
+            position: relative;
+
+            button {
+                top: 0;
+                position: absolute;
+                border-radius: 50%;
+                background-color: $black;
+                border: unset;
+                width: 2.5rem;
+                height: 2.5rem;
+
+                &:first-child {
+                    left: 25%;
+                    transition: 0.3s all ease;
+                }
+
+                &:nth-child(2) {
+                    left: 42%;
+                    transition: 0.4s all ease;
+                }
+
+                &:nth-child(3) {
+                    left: 60%;
+                    transition: 0.5s all ease;
+                }
+            }
+        }
+    }
+
+    h3 {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    span {
+        display: inline-block;
+        font-size: 1rem;
+    }
+
+    .originalPrice {
+        margin-left: 0.25rem;
+        text-decoration: line-through;
+        color: $red;
+    }
+
+    p {
+        color: $red;
+        font-size: 0.75rem;
+    }
+
+    &:hover {
+        .thumbnail {
+            .cta {
+                button {
+                    @include toRem(top, -98);
+                }
+            }
+        }
+    }
+}

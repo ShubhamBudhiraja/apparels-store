@@ -9,7 +9,7 @@ export const formatPrice = (number: number | string | any, canBeDecimal = true) 
     return updatedPrice;
 };
 
-export const formatDiscount = (discountNumber: number) => {
-    if (!isNaN(discountNumber)) return '';
-    return `${discountNumber}%`;
+export const formatDiscount = (discountNumber: number, isNegative?: boolean) => {
+    if (isNaN(discountNumber)) return '';
+    return isNegative ? `-${discountNumber}%` : `${discountNumber}%`;
 };

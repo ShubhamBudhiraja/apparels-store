@@ -2,7 +2,7 @@
 import Footer from 'src/components/organisms/Footer';
 import Header from 'src/components/organisms/Header';
 import React, { useState } from 'react';
-import { IHeaderData, ISocialIcons } from 'src/lib/interface/layout';
+import { ISocialIcons } from 'src/lib/interface/layout';
 
 interface ILayout {
     headerData?: any;

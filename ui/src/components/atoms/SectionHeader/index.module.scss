@@ -1,0 +1,8 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.heading {
+    @include toRem(font-size, 32);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
