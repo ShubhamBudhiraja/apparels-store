@@ -1,4 +1,5 @@
 const GlobalProductSchema = {
+    id: String,
     name: String,
     description: String,
     shortDescription: String,

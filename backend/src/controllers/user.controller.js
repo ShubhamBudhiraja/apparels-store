@@ -3,6 +3,8 @@ const UserModel = require("../models/user.model");
 const commonUtils = require("../utils/common");
 
 const userControllers = () => {
+    const { generateCommonResponse } = commonUtils();
+
     const getProfile = async (req, res) => {
         const { email } = req.body
 
@@ -13,16 +15,16 @@ const userControllers = () => {
                 console.log("updateProfile user found", found);
                 return res
                     .status(200)
-                    .json(commonUtils.generateCommonResponse(2005, true, found));
+                    .json(generateCommonResponse(2005, true, found));
             } else {
                 console.log("updateProfile user not found");
                 return res
                     .status(400)
-                    .json(commonUtils.generateCommonResponse(4004));
+                    .json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while updating profile", e);
-            return res.status(500).json(commonUtils.generateCommonResponse(5000));
+            return res.status(500).json(generateCommonResponse(5000));
         }
     }
 
@@ -36,16 +38,16 @@ const userControllers = () => {
                 console.log("updateProfile user found", found);
                 return res
                     .status(200)
-                    .json(commonUtils.generateCommonResponse(2005, true));
+                    .json(generateCommonResponse(2005, true));
             } else {
                 console.log("updateProfile user not found");
                 return res
                     .status(400)
-                    .json(commonUtils.generateCommonResponse(4004));
+                    .json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while updating profile", e);
-            return res.status(500).json(commonUtils.generateCommonResponse(5000));
+            return res.status(500).json(generateCommonResponse(5000));
         }
     };
 
