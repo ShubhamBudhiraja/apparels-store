@@ -5,13 +5,17 @@
     position: relative;
 
     input {
-        border: $borderColor;
+        border: 0.063rem solid $borderColor;
         padding: 0.5rem 0.625rem;
         width: 100%;
+        border-radius: 0.5rem;
 
         &:focus-visible {
-            border: unset;
             outline: unset;
+        }
+
+        &::placeholder {
+            color: $black;
         }
     }
 
@@ -20,5 +24,19 @@
         position: absolute;
         bottom: -1.5rem;
         left: 0;
+    }
+
+    &.invalid {
+        input {
+            border-color: $red;
+        }
+    }
+
+    &.disabled {
+        pointer-events: none;
+
+        input {
+            background-color: $disabledBg;
+        }
     }
 }

@@ -1,10 +1,10 @@
-const express = require('express')
-const userControllers = require('../controllers/user.controller')
+const express = require("express");
+const userControllers = require("../controllers/user.controller");
 
-const UserRoutes = express.Router()
-const { getProfile, updateProfile } = userControllers()
+const UserRoutes = express.Router();
+const { getProfile, updateProfile } = userControllers();
 
-UserRoutes.post('/update-profile', updateProfile)
-UserRoutes.get('/get-profile-data', getProfile)
+UserRoutes.get("/get-profile", getProfile);
+UserRoutes.patch("/update-profile", updateProfile);
 
-module.exports = UserRoutes
+module.exports = UserRoutes;

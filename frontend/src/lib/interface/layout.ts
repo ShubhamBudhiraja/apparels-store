@@ -30,7 +30,7 @@ export interface IHeaderData {
     hamburgerData?: IHamburgerData;
 }
 
-export interface ISignupFormData {
+export interface INewsletterForm {
     fieldId: string;
     heading?: string;
     description?: string;
@@ -44,7 +44,7 @@ export interface IFooterQuickMenu {
 }
 
 export interface IFooterData {
-    formData?: ISignupFormData;
+    formData?: INewsletterForm;
     siteInfo?: { logo?: string; address?: string; email?: string; phone?: string; quickMenu?: IFooterQuickMenu[] };
     copyrightInfo?: string;
 }

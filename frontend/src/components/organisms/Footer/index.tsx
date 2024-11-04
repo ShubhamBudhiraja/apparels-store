@@ -1,8 +1,8 @@
 import style from './index.module.scss';
 import React from 'react';
-import SignupForm from './signupform';
 import { Container } from 'react-bootstrap';
 import { IFooterData, IFooterQuickMenu, ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
+import NewsletterForm from './newsletterForm';
 
 interface IFooter extends IFooterData {
     socialIcons?: ISocialIcons[];
@@ -15,7 +15,7 @@ const Footer = (props: IFooter) => {
         <>
             <div className={style.footerWrapper}>
                 <Container fluid>
-                    <SignupForm fieldId="emailId" {...formData} />
+                    <NewsletterForm fieldId="emailId" {...formData} />
                     <div className={style.siteSummary}>
                         <div className={`${style.summaryCol} ${style.info}`}>
                             <a href="/">

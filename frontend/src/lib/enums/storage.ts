@@ -6,4 +6,5 @@ export enum STORAGE_TYPE {
 
 export enum STORAGE_KEY {
     CURRENCY = 'currency',
+    USERID = 'userId',
 }

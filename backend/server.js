@@ -5,11 +5,14 @@ const AuthRoutes = require("./src/routes/auth.routes");
 const ErrorHandler = require("./src/middlewares/errorHandler");
 const UserRoutes = require("./src/routes/user.routes");
 const ProductRoutes = require("./src/routes/product.routes");
+const cors = require("cors");
+const customCorsOptions = require("./src/middlewares/corsHandler");
 
 dotenv.config();
 connectDB();
 
 const app = express();
+app.use(cors(customCorsOptions));
 
 app.use(express.json());
 
