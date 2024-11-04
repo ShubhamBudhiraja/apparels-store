@@ -11,13 +11,13 @@ const authControllers = () => {
     const { generateCommonResponse } = commonUtils();
 
     const removeTempUser = async (email) => {
-        const founduser = await AuthModel.findOne({ email })
+        const founduser = await AuthModel.findOne({ email });
 
         if (!founduser.isVerified) {
             console.log("otp wasn't verified for ", email);
             await AuthModel.deleteOne({ email });
         }
-    }
+    };
 
     const register = async (req, res) => {
         const { email, password } = req.body;
@@ -44,7 +44,7 @@ const authControllers = () => {
 
                         return res
                             .status(200)
-                            .json(generateCommonResponse(true, 2001, { otp }));
+                            .json(generateCommonResponse(true, 2001));
                     }
                 } else {
                     console.log("registering new user");
@@ -56,17 +56,15 @@ const authControllers = () => {
                     console.log("OTP sent to email");
 
                     setTimeout(() => {
-                        removeTempUser(email)
-                    }, 30000)
+                        removeTempUser(email);
+                    }, 60000);
 
                     return res
                         .status(200)
-                        .json(generateCommonResponse(2001, true, { otp }));
+                        .json(generateCommonResponse(2001, true));
                 }
             } else {
-                return res
-                    .status(400)
-                    .json(generateCommonResponse(true, 4000));
+                return res.status(400).json(generateCommonResponse(true, 4000));
             }
         } catch (e) {
             console.log("error occured while registering", e);
@@ -78,16 +76,23 @@ const authControllers = () => {
         const { email, password } = req.body;
 
         try {
-            const foundUser = await AuthModel.findOne({ email, password });
+            const foundUser = await AuthModel.findOne({ email });
 
             if (foundUser) {
                 console.log("user found while logging in", foundUser);
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2003, true));
+
+                if (foundUser.password === password) {
+                    console.log("correct password");
+                    return res
+                        .status(200)
+                        .json(generateCommonResponse(2003, true));
+                } else {
+                    console.log("invalid password");
+                    return res.status(400).json(generateCommonResponse(4003));
+                }
             } else {
-                console.log("invalid email or password");
-                return res.status(400).json(generateCommonResponse(4003));
+                console.log("invalid email");
+                return res.status(400).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while logging in");
@@ -112,9 +117,7 @@ const authControllers = () => {
                     await UserModel.create({ email });
                     console.log("profile created");
                 }
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2002, true));
+                return res.status(200).json(generateCommonResponse(2002, true));
             } else {
                 console.log("invalid otp");
                 return res.status(400).json(generateCommonResponse(4002));
@@ -136,16 +139,17 @@ const authControllers = () => {
             );
 
             if (isExistingUser) {
-                console.log("existing user found during forgot password", isExistingUser);
+                console.log(
+                    "existing user found during forgot password",
+                    isExistingUser
+                );
 
                 await sendEmailOtp(email, otp);
                 console.log("OTP sent to email");
 
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2001, true, { otp }));
+                return res.status(200).json(generateCommonResponse(2001, true));
             } else {
-                return res.status(400).json(generateCommonResponse(4000));
+                return res.status(400).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log(e, "error");
@@ -166,9 +170,7 @@ const authControllers = () => {
             );
             if (foundUser) {
                 console.log("user found to update password", foundUser);
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2004, true));
+                return res.status(200).json(generateCommonResponse(2004, true));
             } else {
                 console.log("invalid email");
                 return res.status(400).json(generateCommonResponse(4004));
@@ -186,6 +188,6 @@ const authControllers = () => {
         forgotPassword,
         updatePassword,
     };
-}
+};
 
 module.exports = authControllers;

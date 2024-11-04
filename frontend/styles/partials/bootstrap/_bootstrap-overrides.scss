@@ -1,3 +1,85 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
 .container-fluid {
     padding: 0 3.75rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+
+    &.noSpace {
+        padding: 0;
+    }
+}
+
+.btn-secondary {
+    background-color: $color222;
+    border-color: $color222;
+    border-radius: 1.5rem;
+    padding: 0.5rem 1.25rem;
+
+    &:hover {
+        background-color: $color222;
+    }
+}
+
+.btn-link {
+    color: $color222;
+    padding: 0;
+
+    &:hover {
+        color: $color222;
+    }
+
+    &:active {
+        color: $color222;
+    }
+}
+
+.nav-tabs {
+    margin-bottom: 1.25rem;
+
+    .nav-item {
+        .nav-link {
+            border: unset;
+            color: $color222;
+            position: relative;
+            border-radius: 0.25rem;
+            @include toRem(margin-bottom, 3);
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 50%;
+                bottom: 0;
+                background-color: $black;
+                height: 0.125rem;
+                width: 0;
+                transition: 0.2s all ease;
+            }
+        }
+
+        .nav-link.active {
+            background-color: $lightBg;
+            font-weight: $bold;
+
+            &::after {
+                left: 0;
+                width: 100%;
+                bottom: -0.25rem;
+            }
+        }
+    }
+}
+
+.form-control {
+    &:hover {
+        border-color: $color222;
+    }
+
+    &:focus {
+        border-color: $color222;
+        box-shadow: unset;
+    }
 }

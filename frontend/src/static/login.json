@@ -1,0 +1,34 @@
+{
+    "siteLogo": "/images/logo.png",
+    "login": {
+        "heading": "Login",
+        "formData": [
+            {
+                "placeholder": "Enter Email ID",
+                "id": "emailId"
+            },
+            {
+                "placeholder": "Enter Password",
+                "id": "password"
+            }
+        ],
+        "forgotPswdBtn": "Forgot password?"
+    },
+    "signup": {
+        "heading": "Signup",
+        "formData": [
+            {
+                "placeholder": "Enter Email ID",
+                "id": "emailId"
+            },
+            {
+                "placeholder": "Enter Password",
+                "id": "password"
+            },
+            {
+                "placeholder": "Enter OTP",
+                "id": "otp"
+            }
+        ]
+    }
+}

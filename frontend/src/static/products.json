@@ -1,6 +1,7 @@
 {
     "products": [
         {
+            "id": "calvin-jeans",
             "title": "Calvin Jeans",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,
@@ -12,6 +13,7 @@
             "units": 2
         },
         {
+            "id": "cableknit-jeans",
             "title": "Cableknit Jeans",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,
@@ -22,6 +24,7 @@
             "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
         },
         {
+            "id": "denim-jeans",
             "title": "Denim Jeans",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,
@@ -32,6 +35,7 @@
             "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
         },
         {
+            "id": "kudrow-pants",
             "title": "Kudrow Pants",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,
@@ -42,6 +46,7 @@
             "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
         },
         {
+            "id": "cargo-pants",
             "title": "Cargo Pants",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,
@@ -52,6 +57,7 @@
             "images": ["/images/product-2-1.jpg", "/images/product-2-2.jpg"]
         },
         {
+            "id": "chinos",
             "title": "Chinos",
             "shortDescription": "Handcrafted from original cotton",
             "price": 99,

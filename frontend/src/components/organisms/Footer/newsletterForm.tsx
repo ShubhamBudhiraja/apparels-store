@@ -4,9 +4,9 @@ import { Button, Form } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import TextInput from '@atoms/TextInput';
 import { LayoutContextData } from 'src/lib/context/layout';
-import { ISignupFormData } from 'src/lib/interface/layout';
+import { INewsletterForm } from 'src/lib/interface/layout';
 
-const SignupForm = (props: ISignupFormData) => {
+const NewsletterForm = (props: INewsletterForm) => {
     const { fieldId, heading, description, placeholder, btnText } = props;
 
     const { handleSubmit, control } = useForm();
@@ -17,7 +17,7 @@ const SignupForm = (props: ISignupFormData) => {
     };
 
     return (
-        <div className={style.signupForm}>
+        <div className={style.newsletterForm}>
             <h3>{heading}</h3>
             <p>{description}</p>
             <Form onSubmit={handleSubmit(handleEmailSubmit)} className="flex">
@@ -30,7 +30,7 @@ const SignupForm = (props: ISignupFormData) => {
                             placeholder={placeholder}
                             onChange={onChange}
                             error={error?.message}
-                            value={value}
+                            controlProps={{ value: value }}
                             className={style.customInput}
                         />
                     )}
@@ -41,4 +41,4 @@ const SignupForm = (props: ISignupFormData) => {
     );
 };
 
-export default SignupForm;
+export default NewsletterForm;

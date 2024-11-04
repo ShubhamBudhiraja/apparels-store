@@ -12,12 +12,12 @@
         @include toRem(max-width, 200);
         font-size: 2rem;
         text-align: center;
-        font-weight: 700;
+        font-weight: $bold;
         margin-bottom: 0.75rem;
     }
 
     a {
-        font-weight: 500;
+        font-weight: $medium;
         text-decoration: underline;
         @include toRem(text-decoration-thickness, 2);
 

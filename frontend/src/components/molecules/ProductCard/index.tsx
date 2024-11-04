@@ -6,10 +6,17 @@ import { LayoutContextData } from 'src/lib/context/layout';
 import { Button } from 'react-bootstrap';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import useLogin from 'src/lib/customHooks/useLogin';
+import useProduct from 'src/lib/customHooks/useProduct';
 
-const ProductCard = (props: IProductData) => {
+interface IProductCard extends IProductData {
+    isLoggedIn?: boolean;
+}
+
+const ProductCard = (props: IProductCard) => {
     const {
-        title,
+        id,
+        name,
         images,
         price,
         currencySymbol,
@@ -20,7 +27,9 @@ const ProductCard = (props: IProductData) => {
         isInCart,
     } = props;
 
-    const { dictionary } = useContext(LayoutContextData);
+    const { initiateLogin } = useLogin();
+    const { handleAddToCart, handleAddToWishlist } = useProduct();
+    const { dictionary, isLoggedIn } = useContext(LayoutContextData);
     const router = useRouter();
 
     const fewPiecesMsg = useMemo(() => {
@@ -31,7 +40,15 @@ const ProductCard = (props: IProductData) => {
         e.preventDefault();
         switch (iconName) {
             case 'search':
-                router.push(`/shop/${title?.replaceAll(' ', '-')?.toLowerCase()}`);
+                router.push(`/shop/${id}`);
+                break;
+            case 'bag':
+                if (!isLoggedIn) initiateLogin({ successCallback: () => handleAddToCart(id) });
+                else handleAddToCart(id);
+                break;
+            case 'heart':
+                if (!isLoggedIn) initiateLogin({ successCallback: () => handleAddToWishlist(id) });
+                else handleAddToWishlist(id);
                 break;
             default:
                 break;
@@ -39,7 +56,7 @@ const ProductCard = (props: IProductData) => {
     };
 
     return (
-        <Link className={style.cardWrapper} href={`/shop/${title?.replaceAll(' ', '-')?.toLowerCase()}`}>
+        <Link className={style.cardWrapper} href={`/shop/${id}`}>
             <div className={style.thumbnail}>
                 <img src={images?.[0]} alt="productImage" />
                 {discountPer > 0 && <span>{formatDiscount(discountPer, true)}</span>}
@@ -55,7 +72,7 @@ const ProductCard = (props: IProductData) => {
                     </Button>
                 </div>
             </div>
-            <h3>{title}</h3>
+            <h3>{name}</h3>
             <div>
                 {discountPer > 0 && (
                     <span>

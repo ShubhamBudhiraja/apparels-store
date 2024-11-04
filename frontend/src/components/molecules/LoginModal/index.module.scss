@@ -1,0 +1,41 @@
+@import '@styles/partials/variables';
+
+.logo {
+    display: block;
+    margin: 0 auto 1.5rem;
+}
+
+.tabWrapper {
+    margin-bottom: 2.25rem;
+
+    li {
+        width: 50%;
+
+        button {
+            width: 100%;
+        }
+    }
+}
+
+.formWrapper {
+    .customInput {
+        margin-bottom: 2rem;
+
+        input {
+            padding: 1rem 0.75rem;
+
+            &::placeholder {
+                color: $color666;
+                font-weight: $light;
+            }
+        }
+    }
+
+    .submitBtn {
+        padding: 0.5rem 2rem;
+    }
+
+    .secondaryBtn {
+        margin-left: 1.25rem;
+    }
+}

@@ -5,7 +5,7 @@
     padding: 5rem 0 4rem;
     background-color: $color222;
 
-    .signupForm {
+    .newsletterForm {
         @include toRem(max-width, 720);
         margin: 0 auto 4rem;
 
@@ -32,6 +32,8 @@
                     background-color: $color35;
                     padding: 0.75rem 1rem;
                     color: $white;
+                    border: unset;
+                    border-radius: unset;
 
                     &::placeholder {
                         color: $white;
