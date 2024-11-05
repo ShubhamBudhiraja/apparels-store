@@ -1,10 +1,29 @@
 'use client';
 import { Provider } from 'react-redux';
 import { store } from 'src/lib/store/store';
-import 'styles/styles.scss';
+import Layout from 'src/components/organisms/Layout';
 
-function MyApp({ children }: { children: React.ReactNode }) {
-    return <Provider store={store}>{children}</Provider>;
+function MyApp({
+    children,
+    layoutData,
+    loginModalData,
+}: {
+    layoutData?: any;
+    loginModalData?: any;
+    children: React.ReactNode;
+}) {
+    return (
+        <Provider store={store}>
+            <Layout
+                headerData={layoutData?.headerData}
+                footerData={layoutData?.footerData}
+                socialIcons={layoutData?.socialIcons}
+                loginModalData={loginModalData}
+            >
+                {children}
+            </Layout>
+        </Provider>
+    );
 }
 
 export default MyApp;

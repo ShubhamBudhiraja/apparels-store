@@ -1,6 +1,6 @@
 import { formatDiscount } from '@utils/common';
 import style from './index.module.scss';
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { IProductData } from 'src/lib/interface/products';
 import { LayoutContextData } from 'src/lib/context/layout';
 import { Button } from 'react-bootstrap';
@@ -8,13 +8,16 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import useLogin from 'src/lib/customHooks/useLogin';
 import useProduct from 'src/lib/customHooks/useProduct';
+import { ILoginModalSuccess } from 'src/lib/interface/user';
 
 interface IProductCard extends IProductData {
     isLoggedIn?: boolean;
+    userId?: string;
 }
 
 const ProductCard = (props: IProductCard) => {
     const {
+        userId,
         id,
         name,
         images,
@@ -29,31 +32,43 @@ const ProductCard = (props: IProductCard) => {
 
     const { initiateLogin } = useLogin();
     const { handleAddToCart, handleAddToWishlist } = useProduct();
-    const { dictionary, isLoggedIn } = useContext(LayoutContextData);
+    const { dictionary } = useContext(LayoutContextData);
     const router = useRouter();
 
     const fewPiecesMsg = useMemo(() => {
         if (units > 0 && units < 10) return dictionary?.fewPiecesLabel?.replace('$', units);
     }, [units]);
 
-    const handleCtaClick = (e: any, iconName: string) => {
-        e.preventDefault();
-        switch (iconName) {
-            case 'search':
-                router.push(`/shop/${id}`);
-                break;
-            case 'bag':
-                if (!isLoggedIn) initiateLogin({ successCallback: () => handleAddToCart(id) });
-                else handleAddToCart(id);
-                break;
-            case 'heart':
-                if (!isLoggedIn) initiateLogin({ successCallback: () => handleAddToWishlist(id) });
-                else handleAddToWishlist(id);
-                break;
-            default:
-                break;
-        }
-    };
+    const handleCtaClick = useCallback(
+        (e: any, iconName: string) => {
+            e.preventDefault();
+            if (id)
+                switch (iconName) {
+                    case 'search':
+                        router.push(`/shop/${id}`);
+                        break;
+                    case 'bag':
+                        if (userId) handleAddToCart({ userId: userId, productId: id });
+                        else
+                            initiateLogin({
+                                successCallback: (data?: ILoginModalSuccess) =>
+                                    handleAddToCart({ userId: data?.email, productId: id }),
+                            });
+                        break;
+                    case 'heart':
+                        if (userId) handleAddToWishlist({ userId: userId, productId: id });
+                        else
+                            initiateLogin({
+                                successCallback: (data?: ILoginModalSuccess) =>
+                                    handleAddToWishlist({ userId: data?.email, productId: id }),
+                            });
+                        break;
+                    default:
+                        break;
+                }
+        },
+        [userId, id]
+    );
 
     return (
         <Link className={style.cardWrapper} href={`/shop/${id}`}>

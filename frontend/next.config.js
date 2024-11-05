@@ -4,6 +4,7 @@ const dotEnv = require('dotenv');
 dotEnv.config({ path: `./.env.${LOADENV}` });
 
 const nextConfig = {
+    reactStrictMode: false,
     sassOptions: {
         includePaths: ['ui/src/styles/'],
     },

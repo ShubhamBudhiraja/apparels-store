@@ -1,10 +1,15 @@
 import TextInput from '@atoms/TextInput';
 import React, { useContext } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { Controller, useForm } from 'react-hook-form';
 import { LayoutContextData } from 'src/lib/context/layout';
 import { IFormData } from 'src/lib/interface/common';
 import style from './index.module.scss';
+import useAuthApi from 'api-managers/services/auth';
+import { LoginModalActions } from 'src/lib/store/reducers/loginModalSlice';
+import { useAppDispatch, useAppSelector } from 'src/lib/store';
+import useLogin from 'src/lib/customHooks/useLogin';
+import CustomButton from '@atoms/CustomButton';
 
 interface ILoginForm {
     formData?: IFormData[];
@@ -14,11 +19,24 @@ interface ILoginForm {
 const LoginForm = (props: ILoginForm) => {
     const { formData, forgotPswdTxt } = props;
 
-    const { control, handleSubmit } = useForm();
+    const { control, handleSubmit, formState } = useForm();
     const { dictionary } = useContext(LayoutContextData);
+    const { login } = useAuthApi();
+    const dispatch = useAppDispatch();
+    const { onSuccess } = useAppSelector((state) => state.loginModal);
+    const { storeUser } = useLogin();
 
     const handleLoginSubmit = async (formValues: any) => {
-        console.log(formValues, 'formvalues');
+        const res = await login({ email: formValues?.emailId, password: formValues?.password });
+
+        if (res?.status) {
+            dispatch(LoginModalActions.updateModalState({ show: false }));
+            const profileRes = await storeUser({ email: formValues?.emailId });
+
+            if (profileRes) {
+                onSuccess?.({ email: formValues?.emailId });
+            }
+        }
     };
 
     return (
@@ -55,12 +73,17 @@ const LoginForm = (props: ILoginForm) => {
                     )}
                 />
             )}
-            <Button variant="secondary" className={style.submitBtn} type="submit">
+            <CustomButton
+                variant="secondary"
+                className={style.submitBtn}
+                type="submit"
+                loading={formState.isSubmitting}
+            >
                 {dictionary?.submitLabel}
-            </Button>
-            <Button variant="link" className={style.secondaryBtn}>
+            </CustomButton>
+            <CustomButton variant="link" className={style.secondaryBtn}>
                 {forgotPswdTxt}
-            </Button>
+            </CustomButton>
         </Form>
     );
 };

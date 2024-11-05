@@ -4,6 +4,7 @@ import React from 'react';
 import { IProductData } from 'src/lib/interface/products';
 import style from './index.module.scss';
 import { Settings } from 'react-slick';
+import { useAppSelector } from 'src/lib/store';
 
 interface IProductsCarousel {
     productsList?: IProductData[];
@@ -11,6 +12,8 @@ interface IProductsCarousel {
 
 const ProductsCarousel = (props: IProductsCarousel) => {
     const { productsList } = props;
+
+    const { email, cart, wishlist } = useAppSelector((state) => state.userProfile);
 
     const carouselSettings: Settings = {
         infinite: false,
@@ -35,7 +38,13 @@ const ProductsCarousel = (props: IProductsCarousel) => {
         <Carousel settings={carouselSettings}>
             {productsList?.map((product: IProductData, index: number) => (
                 <>
-                    <ProductCard key={`product_${index}`} {...product} />
+                    <ProductCard
+                        key={`product_${index}`}
+                        userId={email}
+                        {...product}
+                        isInCart={!!cart?.find((item: IProductData) => item?.id === product?.id)}
+                        isWishlisted={!!wishlist?.find((item: IProductData) => item?.id === product?.id)}
+                    />
                 </>
             ))}
         </Carousel>

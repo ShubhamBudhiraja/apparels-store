@@ -9,11 +9,8 @@ import CustomButton from '@atoms/CustomButton';
 import { VALIDATIONS } from '@utils/validations';
 import useAuthApi from 'api-managers/services/auth';
 import { useAppDispatch, useAppSelector } from 'src/lib/store';
-import { setStorageItem } from '@utils/storage';
-import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-import useProfileApi from 'api-managers/services/profile';
-import { UserDataActions } from 'src/lib/store/reducers/userProfileSlice';
 import useLogin from 'src/lib/customHooks/useLogin';
+import { LoginModalActions } from 'src/lib/store/reducers/loginModalSlice';
 
 interface ISignupForm {
     formData?: IFormData[];
@@ -22,11 +19,10 @@ interface ISignupForm {
 const SignupForm = (props: ISignupForm) => {
     const { formData } = props;
 
-    const { control, handleSubmit, formState, reset, watch } = useForm();
+    const { control, handleSubmit, formState, reset } = useForm();
     const { dictionary } = useContext(LayoutContextData);
     const { signUp, validateOtp } = useAuthApi();
     const { storeUser } = useLogin();
-    const { getProfileData } = useProfileApi();
     const { onSuccess } = useAppSelector((state) => state.loginModal);
     const dispatch = useAppDispatch();
 
@@ -52,6 +48,7 @@ const SignupForm = (props: ISignupForm) => {
             });
 
             if (otpRes?.status) {
+                dispatch(LoginModalActions.updateModalState({ show: false }));
                 const profileRes = await storeUser({ email: formValues?.emailId });
 
                 if (profileRes) {

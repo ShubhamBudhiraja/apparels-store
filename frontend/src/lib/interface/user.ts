@@ -16,3 +16,7 @@ export interface IUserData {
     wishlist?: IProductData[];
     cart?: IProductData[];
 }
+
+export interface ILoginModalSuccess {
+    email?: string;
+}

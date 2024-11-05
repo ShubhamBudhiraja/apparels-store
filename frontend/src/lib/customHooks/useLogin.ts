@@ -4,12 +4,13 @@ import { LoginModalActions } from '../store/reducers/loginModalSlice';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
 import { UserDataActions } from '../store/reducers/userProfileSlice';
 import { setStorageItem } from '@utils/storage';
+import { ILoginModalSuccess } from '../interface/user';
 
 const useLogin = () => {
     const dispatch = useAppDispatch();
     const { getProfileData } = useProfileApi();
 
-    const initiateLogin = ({ successCallback }: { successCallback?: () => void }) => {
+    const initiateLogin = ({ successCallback }: { successCallback?: (data?: ILoginModalSuccess) => void }) => {
         dispatch(LoginModalActions.updateModalState({ show: true, onSuccess: successCallback }));
     };
 

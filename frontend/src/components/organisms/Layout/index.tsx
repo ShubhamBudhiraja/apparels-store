@@ -1,4 +1,3 @@
-'use client';
 import Footer from 'src/components/organisms/Footer';
 import Header from 'src/components/organisms/Header';
 import React, { useEffect, useState } from 'react';
