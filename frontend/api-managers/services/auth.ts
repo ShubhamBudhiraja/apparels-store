@@ -4,7 +4,7 @@ import API_ENDPOINTS from 'api-managers/endpoints';
 const useAuthApi = () => {
     const { postApi } = useApiCall();
 
-    const login = async (payload: { email: string; password: string }) => {
+    const login = async (payload: { userId: string; password: string }) => {
         try {
             const res = await postApi({
                 requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.LOGIN}`,
@@ -17,7 +17,7 @@ const useAuthApi = () => {
         }
     };
 
-    const signUp = async (payload: { email: string; password: string }) => {
+    const signUp = async (payload: { userId: string; password: string }) => {
         try {
             const res = await postApi({
                 requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.REGISTER}`,
@@ -30,7 +30,7 @@ const useAuthApi = () => {
         }
     };
 
-    const validateOtp = async (payload: { email: string; otp: string; screenType?: string }) => {
+    const validateOtp = async (payload: { userId: string; otp: string; screenType?: string }) => {
         try {
             const res = await postApi({
                 requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.VALIDATE_OTP}`,

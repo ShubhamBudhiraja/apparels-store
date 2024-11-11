@@ -1,7 +1,22 @@
-const { default: mongoose } = require('mongoose')
-const GlobalProductSchema = require('../interface/product')
+const { default: mongoose } = require("mongoose");
 
-const prouctSchema = new mongoose.Schema(GlobalProductSchema)
+const prouctSchema = new mongoose.Schema({
+    productId: String,
+    title: String,
+    description: String,
+    shortDescription: String,
+    price: Number,
+    offerPrice: Number,
+    discountPercentage: Number,
+    discountAmount: Number,
+    units: Number,
+    images: [String],
+    thumbnail: String,
+    ratings: Number,
+    ratingsCount: Number,
+    category: String,
+    subCategory: String,
+});
 
-const ProductModel = mongoose.model('productsModel', prouctSchema)
-module.exports = ProductModel
+const ProductModel = mongoose.model("productsModel", prouctSchema);
+module.exports = ProductModel;

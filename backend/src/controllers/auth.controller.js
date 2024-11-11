@@ -6,27 +6,27 @@ const UserModel = require("../models/user.model");
 const authUtils = require("../utils/auth");
 const commonUtils = require("../utils/common");
 
-const authControllers = () => {
+const AuthControllers = () => {
     const { genrateOtp } = authUtils();
     const { generateCommonResponse } = commonUtils();
 
-    const removeTempUser = async (email) => {
-        const founduser = await AuthModel.findOne({ email });
+    const removeTempUser = async (userId) => {
+        const founduser = await AuthModel.findOne({ userId });
 
         if (!founduser.isVerified) {
-            console.log("otp wasn't verified for ", email);
-            await AuthModel.deleteOne({ email });
+            console.log("otp wasn't verified for ", userId);
+            await AuthModel.deleteOne({ userId });
         }
     };
 
     const register = async (req, res) => {
-        const { email, password } = req.body;
+        const { userId, password } = req.body;
 
         try {
-            if (email && password) {
+            if (userId && password) {
                 const otp = genrateOtp();
                 const isExistingUser = await AuthModel.findOneAndUpdate(
-                    { email },
+                    { userId },
                     { $set: { otp } }
                 );
 
@@ -39,24 +39,24 @@ const authControllers = () => {
                             .status(400)
                             .json(generateCommonResponse(4001));
                     } else {
-                        await sendEmailOtp(email, otp);
+                        await sendEmailOtp(userId, otp);
                         console.log("OTP sent to email");
 
                         return res
                             .status(200)
-                            .json(generateCommonResponse(true, 2001));
+                            .json(generateCommonResponse(2001, true));
                     }
                 } else {
                     console.log("registering new user");
 
-                    await AuthModel.create({ email, password, otp });
+                    await AuthModel.create({ userId, password, otp });
                     console.log("new user added in db");
 
-                    await sendEmailOtp(email, otp);
+                    await sendEmailOtp(userId, otp);
                     console.log("OTP sent to email");
 
                     setTimeout(() => {
-                        removeTempUser(email);
+                        removeTempUser(userId);
                     }, 60000);
 
                     return res
@@ -64,7 +64,7 @@ const authControllers = () => {
                         .json(generateCommonResponse(2001, true));
                 }
             } else {
-                return res.status(400).json(generateCommonResponse(true, 4000));
+                return res.status(400).json(generateCommonResponse(4000));
             }
         } catch (e) {
             console.log("error occured while registering", e);
@@ -73,10 +73,10 @@ const authControllers = () => {
     };
 
     const login = async (req, res) => {
-        const { email, password } = req.body;
+        const { userId, password } = req.body;
 
         try {
-            const foundUser = await AuthModel.findOne({ email });
+            const foundUser = await AuthModel.findOne({ userId });
 
             if (foundUser) {
                 console.log("user found while logging in", foundUser);
@@ -101,11 +101,11 @@ const authControllers = () => {
     };
 
     const validateOtp = async (req, res) => {
-        const { email, otp, screenType } = req.body;
+        const { userId, otp, screenType } = req.body;
 
         try {
             const foundUser = await AuthModel.findOneAndUpdate(
-                { email, otp },
+                { userId, otp },
                 { $set: { isVerified: true } }
             );
             console.log("user found while validating otp", foundUser);
@@ -114,7 +114,7 @@ const authControllers = () => {
                 if (screenType === GLOBAL_CONSTANTS.FLOW_TYPE.REGISTER) {
                     console.log("creating profile while registering");
 
-                    await UserModel.create({ email });
+                    await UserModel.create({ userId });
                     console.log("profile created");
                 }
                 return res.status(200).json(generateCommonResponse(2002, true));
@@ -129,12 +129,12 @@ const authControllers = () => {
     };
 
     const forgotPassword = async (req, res) => {
-        const { email } = req.body;
+        const { userId } = req.body;
 
         try {
             const otp = genrateOtp();
             const isExistingUser = await AuthModel.findOneAndUpdate(
-                { email },
+                { userId },
                 { $set: { otp } }
             );
 
@@ -144,7 +144,7 @@ const authControllers = () => {
                     isExistingUser
                 );
 
-                await sendEmailOtp(email, otp);
+                await sendEmailOtp(userId, otp);
                 console.log("OTP sent to email");
 
                 return res.status(200).json(generateCommonResponse(2001, true));
@@ -161,11 +161,11 @@ const authControllers = () => {
     };
 
     const updatePassword = async (req, res) => {
-        const { email, password } = req.body;
+        const { userId, password } = req.body;
 
         try {
             const foundUser = await AuthModel.findOneAndUpdate(
-                { email },
+                { userId },
                 { $set: { password } }
             );
             if (foundUser) {
@@ -190,4 +190,4 @@ const authControllers = () => {
     };
 };
 
-module.exports = authControllers;
+module.exports = AuthControllers;

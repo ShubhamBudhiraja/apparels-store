@@ -35,21 +35,21 @@ const SignupForm = (props: ISignupForm) => {
 
     const handleSignupSubmit = async (formValues: any) => {
         if (step === 1) {
-            const emailRes = await signUp({ email: formValues?.emailId, password: formValues?.password });
+            const emailRes = await signUp({ userId: formValues?.emailId, password: formValues?.password });
 
             if (emailRes?.status) {
                 setStep(2);
             }
         } else {
             const otpRes = await validateOtp({
-                email: formValues?.emailId,
+                userId: formValues?.emailId,
                 otp: formValues?.otp,
                 screenType: 'register',
             });
 
             if (otpRes?.status) {
                 dispatch(LoginModalActions.updateModalState({ show: false }));
-                const profileRes = await storeUser({ email: formValues?.emailId });
+                const profileRes = await storeUser({ userId: formValues?.emailId });
 
                 if (profileRes) {
                     onSuccess?.();

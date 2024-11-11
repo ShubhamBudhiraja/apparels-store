@@ -9,7 +9,7 @@ export interface IUserAddress {
 
 export interface IUserData {
     name?: string;
-    email?: string;
+    userId?: string;
     mobileNo?: string;
     dob?: Date;
     address?: IUserAddress;
@@ -18,5 +18,5 @@ export interface IUserData {
 }
 
 export interface ILoginModalSuccess {
-    email?: string;
+    userId?: string;
 }

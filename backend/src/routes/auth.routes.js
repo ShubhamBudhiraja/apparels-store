@@ -1,9 +1,9 @@
 const express = require("express");
-const authControllers = require("../controllers/auth.controller");
+const AuthControllers = require("../controllers/auth.controller");
 
 const AuthRoutes = express.Router();
 const { register, validateOtp, login, updatePassword, forgotPassword } =
-    authControllers();
+    AuthControllers();
 
 AuthRoutes.post("/register", register);
 AuthRoutes.post("/validate-otp", validateOtp);

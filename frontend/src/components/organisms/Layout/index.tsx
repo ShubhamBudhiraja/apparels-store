@@ -26,7 +26,7 @@ const Layout = (props: ILayout) => {
 
     useEffect(() => {
         const userId = getStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
-        if (userId) storeUser({ email: userId });
+        if (userId) storeUser({ userId });
     }, []);
 
     return (

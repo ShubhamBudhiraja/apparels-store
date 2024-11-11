@@ -1,19 +1,46 @@
 const { default: mongoose } = require("mongoose");
-const GlobalProductSchema = require("../schemas/product");
 
 const userSchema = new mongoose.Schema({
-    email: String,
+    userId: String,
     name: String,
     dob: Date,
-    address: {
-        houseNo: String,
-        city: String,
-        pincode: String,
-        state: String,
-    },
+    addresses: [
+        {
+            houseNo: String,
+            city: String,
+            pincode: String,
+            state: String,
+            isDefault: { default: false, type: Boolean },
+        },
+    ],
     mobileNo: String,
-    wishlist: [GlobalProductSchema],
-    cart: [GlobalProductSchema],
+    cart: {
+        products: [
+            {
+                productId: String,
+                title: String,
+                price: Number,
+                offerPrice: Number,
+                quantity: Number,
+                thumbnail: String,
+                isAvailable: { type: Boolean, default: true },
+                inWishlist: { type: Boolean, default: false },
+            },
+        ],
+        cartTotal: { type: Number, default: 0 },
+        total: { type: Number, default: 0 },
+    },
+    wishlist: [
+        {
+            productId: String,
+            title: String,
+            price: Number,
+            offerPrice: Number,
+            thumbnail: String,
+            isAvailable: { type: Boolean, default: true },
+            inCart: { type: Boolean, default: false },
+        },
+    ],
 });
 
 const UserModel = mongoose.model("userModel", userSchema);
