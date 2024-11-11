@@ -14,13 +14,13 @@ const useLogin = () => {
         dispatch(LoginModalActions.updateModalState({ show: true, onSuccess: successCallback }));
     };
 
-    const storeUser = async ({ email }: { email: string }) => {
-        const profileRes = await getProfileData({ email });
+    const storeUser = async ({ userId }: { userId: string }) => {
+        const profileRes = await getProfileData({ userId });
 
         if (profileRes?.status) {
             setStorageItem({
                 key: STORAGE_KEY.USERID,
-                value: email,
+                value: userId,
                 storageType: STORAGE_TYPE.COOKIE,
             });
             dispatch(UserDataActions.updateCustomerDetails(profileRes?.responseBody));

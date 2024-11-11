@@ -13,7 +13,7 @@ interface IProductsCarousel {
 const ProductsCarousel = (props: IProductsCarousel) => {
     const { productsList } = props;
 
-    const { email, cart, wishlist } = useAppSelector((state) => state.userProfile);
+    const { userId, cart, wishlist } = useAppSelector((state) => state.userProfile);
 
     const carouselSettings: Settings = {
         infinite: false,
@@ -40,7 +40,7 @@ const ProductsCarousel = (props: IProductsCarousel) => {
                 <>
                     <ProductCard
                         key={`product_${index}`}
-                        userId={email}
+                        userId={userId}
                         {...product}
                         isInCart={!!cart?.find((item: IProductData) => item?.id === product?.id)}
                         isWishlisted={!!wishlist?.find((item: IProductData) => item?.id === product?.id)}

@@ -52,7 +52,7 @@ const ProductCard = (props: IProductCard) => {
                         else
                             initiateLogin({
                                 successCallback: (data?: ILoginModalSuccess) =>
-                                    handleAddToCart({ userId: data?.email, productId: id }),
+                                    handleAddToCart({ userId: data?.userId, productId: id }),
                             });
                         break;
                     case 'heart':
@@ -60,7 +60,7 @@ const ProductCard = (props: IProductCard) => {
                         else
                             initiateLogin({
                                 successCallback: (data?: ILoginModalSuccess) =>
-                                    handleAddToWishlist({ userId: data?.email, productId: id }),
+                                    handleAddToWishlist({ userId: data?.userId, productId: id }),
                             });
                         break;
                     default:

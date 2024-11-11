@@ -1,7 +1,12 @@
 const GLOBAL_CONSTANTS = {
     FLOW_TYPE: {
-        REGISTER: 'register'
-    }
-}
+        REGISTER: "register",
+    },
 
-module.exports = GLOBAL_CONSTANTS
+    CART_OPERATION: {
+        INCREASE: "increase",
+        DECREASE: "decrease",
+    },
+};
+
+module.exports = GLOBAL_CONSTANTS;

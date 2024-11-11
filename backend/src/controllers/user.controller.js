@@ -1,15 +1,14 @@
-const RESPONSE_MESSAGES = require("../constants/responseMessages");
 const UserModel = require("../models/user.model");
 const commonUtils = require("../utils/common");
 
-const userControllers = () => {
+const UserControllers = () => {
     const { generateCommonResponse } = commonUtils();
 
     const getProfile = async (req, res) => {
-        const { email } = req.query;
+        const { userId } = req.query;
 
         try {
-            const found = await UserModel.findOne({ email });
+            const found = await UserModel.findOne({ userId });
 
             if (found) {
                 console.log("get profile - user details sent", found);
@@ -27,11 +26,13 @@ const userControllers = () => {
     };
 
     const updateProfile = async (req, res) => {
-        const { email, ...rest } = req.body;
+        const { userId, ...rest } = req.body;
+        delete rest.cart;
+        delete rest.wishlist;
 
         try {
             const found = await UserModel.findOneAndUpdate(
-                { email },
+                { userId },
                 { $set: rest }
             );
 
@@ -51,4 +52,4 @@ const userControllers = () => {
     return { getProfile, updateProfile };
 };
 
-module.exports = userControllers;
+module.exports = UserControllers;

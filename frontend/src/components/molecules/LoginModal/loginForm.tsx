@@ -27,14 +27,14 @@ const LoginForm = (props: ILoginForm) => {
     const { storeUser } = useLogin();
 
     const handleLoginSubmit = async (formValues: any) => {
-        const res = await login({ email: formValues?.emailId, password: formValues?.password });
+        const res = await login({ userId: formValues?.emailId, password: formValues?.password });
 
         if (res?.status) {
             dispatch(LoginModalActions.updateModalState({ show: false }));
-            const profileRes = await storeUser({ email: formValues?.emailId });
+            const profileRes = await storeUser({ userId: formValues?.emailId });
 
             if (profileRes) {
-                onSuccess?.({ email: formValues?.emailId });
+                onSuccess?.({ userId: formValues?.emailId });
             }
         }
     };
