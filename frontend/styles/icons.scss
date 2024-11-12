@@ -1,10 +1,10 @@
 @font-face {
     font-family: "icons";
-    src: url("../public/fonts/icons.ttf?5d61a58645c6edaad980c1c20de458b3") format("truetype"),
-url("../public/fonts/icons.woff?5d61a58645c6edaad980c1c20de458b3") format("woff"),
-url("../public/fonts/icons.woff2?5d61a58645c6edaad980c1c20de458b3") format("woff2"),
-url("../public/fonts/icons.svg?5d61a58645c6edaad980c1c20de458b3#icons") format("svg"),
-url("../public/fonts/icons.eot?5d61a58645c6edaad980c1c20de458b3#iefix") format("embedded-opentype");
+    src: url("../public/fonts/icons.ttf?e45bb7adb26b63201dc2317ea11ff1dc") format("truetype"),
+url("../public/fonts/icons.woff?e45bb7adb26b63201dc2317ea11ff1dc") format("woff"),
+url("../public/fonts/icons.woff2?e45bb7adb26b63201dc2317ea11ff1dc") format("woff2"),
+url("../public/fonts/icons.svg?e45bb7adb26b63201dc2317ea11ff1dc#icons") format("svg"),
+url("../public/fonts/icons.eot?e45bb7adb26b63201dc2317ea11ff1dc#iefix") format("embedded-opentype");
 }
 
 .font:before {
@@ -39,27 +39,30 @@ url("../public/fonts/icons.eot?5d61a58645c6edaad980c1c20de458b3#iefix") format("
 .font.icon-person:before {
     content: "\f107";
 }
-.font.icon-left:before {
+.font.icon-logout:before {
     content: "\f108";
 }
-.font.icon-instagram:before {
+.font.icon-left:before {
     content: "\f109";
 }
-.font.icon-heart:before {
+.font.icon-instagram:before {
     content: "\f10a";
 }
-.font.icon-heart-filled:before {
+.font.icon-heart:before {
     content: "\f10b";
 }
-.font.icon-facebook:before {
+.font.icon-heart-filled:before {
     content: "\f10c";
 }
-.font.icon-down:before {
+.font.icon-facebook:before {
     content: "\f10d";
 }
-.font.icon-bag:before {
+.font.icon-down:before {
     content: "\f10e";
 }
-.font.icon-bag-filled:before {
+.font.icon-bag:before {
     content: "\f10f";
+}
+.font.icon-bag-filled:before {
+    content: "\f110";
 }

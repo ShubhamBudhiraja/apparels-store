@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { ISingleSlide } from 'src/lib/interface/common';
 import { Container } from 'react-bootstrap';
 import { Settings } from 'react-slick';
+import LinkWrapper from '@atoms/LinkWrapper';
 
 interface IHomeBanner {
     slides?: ISingleSlide[];
@@ -36,7 +37,7 @@ const HomeBanner = (props: IHomeBanner) => {
                                     <span>{item?.subHeading}</span>
                                     <h2>{item?.heading}</h2>
                                     <p>{item?.description}</p>
-                                    <a href={item?.buttonLink}>{item?.buttonText}</a>
+                                    <LinkWrapper href={item?.buttonLink}>{item?.buttonText}</LinkWrapper>
                                 </Container>
                             </div>
                         </div>

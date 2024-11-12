@@ -34,7 +34,13 @@
       "@staticData": ["src/static"],
       "@staticData/*": ["src/static/*"],
       "@enums": ["src/lib/enums"],
-      "@enums/*": ["src/lib/enums/*"]
+      "@enums/*": ["src/lib/enums/*"],
+      "@store": ["src/lib/store"],
+      "@store/*": ["src/lib/store/*"],
+      "@interface": ["src/lib/interface"],
+      "@interface/*": ["src/lib/interface/*"],
+      "@customHooks": ["src/lib/customHooks"],
+      "@customHooks/*": ["src/lib/customHooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -32,7 +32,7 @@ const CartControllers = () => {
         );
     };
 
-    const add = async (req, res) => {
+    const addToCart = async (req, res) => {
         const { userId, prodId } = req.body;
 
         try {
@@ -128,7 +128,7 @@ const CartControllers = () => {
         }
     };
 
-    const update = async (req, res) => {
+    const updateCart = async (req, res) => {
         const { userId, prodId, operation } = req.body;
 
         try {
@@ -252,8 +252,8 @@ const CartControllers = () => {
         }
     };
 
-    const remove = async (req, res) => {
-        const { userId, prodId } = req.body;
+    const deleteFromCart = async (req, res) => {
+        const { userId, prodId } = req.query;
 
         try {
             const foundProduct = await ProductModel.findOne({
@@ -274,6 +274,7 @@ const CartControllers = () => {
                     if (productIndex !== -1) {
                         console.log("updating cart");
                         await handleDeletion(userDetails, productIndex);
+                        console.log("deleted");
                         return res
                             .status(200)
                             .json(generateCommonResponse(2009, true));
@@ -297,7 +298,7 @@ const CartControllers = () => {
         }
     };
 
-    return { add, update, remove };
+    return { addToCart, updateCart, deleteFromCart };
 };
 
 module.exports = CartControllers;

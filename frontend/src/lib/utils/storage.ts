@@ -1,9 +1,15 @@
 import { STORAGE_TYPE } from '@enums/storage';
 import Cookies, { CookieSetOptions } from 'universal-cookie';
 
-const getCookies = ({ key }: { key: string }) => {
+const getCookies = (key: string) => {
     const cookies = new Cookies();
     const val = cookies.get(key);
+    return val;
+};
+
+const removeCookies = (key: string) => {
+    const cookies = new Cookies();
+    const val = cookies.remove(key);
     return val;
 };
 
@@ -31,7 +37,7 @@ export const getStorageItem = ({ key, storageType }: { key: string; storageType:
             data = localStorage.getItem(key);
             break;
         case STORAGE_TYPE.COOKIE:
-            data = getCookies({ key });
+            data = getCookies(key);
             break;
         default:
             break;
@@ -59,6 +65,22 @@ export const setStorageItem = ({
             break;
         case STORAGE_TYPE.COOKIE:
             setCookies({ key, value, expiryDays });
+            break;
+        default:
+            break;
+    }
+};
+
+export const removeStorageItem = ({ key, storageType }: { key: string; storageType: STORAGE_TYPE }) => {
+    switch (storageType) {
+        case STORAGE_TYPE.SESSION:
+            sessionStorage.removeItem(key);
+            break;
+        case STORAGE_TYPE.LOCAL:
+            localStorage.removeItem(key);
+            break;
+        case STORAGE_TYPE.COOKIE:
+            removeCookies(key);
             break;
         default:
             break;

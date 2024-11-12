@@ -1,10 +1,10 @@
 import useProfileApi from 'api-managers/services/profile';
-import { useAppDispatch } from '../store';
-import { LoginModalActions } from '../store/reducers/loginModalSlice';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-import { UserDataActions } from '../store/reducers/userProfileSlice';
-import { setStorageItem } from '@utils/storage';
-import { ILoginModalSuccess } from '../interface/user';
+import { removeStorageItem, setStorageItem } from '@utils/storage';
+import { useAppDispatch } from '@store';
+import { ILoginModalSuccess } from '@interface/user';
+import { LoginModalActions } from '@store/reducers/loginModalSlice';
+import { UserDataActions } from '@store/reducers/userProfileSlice';
 
 const useLogin = () => {
     const dispatch = useAppDispatch();
@@ -28,7 +28,12 @@ const useLogin = () => {
         }
     };
 
-    return { initiateLogin, storeUser };
+    const handleLogout = () => {
+        removeStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
+        window.location.reload();
+    };
+
+    return { initiateLogin, storeUser, handleLogout };
 };
 
 export default useLogin;

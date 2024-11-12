@@ -4,7 +4,7 @@ const commonUtils = require("../utils/common");
 const ProductControllers = () => {
     const { generateCommonResponse } = commonUtils();
 
-    const add = async (req, res) => {
+    const addProduct = async (req, res) => {
         const productData = req.body;
         console.log(productData, "productData");
 
@@ -34,7 +34,7 @@ const ProductControllers = () => {
         }
     };
 
-    const remove = async (req, res) => {
+    const removeProduct = async (req, res) => {
         const { productId } = req.query;
 
         try {
@@ -55,7 +55,7 @@ const ProductControllers = () => {
         }
     };
 
-    const get = async (req, res) => {
+    const getAllProducts = async (req, res) => {
         try {
             const requestParams = req.query;
             const products = await ProductModel.find(requestParams);
@@ -68,7 +68,7 @@ const ProductControllers = () => {
         }
     };
 
-    return { add, remove, get };
+    return { addProduct, removeProduct, getAllProducts };
 };
 
 module.exports = ProductControllers;

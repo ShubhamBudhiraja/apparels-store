@@ -1,3 +1,4 @@
+const ProductModel = require("../models/product.model");
 const UserModel = require("../models/user.model");
 const commonUtils = require("../utils/common");
 
@@ -12,9 +13,40 @@ const UserControllers = () => {
 
             if (found) {
                 console.log("get profile - user details sent", found);
+                const userDetails = found;
+                if (found.cart.products.length || found.wishlist.length) {
+                    const products = await ProductModel.find();
+                    if (found.cart.products.length)
+                        userDetails.cart.products = found.cart.products.map(
+                            (prod) => {
+                                const temp = { ...prod };
+                                const foundProduct = products.find(
+                                    (item) => item.productId === prod.productId
+                                );
+                                temp.isAvailable = foundProduct.units > 0;
+                                temp.quantity =
+                                    temp.quantity > foundProduct.units
+                                        ? 1
+                                        : temp.quantity;
+
+                                return temp;
+                            }
+                        );
+
+                    if (found.wishlist.length)
+                        userDetails.wishlist = found.wishlist.map((prod) => {
+                            const temp = { ...prod };
+                            const foundProduct = products.find(
+                                (item) => item.productId === prod.productId
+                            );
+                            temp.isAvailable = foundProduct.units > 0;
+
+                            return temp;
+                        });
+                }
                 return res
                     .status(200)
-                    .json(generateCommonResponse(2006, true, found));
+                    .json(generateCommonResponse(2006, true, userDetails));
             } else {
                 console.log("get profile - user not found");
                 return res.status(400).json(generateCommonResponse(4004));

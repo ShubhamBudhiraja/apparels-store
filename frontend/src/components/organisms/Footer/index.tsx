@@ -3,6 +3,7 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import { IFooterData, IFooterQuickMenu, ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
 import NewsletterForm from './newsletterForm';
+import LinkWrapper from '@atoms/LinkWrapper';
 
 interface IFooter extends IFooterData {
     socialIcons?: ISocialIcons[];
@@ -18,9 +19,9 @@ const Footer = (props: IFooter) => {
                     <NewsletterForm fieldId="emailId" {...formData} />
                     <div className={style.siteSummary}>
                         <div className={`${style.summaryCol} ${style.info}`}>
-                            <a href="/">
+                            <LinkWrapper href="/">
                                 <img src={siteInfo?.logo} alt="" />
-                            </a>
+                            </LinkWrapper>
                             <p>{siteInfo?.address}</p>
                             <p>{siteInfo?.email}</p>
                             <p>{siteInfo?.phone}</p>
@@ -31,7 +32,7 @@ const Footer = (props: IFooter) => {
                                 <ul>
                                     {menu?.items?.map((subItem: ISingleNavItem, subIndex: number) => (
                                         <li key={`subItem_${index}_${subIndex}`}>
-                                            <a href={subItem?.link}>{subItem?.title}</a>
+                                            <LinkWrapper href={subItem?.link}>{subItem?.title}</LinkWrapper>
                                         </li>
                                     ))}
                                 </ul>
@@ -45,7 +46,7 @@ const Footer = (props: IFooter) => {
                     <span>{copyrightInfo}</span>
                     <div className={`${style.socialIcons} flex-between`}>
                         {socialIcons?.map((icon: ISocialIcons, index: number) => (
-                            <a href={icon?.iconUrl} key={`icon_${index}`}>
+                            <a href={icon?.iconUrl} key={`icon_${index}`} target="_blank">
                                 <i className={`font icon-${icon?.iconName}`}></i>
                             </a>
                         ))}

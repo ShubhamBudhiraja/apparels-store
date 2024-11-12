@@ -6,6 +6,7 @@ export type IconsId =
   | "search"
   | "right"
   | "person"
+  | "logout"
   | "left"
   | "instagram"
   | "heart"
@@ -23,6 +24,7 @@ export type IconsKey =
   | "Search"
   | "Right"
   | "Person"
+  | "Logout"
   | "Left"
   | "Instagram"
   | "Heart"
@@ -40,6 +42,7 @@ export enum Icons {
   Search = "search",
   Right = "right",
   Person = "person",
+  Logout = "logout",
   Left = "left",
   Instagram = "instagram",
   Heart = "heart",
@@ -58,12 +61,13 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Search]: "61701",
   [Icons.Right]: "61702",
   [Icons.Person]: "61703",
-  [Icons.Left]: "61704",
-  [Icons.Instagram]: "61705",
-  [Icons.Heart]: "61706",
-  [Icons.HeartFilled]: "61707",
-  [Icons.Facebook]: "61708",
-  [Icons.Down]: "61709",
-  [Icons.Bag]: "61710",
-  [Icons.BagFilled]: "61711",
+  [Icons.Logout]: "61704",
+  [Icons.Left]: "61705",
+  [Icons.Instagram]: "61706",
+  [Icons.Heart]: "61707",
+  [Icons.HeartFilled]: "61708",
+  [Icons.Facebook]: "61709",
+  [Icons.Down]: "61710",
+  [Icons.Bag]: "61711",
+  [Icons.BagFilled]: "61712",
 };
