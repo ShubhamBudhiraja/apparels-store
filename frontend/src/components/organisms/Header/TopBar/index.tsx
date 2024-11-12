@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
-import { CURRENCY } from 'src/lib/constants/product';
 import { IDropdownOptions } from 'src/lib/interface/common';
 import TopBarDropDown from './dropdown';
 import { getStorageItem, setStorageItem } from '@utils/storage';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-import { ISocialIcons, ITopBarData } from 'src/lib/interface/layout';
+import { CURRENCY } from '@enums/products';
+import { ISocialIcons, ITopBarData } from '@interface/layout';
 
 interface ITopBar extends ITopBarData {
     socialIcons?: ISocialIcons[];
@@ -39,7 +39,7 @@ const TopBar = (props: ITopBar) => {
             <Container fluid className="flex-between">
                 <div className={`${style.socialIcons} flex-between`}>
                     {socialIcons?.map((icon: ISocialIcons, index: number) => (
-                        <a href={icon?.iconUrl} className="flex-center" key={`icon_${index}`}>
+                        <a href={icon?.iconUrl} className="flex-center" key={`icon_${index}`} target="_blank">
                             <i className={`font icon-${icon?.iconName}`}></i>
                         </a>
                     ))}

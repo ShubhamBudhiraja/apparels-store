@@ -1,11 +1,11 @@
 export interface IProductData {
-    id: string;
-    name?: string;
+    productId?: string;
+    title?: string;
     description?: string;
     shortDescription?: string;
-    price?: string;
+    price?: number;
     offerPrice?: number;
-    discountPer?: number;
+    discountPercentage?: number;
     discountAmount?: number;
     currencySymbol?: string;
     images?: string[];

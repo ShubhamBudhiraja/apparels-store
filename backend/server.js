@@ -7,8 +7,6 @@ const UserRoutes = require("./src/routes/user.routes");
 const ProductRoutes = require("./src/routes/product.routes");
 const cors = require("cors");
 const customCorsOptions = require("./src/middlewares/corsHandler");
-const CartRoutes = require("./src/routes/cart.routes");
-const WishlistRoutes = require("./src/routes/wishlist.routes");
 
 dotenv.config();
 connectDB();
@@ -21,8 +19,6 @@ app.use(express.json());
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
 app.use("/product", ProductRoutes);
-app.use("/cart", CartRoutes);
-app.use("/wishlist", WishlistRoutes);
 
 app.use(ErrorHandler);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import style from './index.module.scss';
 import { IHamburgerData, ISingleNavItem } from 'src/lib/interface/layout';
+import LinkWrapper from '@atoms/LinkWrapper';
 
 interface IHamburger extends IHamburgerData {
     show: boolean;
@@ -23,7 +24,7 @@ const Hamburger = (props: IHamburger) => {
                             <ul className="row">
                                 {list?.subMenu?.map((item: ISingleNavItem) => (
                                     <li className="col-lg-4" key={`item_${list?.title}_${item?.title}`}>
-                                        <a href={item?.link}>{item?.title}</a>
+                                        <LinkWrapper href={item?.link}>{item?.title}</LinkWrapper>
                                     </li>
                                 ))}
                             </ul>

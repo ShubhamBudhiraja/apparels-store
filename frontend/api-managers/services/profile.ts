@@ -1,6 +1,6 @@
+import { IUserData } from '@interface/user';
 import useApiCall from 'api-managers/base';
 import API_ENDPOINTS from 'api-managers/endpoints';
-import { IUserData } from 'src/lib/interface/user';
 
 const useProfileApi = () => {
     const { getApi, patchApi } = useApiCall();

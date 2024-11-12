@@ -1,14 +1,15 @@
 'use client';
 import HomeBanner from '@molecules/HomeBanner';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import style from './index.module.scss';
-import { ISingleSlide } from 'src/lib/interface/common';
 import CollectionCard from '@molecules/CollectionCard';
 import { Container } from 'react-bootstrap';
 import SectionWrapper from '@atoms/SectionWrapper';
 import ProductsCarousel from '@molecules/ProductsCarousel';
 import SectionHeader from '@atoms/SectionHeader';
 import { LayoutContextData } from 'src/lib/context/layout';
+import useProductsAPI from 'api-managers/services/products';
+import { ISingleSlide } from '@interface/common';
 
 interface IHome {
     serverData?: any;
@@ -18,6 +19,20 @@ const Home = (props: IHome) => {
     const { serverData } = props;
 
     const { dictionary } = useContext(LayoutContextData);
+    const { getProducts } = useProductsAPI();
+
+    const [allProducts, setAllProducts] = useState([]);
+
+    const initialiser = async () => {
+        const res = await getProducts();
+        if (res?.responseBody?.products) {
+            setAllProducts(res?.responseBody?.products);
+        }
+    };
+
+    useEffect(() => {
+        initialiser();
+    }, []);
 
     return (
         <>
@@ -34,10 +49,12 @@ const Home = (props: IHome) => {
                         ))}
                     </div>
                 </SectionWrapper>
-                <SectionWrapper>
-                    <SectionHeader heading={dictionary?.bestSellerLabel} className="text-center" />
-                    <ProductsCarousel productsList={serverData?.products} />
-                </SectionWrapper>
+                {allProducts && (
+                    <SectionWrapper>
+                        <SectionHeader heading={dictionary?.bestSellerLabel} className="text-center" />
+                        <ProductsCarousel productsList={allProducts} />
+                    </SectionWrapper>
+                )}
             </Container>
         </>
     );

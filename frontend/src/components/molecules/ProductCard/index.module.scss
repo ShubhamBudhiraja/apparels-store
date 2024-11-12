@@ -31,7 +31,10 @@
         }
 
         .cta {
-            position: relative;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
 
             button {
                 top: 0;
@@ -85,7 +88,7 @@
         .thumbnail {
             .cta {
                 button {
-                    @include toRem(top, -98);
+                    @include toRem(top, -56);
                 }
             }
         }

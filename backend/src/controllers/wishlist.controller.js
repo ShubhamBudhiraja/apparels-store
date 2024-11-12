@@ -6,7 +6,7 @@ const commonUtils = require("../utils/common");
 const WishlistControllers = () => {
     const { generateCommonResponse } = commonUtils();
 
-    const add = async (req, res) => {
+    const addToWishlist = async (req, res) => {
         const { userId, prodId } = req.body;
 
         try {
@@ -91,8 +91,8 @@ const WishlistControllers = () => {
         }
     };
 
-    const remove = async (req, res) => {
-        const { userId, prodId } = req.body;
+    const deleteFromWishlist = async (req, res) => {
+        const { userId, prodId } = req.query;
 
         try {
             const foundProduct = await ProductModel.findOne({
@@ -156,7 +156,7 @@ const WishlistControllers = () => {
         }
     };
 
-    return { add, remove };
+    return { addToWishlist, deleteFromWishlist };
 };
 
 module.exports = WishlistControllers;

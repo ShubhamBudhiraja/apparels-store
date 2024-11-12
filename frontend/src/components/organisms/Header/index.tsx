@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import TopBar from './TopBar';
-import { IHeaderData, ISingleNavItem, ISocialIcons } from 'src/lib/interface/layout';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
 import Hamburger from './Hamburger';
+import { useAppSelector } from '@store';
+import { IHeaderData, ISingleNavItem, ISocialIcons } from '@interface/layout';
+import useLogin from '@customHooks/useLogin';
+import LinkWrapper from '@atoms/LinkWrapper';
 
 interface IHeader extends IHeaderData {
     socialIcons?: ISocialIcons[];
@@ -15,10 +18,10 @@ const Header = (props: IHeader) => {
     const { topBar, primaryMenu, secondaryMenu, socialIcons, logo, showHamburger, setShowHamburger, hamburgerData } =
         props;
 
-    const [stickyHeader, setStickyHeader] = useState(false);
+    const { userId, cart, wishlist } = useAppSelector((state) => state.userProfile);
+    const { handleLogout } = useLogin();
 
-    const cartItemsCount = 3; // temporary
-    const wishlistItemsCount = 1; // temporary
+    const [stickyHeader, setStickyHeader] = useState(false);
 
     const handleScroll = () => {
         const scroll = window.scrollY;
@@ -58,23 +61,30 @@ const Header = (props: IHeader) => {
                                 <ul className="flex">
                                     {primaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
                                         <li key={`primaryMenuItem_${index}`}>
-                                            <a href={menuItem?.link}>{menuItem?.title}</a>
+                                            <LinkWrapper href={menuItem?.link}>{menuItem?.title}</LinkWrapper>
                                         </li>
                                     ))}
                                 </ul>
                             </div>
-                            <a href="/" className={style.logo}>
+                            <LinkWrapper href="/" className={style.logo}>
                                 <img src={logo} alt="site logo" />
-                            </a>
+                            </LinkWrapper>
                             <ul className={`${style.secondaryNav} flex-end`}>
                                 {secondaryMenu?.map((menuItem: ISingleNavItem, index: number) => (
                                     <SecondaryNavItem
                                         key={`secondaryNav_${index}`}
                                         menuItem={menuItem}
-                                        cartCount={cartItemsCount}
-                                        wishlistCount={wishlistItemsCount}
+                                        cartCount={cart?.products?.length || 0}
+                                        wishlistCount={wishlist?.length || 0}
                                     />
                                 ))}
+                                {userId && (
+                                    <li>
+                                        <LinkWrapper href="javascript:void(0)" onClick={handleLogout}>
+                                            <i className="font icon-logout"></i>
+                                        </LinkWrapper>
+                                    </li>
+                                )}
                             </ul>
                         </Container>
                     </div>
@@ -105,7 +115,7 @@ const SecondaryNavItem = (props: ISecondaryNavItem) => {
         case 'bag':
             counter = cartCount;
             break;
-        case 'wishlist':
+        case 'heart':
             counter = wishlistCount;
             break;
         default:
@@ -114,10 +124,10 @@ const SecondaryNavItem = (props: ISecondaryNavItem) => {
 
     return (
         <li>
-            <a href={menuItem?.link}>
+            <LinkWrapper href={menuItem?.link}>
                 <i className={`font icon-${menuItem?.icon}`}></i>
                 {counter > 0 && <span>{counter}</span>}
-            </a>
+            </LinkWrapper>
         </li>
     );
 };

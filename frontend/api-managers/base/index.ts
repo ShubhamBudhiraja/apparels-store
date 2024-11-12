@@ -47,7 +47,17 @@ const useApiCall = () => {
         }
     };
 
-    return { getApi, postApi, patchApi };
+    const deleteApi = async ({ requestUrl, config }: { requestUrl: string; config?: any }) => {
+        try {
+            const res = await Axios.delete(requestUrl, config);
+
+            return res?.data;
+        } catch (e: any) {
+            return e?.response?.data;
+        }
+    };
+
+    return { getApi, postApi, patchApi, deleteApi };
 };
 
 export default useApiCall;
