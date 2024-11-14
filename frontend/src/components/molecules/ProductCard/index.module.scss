@@ -4,6 +4,7 @@
 .cardWrapper {
     width: 100%;
     cursor: pointer;
+    display: block;
 
     .thumbnail {
         width: 100%;
@@ -11,10 +12,8 @@
         margin-bottom: 1rem;
         overflow: hidden;
         position: relative;
-
-        img {
-            object-fit: cover;
-        }
+        background-size: cover;
+        background-position: center;
 
         span {
             position: absolute;

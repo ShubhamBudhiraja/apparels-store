@@ -15,8 +15,6 @@ const CartControllers = () => {
             (userDetails.cart.products[productIndex].offerPrice ||
                 userDetails.cart.products[productIndex].price);
 
-        userDetails.cart.products.splice(productIndex, 1);
-
         const wishListProductIndex = userDetails.wishlist.findIndex(
             (prod) =>
                 prod.productId ===
@@ -25,6 +23,8 @@ const CartControllers = () => {
 
         if (wishListProductIndex !== -1)
             userDetails.wishlist[wishListProductIndex].inCart = false;
+
+        userDetails.cart.products.splice(productIndex, 1);
 
         return await UserModel.findOneAndUpdate(
             { userId: userDetails.userId },
@@ -167,7 +167,7 @@ const CartControllers = () => {
                             case GLOBAL_CONSTANTS.CART_OPERATION.INCREASE:
                                 if (
                                     userDetails.cart.products[productIndex]
-                                        .quantity >= foundProduct.units
+                                        .quantity === foundProduct.units
                                 ) {
                                     console.log("maximum inventory reached");
 

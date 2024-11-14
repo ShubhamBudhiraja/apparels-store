@@ -8,6 +8,9 @@ import LoginModal from '@molecules/LoginModal';
 import { getStorageItem } from '@utils/storage';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
 import useLogin from 'src/lib/customHooks/useLogin';
+import CustomToast from '@atoms/Toast';
+import { useAppDispatch, useAppSelector } from '@store';
+import { ToastActions } from '@store/reducers/toastSlice';
 
 interface ILayout {
     headerData?: any;
@@ -21,8 +24,15 @@ const Layout = (props: ILayout) => {
     const { headerData, footerData, loginModalData, socialIcons, children } = props;
 
     const { storeUser } = useLogin();
+    const { onClose, ...toastProps } = useAppSelector((state) => state.toast);
+    const dispatch = useAppDispatch();
 
     const [showHamburger, setShowHamburger] = useState(false);
+
+    const handleToastClose = () => {
+        onClose?.();
+        dispatch(ToastActions.updateToastState({ show: false }));
+    };
 
     useEffect(() => {
         const userId = getStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
@@ -32,6 +42,7 @@ const Layout = (props: ILayout) => {
     return (
         <body className={showHamburger ? 'overflow-hidden' : ''}>
             <Provider store={store}>
+                <CustomToast onClose={handleToastClose} {...toastProps} />
                 <main>
                     <Header
                         topBar={headerData?.topBar}

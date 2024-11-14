@@ -5,5 +5,6 @@
     "fewPiecesLabel": "Hurry! only $ pieces left in stock",
     "bestSellerLabel": "Best Sellers",
     "submitLabel": "Submit",
-    "invalidEmail": "Please enter a valid email address"
+    "invalidEmail": "Please enter a valid email address",
+    "unknownErroMsg": "Something went wrong"
 }

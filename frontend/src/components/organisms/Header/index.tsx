@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TopBar from './TopBar';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
@@ -19,7 +19,7 @@ const Header = (props: IHeader) => {
         props;
 
     const { userId, cart, wishlist } = useAppSelector((state) => state.userProfile);
-    const { handleLogout } = useLogin();
+    const { handleLogout, initiateLogin } = useLogin();
 
     const [stickyHeader, setStickyHeader] = useState(false);
 
@@ -30,6 +30,16 @@ const Header = (props: IHeader) => {
             setStickyHeader(true);
         } else setStickyHeader(false);
     };
+
+    const handleSecondaryNavClick = useCallback(
+        (e?: any) => {
+            e?.preventDefault();
+            if (!userId) {
+                initiateLogin();
+            }
+        },
+        [userId]
+    );
 
     useEffect(() => {
         document.addEventListener('scroll', () => handleScroll());
@@ -76,6 +86,7 @@ const Header = (props: IHeader) => {
                                         menuItem={menuItem}
                                         cartCount={cart?.products?.length || 0}
                                         wishlistCount={wishlist?.length || 0}
+                                        itemClick={handleSecondaryNavClick}
                                     />
                                 ))}
                                 {userId && (
@@ -104,10 +115,11 @@ interface ISecondaryNavItem {
     menuItem: ISingleNavItem;
     cartCount?: number;
     wishlistCount?: number;
+    itemClick?: () => void;
 }
 
 const SecondaryNavItem = (props: ISecondaryNavItem) => {
-    const { menuItem, cartCount = 0, wishlistCount = 0 } = props;
+    const { menuItem, cartCount = 0, wishlistCount = 0, itemClick } = props;
 
     let counter = 0;
 
@@ -124,7 +136,7 @@ const SecondaryNavItem = (props: ISecondaryNavItem) => {
 
     return (
         <li>
-            <LinkWrapper href={menuItem?.link}>
+            <LinkWrapper href={menuItem?.link} onClick={itemClick}>
                 <i className={`font icon-${menuItem?.icon}`}></i>
                 {counter > 0 && <span>{counter}</span>}
             </LinkWrapper>

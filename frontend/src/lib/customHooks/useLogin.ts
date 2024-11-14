@@ -10,8 +10,8 @@ const useLogin = () => {
     const dispatch = useAppDispatch();
     const { getProfileData } = useProfileApi();
 
-    const initiateLogin = ({ successCallback }: { successCallback?: (data?: ILoginModalSuccess) => void }) => {
-        dispatch(LoginModalActions.updateModalState({ show: true, onSuccess: successCallback }));
+    const initiateLogin = (loginProps?: { successCallback?: (data?: ILoginModalSuccess) => void }) => {
+        dispatch(LoginModalActions.updateModalState({ show: true, onSuccess: loginProps?.successCallback }));
     };
 
     const storeUser = async ({ userId }: { userId: string }) => {
@@ -25,6 +25,9 @@ const useLogin = () => {
             });
             dispatch(UserDataActions.updateCustomerDetails(profileRes?.responseBody));
             return true;
+        } else {
+            removeStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
+            return false;
         }
     };
 

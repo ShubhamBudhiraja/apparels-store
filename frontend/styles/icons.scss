@@ -1,10 +1,10 @@
 @font-face {
     font-family: "icons";
-    src: url("../public/fonts/icons.ttf?e45bb7adb26b63201dc2317ea11ff1dc") format("truetype"),
-url("../public/fonts/icons.woff?e45bb7adb26b63201dc2317ea11ff1dc") format("woff"),
-url("../public/fonts/icons.woff2?e45bb7adb26b63201dc2317ea11ff1dc") format("woff2"),
-url("../public/fonts/icons.svg?e45bb7adb26b63201dc2317ea11ff1dc#icons") format("svg"),
-url("../public/fonts/icons.eot?e45bb7adb26b63201dc2317ea11ff1dc#iefix") format("embedded-opentype");
+    src: url("../public/fonts/icons.ttf?e083764fa48c2796e34cf0a304cb33f8") format("truetype"),
+url("../public/fonts/icons.woff?e083764fa48c2796e34cf0a304cb33f8") format("woff"),
+url("../public/fonts/icons.woff2?e083764fa48c2796e34cf0a304cb33f8") format("woff2"),
+url("../public/fonts/icons.svg?e083764fa48c2796e34cf0a304cb33f8#icons") format("svg"),
+url("../public/fonts/icons.eot?e083764fa48c2796e34cf0a304cb33f8#iefix") format("embedded-opentype");
 }
 
 .font:before {
@@ -30,39 +30,45 @@ url("../public/fonts/icons.eot?e45bb7adb26b63201dc2317ea11ff1dc#iefix") format("
 .font.icon-twitter:before {
     content: "\f104";
 }
-.font.icon-search:before {
+.font.icon-tick:before {
     content: "\f105";
 }
-.font.icon-right:before {
+.font.icon-search:before {
     content: "\f106";
 }
-.font.icon-person:before {
+.font.icon-right:before {
     content: "\f107";
 }
-.font.icon-logout:before {
+.font.icon-person:before {
     content: "\f108";
 }
-.font.icon-left:before {
+.font.icon-logout:before {
     content: "\f109";
 }
-.font.icon-instagram:before {
+.font.icon-left:before {
     content: "\f10a";
 }
-.font.icon-heart:before {
+.font.icon-instagram:before {
     content: "\f10b";
 }
-.font.icon-heart-filled:before {
+.font.icon-heart:before {
     content: "\f10c";
 }
-.font.icon-facebook:before {
+.font.icon-heart-filled:before {
     content: "\f10d";
 }
-.font.icon-down:before {
+.font.icon-facebook:before {
     content: "\f10e";
 }
-.font.icon-bag:before {
+.font.icon-down:before {
     content: "\f10f";
 }
-.font.icon-bag-filled:before {
+.font.icon-cross:before {
     content: "\f110";
+}
+.font.icon-bag:before {
+    content: "\f111";
+}
+.font.icon-bag-filled:before {
+    content: "\f112";
 }

@@ -6,29 +6,22 @@ const useProductsAPI = () => {
     const { getApi, postApi, patchApi, deleteApi } = useApiCall();
 
     const getProducts = async (params?: any) => {
-        try {
-            const res = await getApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.GET_ALL_PRODUCTS}`,
-                config: { params },
-            });
+        const res = await getApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.GET_ALL_PRODUCTS}`,
+            config: { params },
+            showErrorPopup: false,
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     const addToCart = async ({ productId, userId }: { productId: string; userId: string }) => {
-        try {
-            const res = await postApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.ADD_TO_CART}`,
-                requestPayload: { userId, prodId: productId },
-            });
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.ADD_TO_CART}`,
+            requestPayload: { userId, prodId: productId },
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     const updateCart = async ({
@@ -40,55 +33,39 @@ const useProductsAPI = () => {
         userId: string;
         operation: CART_PRODUCT_OPERATION;
     }) => {
-        try {
-            const res = await patchApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.UPDATE_CART}`,
-                requestPayload: { userId, prodId: productId, operation },
-            });
+        const res = await patchApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.UPDATE_CART}`,
+            requestPayload: { userId, prodId: productId, operation },
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     const removeFromCart = async ({ productId, userId }: { productId: string; userId: string }) => {
-        try {
-            const res = await deleteApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_CART}`,
-                config: { params: { userId, prodId: productId } },
-            });
+        const res = await deleteApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_CART}`,
+            config: { params: { userId, prodId: productId } },
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     const addToWishlist = async ({ productId, userId }: { productId: string; userId: string }) => {
-        try {
-            const res = await postApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.ADD_TO_WISHLIST}`,
-                requestPayload: { userId, prodId: productId },
-            });
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.ADD_TO_WISHLIST}`,
+            requestPayload: { userId, prodId: productId },
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     const removeFromWishlist = async ({ productId, userId }: { productId: string; userId: string }) => {
-        try {
-            const res = await deleteApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_WISHLIST}`,
-                config: { params: { userId, prodId: productId } },
-            });
+        const res = await deleteApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_WISHLIST}`,
+            config: { params: { userId, prodId: productId } },
+        });
 
-            return res;
-        } catch (e) {
-            return false;
-        }
+        return res;
     };
 
     return { getProducts, addToCart, updateCart, removeFromCart, addToWishlist, removeFromWishlist };

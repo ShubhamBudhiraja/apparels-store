@@ -3,6 +3,7 @@ export type IconsId =
   | "wishlist"
   | "user"
   | "twitter"
+  | "tick"
   | "search"
   | "right"
   | "person"
@@ -13,6 +14,7 @@ export type IconsId =
   | "heart-filled"
   | "facebook"
   | "down"
+  | "cross"
   | "bag"
   | "bag-filled";
 
@@ -21,6 +23,7 @@ export type IconsKey =
   | "Wishlist"
   | "User"
   | "Twitter"
+  | "Tick"
   | "Search"
   | "Right"
   | "Person"
@@ -31,6 +34,7 @@ export type IconsKey =
   | "HeartFilled"
   | "Facebook"
   | "Down"
+  | "Cross"
   | "Bag"
   | "BagFilled";
 
@@ -39,6 +43,7 @@ export enum Icons {
   Wishlist = "wishlist",
   User = "user",
   Twitter = "twitter",
+  Tick = "tick",
   Search = "search",
   Right = "right",
   Person = "person",
@@ -49,6 +54,7 @@ export enum Icons {
   HeartFilled = "heart-filled",
   Facebook = "facebook",
   Down = "down",
+  Cross = "cross",
   Bag = "bag",
   BagFilled = "bag-filled",
 }
@@ -58,16 +64,18 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Wishlist]: "61698",
   [Icons.User]: "61699",
   [Icons.Twitter]: "61700",
-  [Icons.Search]: "61701",
-  [Icons.Right]: "61702",
-  [Icons.Person]: "61703",
-  [Icons.Logout]: "61704",
-  [Icons.Left]: "61705",
-  [Icons.Instagram]: "61706",
-  [Icons.Heart]: "61707",
-  [Icons.HeartFilled]: "61708",
-  [Icons.Facebook]: "61709",
-  [Icons.Down]: "61710",
-  [Icons.Bag]: "61711",
-  [Icons.BagFilled]: "61712",
+  [Icons.Tick]: "61701",
+  [Icons.Search]: "61702",
+  [Icons.Right]: "61703",
+  [Icons.Person]: "61704",
+  [Icons.Logout]: "61705",
+  [Icons.Left]: "61706",
+  [Icons.Instagram]: "61707",
+  [Icons.Heart]: "61708",
+  [Icons.HeartFilled]: "61709",
+  [Icons.Facebook]: "61710",
+  [Icons.Down]: "61711",
+  [Icons.Cross]: "61712",
+  [Icons.Bag]: "61713",
+  [Icons.BagFilled]: "61714",
 };
