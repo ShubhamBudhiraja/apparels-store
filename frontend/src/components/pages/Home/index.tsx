@@ -49,7 +49,7 @@ const Home = (props: IHome) => {
                         ))}
                     </div>
                 </SectionWrapper>
-                {allProducts && (
+                {allProducts.length > 0 && (
                     <SectionWrapper>
                         <SectionHeader heading={dictionary?.bestSellerLabel} className="text-center" />
                         <ProductsCarousel productsList={allProducts} />

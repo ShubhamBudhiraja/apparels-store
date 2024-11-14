@@ -6,29 +6,21 @@ const useProfileApi = () => {
     const { getApi, patchApi } = useApiCall();
 
     const getProfileData = async ({ userId }: { userId: string }) => {
-        try {
-            const res = await getApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.GET_PROFILE}`,
-                config: { params: { userId } },
-            });
+        const res = await getApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.GET_PROFILE}`,
+            config: { params: { userId } },
+        });
 
-            return res;
-        } catch (e) {
-            return null;
-        }
+        return res;
     };
 
     const updateProfileData = async (payload: IUserData) => {
-        try {
-            const res = await patchApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.GET_PROFILE}`,
-                requestPayload: payload,
-            });
+        const res = await patchApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.GET_PROFILE}`,
+            requestPayload: payload,
+        });
 
-            return res;
-        } catch (e) {
-            return null;
-        }
+        return res;
     };
 
     return { getProfileData, updateProfileData };

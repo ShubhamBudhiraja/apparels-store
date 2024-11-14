@@ -60,33 +60,33 @@ const SignupForm = (props: ISignupForm) => {
 
     return (
         <Form className={style.formWrapper} onSubmit={handleSubmit(handleSignupSubmit)}>
-            {formData?.[0]?.id && (
+            <Controller
+                control={control}
+                name="emailId"
+                rules={{
+                    required: dictionary?.requiredFieldError,
+                    pattern: { value: VALIDATIONS.EMAIL, message: dictionary?.invalidEmail },
+                }}
+                render={({ field: { value, onChange }, fieldState: { error } }) => (
+                    <TextInput
+                        placeholder={formData?.[0]?.placeholder}
+                        controlProps={{ value: value }}
+                        onChange={onChange}
+                        error={error?.message}
+                        className={style.customInput}
+                        disabled={step === 2}
+                    />
+                )}
+            />
+
+            {step === 1 && (
                 <Controller
                     control={control}
-                    name={formData?.[0]?.id}
-                    rules={{
-                        required: dictionary?.requiredFieldError,
-                        pattern: { value: VALIDATIONS.EMAIL, message: dictionary?.invalidEmail },
-                    }}
-                    render={({ field: { value, onChange }, fieldState: { error } }) => (
-                        <TextInput
-                            placeholder={formData?.[0]?.placeholder}
-                            controlProps={{ value: value }}
-                            onChange={onChange}
-                            error={error?.message}
-                            className={style.customInput}
-                            disabled={step === 2}
-                        />
-                    )}
-                />
-            )}
-            {formData?.[1]?.id && step === 1 && (
-                <Controller
-                    control={control}
-                    name={formData?.[1]?.id}
+                    name="password"
                     rules={{ required: dictionary?.requiredFieldError }}
                     render={({ field: { value, onChange }, fieldState: { error } }) => (
                         <TextInput
+                            type="password"
                             placeholder={formData?.[1]?.placeholder}
                             controlProps={{ value: value }}
                             onChange={onChange}
@@ -96,10 +96,10 @@ const SignupForm = (props: ISignupForm) => {
                     )}
                 />
             )}
-            {formData?.[2]?.id && step === 2 && (
+            {step === 2 && (
                 <Controller
                     control={control}
-                    name={formData?.[2]?.id}
+                    name="otp"
                     rules={{ required: dictionary?.requiredFieldError }}
                     render={({ field: { value, onChange }, fieldState: { error } }) => (
                         <TextInput

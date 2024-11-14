@@ -48,3 +48,12 @@ export interface IFooterData {
     siteInfo?: { logo?: string; address?: string; email?: string; phone?: string; quickMenu?: IFooterQuickMenu[] };
     copyrightInfo?: string;
 }
+
+export interface IToast {
+    show?: boolean;
+    title?: string;
+    description?: string;
+    autohide?: boolean;
+    autohideDelay?: number;
+    onClose?: () => void;
+}

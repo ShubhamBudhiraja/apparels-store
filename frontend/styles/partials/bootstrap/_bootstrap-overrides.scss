@@ -13,6 +13,56 @@
     }
 }
 
+.toast {
+    position: fixed;
+    background-color: $black;
+    z-index: 9999;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    padding: 1rem;
+    @include toRem(width, 420);
+    border-radius: 0.75rem;
+
+    .toast-header {
+        background-color: $black;
+        padding: 0;
+        border: unset;
+        justify-content: space-between;
+
+        h5 {
+            color: $white;
+            font-size: 1.125rem;
+            line-height: 1.25rem;
+        }
+    }
+
+    .toast-body {
+        padding: 0;
+
+        p {
+            color: $white;
+            font-size: 0.875rem;
+            line-height: 1rem;
+        }
+    }
+
+    .close-icon {
+        cursor: pointer;
+        color: $white;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        font-size: 0.75rem;
+        line-height: 0;
+    }
+}
+
+.btn:focus-visible {
+    box-shadow: unset;
+}
+
 .btn-secondary {
     background-color: $color222;
     border-color: $color222;

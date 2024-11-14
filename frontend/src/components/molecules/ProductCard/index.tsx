@@ -35,47 +35,43 @@ const ProductCard = (productData: IProductData) => {
         if (units > 0 && units < 10) return dictionary?.fewPiecesLabel?.replace('$', units);
     }, [units]);
 
-    const handleCtaClick = useCallback(
-        async (e: any, iconName: string) => {
-            e.preventDefault();
-            if (productId)
-                switch (iconName) {
-                    case 'search':
-                        router.push(`/shop/${productId}`);
-                        break;
-                    case 'bag':
-                        if (userId) await handleAddToCart({ userId: userId, product: productData });
-                        else
-                            initiateLogin({
-                                successCallback: (data?: ILoginModalSuccess) =>
-                                    handleAddToCart({ userId: data?.userId, product: productData }),
-                            });
-                        break;
-                    case 'heart':
-                        if (userId) await handleAddToWishlist({ userId: userId, product: productData });
-                        else
-                            initiateLogin({
-                                successCallback: (data?: ILoginModalSuccess) =>
-                                    handleAddToWishlist({ userId: data?.userId, product: productData }),
-                            });
-                        break;
-                    case 'bag-filled':
-                        await handleRemoveFromCart({ userId: userId, product: productData });
-                        break;
-                    case 'heart-filled':
-                        await handleRemoveFromWishlist({ userId: userId, product: productData });
-                        break;
-                    default:
-                        break;
-                }
-        },
-        [userId, productId]
-    );
+    const handleCtaClick = async (e: any, iconName: string) => {
+        e.preventDefault();
+        if (productId)
+            switch (iconName) {
+                case 'search':
+                    router.push(`/shop/${productId}`);
+                    break;
+                case 'bag':
+                    if (userId) await handleAddToCart({ userId: userId, product: productData });
+                    else
+                        initiateLogin({
+                            successCallback: (data?: ILoginModalSuccess) =>
+                                handleAddToCart({ userId: data?.userId, product: productData }),
+                        });
+                    break;
+                case 'heart':
+                    if (userId) await handleAddToWishlist({ userId: userId, product: productData });
+                    else
+                        initiateLogin({
+                            successCallback: (data?: ILoginModalSuccess) =>
+                                handleAddToWishlist({ userId: data?.userId, product: productData }),
+                        });
+                    break;
+                case 'bag-filled':
+                    await handleRemoveFromCart({ userId: userId, product: productData });
+                    break;
+                case 'heart-filled':
+                    await handleRemoveFromWishlist({ userId: userId, product: productData });
+                    break;
+                default:
+                    break;
+            }
+    };
 
     return (
         <Link className={style.cardWrapper} href={`/shop/${productId}`}>
-            <div className={style.thumbnail}>
-                <img src={images?.[0]} alt="productImage" />
+            <div className={style.thumbnail} style={{ backgroundImage: `url("${images?.[0]}")` }}>
                 {discountPercentage > 0 && <span>{formatDiscount(discountPercentage, true)}</span>}
                 {units !== 0 && (
                     <div className={style.cta}>

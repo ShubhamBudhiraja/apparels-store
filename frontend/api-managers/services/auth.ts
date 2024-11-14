@@ -5,42 +5,31 @@ const useAuthApi = () => {
     const { postApi } = useApiCall();
 
     const login = async (payload: { userId: string; password: string }) => {
-        try {
-            const res = await postApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.LOGIN}`,
-                requestPayload: payload,
-            });
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.LOGIN}`,
+            requestPayload: payload,
+        });
 
-            return res;
-        } catch (e) {
-            return null;
-        }
+        return res;
     };
 
     const signUp = async (payload: { userId: string; password: string }) => {
-        try {
-            const res = await postApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.REGISTER}`,
-                requestPayload: payload,
-            });
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.REGISTER}`,
+            requestPayload: payload,
+        });
 
-            return res;
-        } catch (e) {
-            return null;
-        }
+        return res;
     };
 
     const validateOtp = async (payload: { userId: string; otp: string; screenType?: string }) => {
-        try {
-            const res = await postApi({
-                requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.VALIDATE_OTP}`,
-                requestPayload: payload,
-            });
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.VALIDATE_OTP}`,
+            requestPayload: payload,
+            showErrorPopup: false,
+        });
 
-            return res;
-        } catch (e) {
-            return null;
-        }
+        return res;
     };
 
     return { login, signUp, validateOtp };
