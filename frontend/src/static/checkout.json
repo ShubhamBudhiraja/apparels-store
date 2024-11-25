@@ -1,0 +1,17 @@
+{
+    "header": [
+        { "title": "Cart", "link": "/cart", "subtitle": "Review cart", "description": "Manage your selected items" },
+        {
+            "title": "Shipping",
+            "link": "/shipping-details",
+            "subtitle": "Select Address",
+            "description": "Add/change/select delivery address"
+        },
+        {
+            "title": "Payment",
+            "link": "/payment",
+            "subtitle": "Make Payment",
+            "description": "Pay using your preferred mode"
+        }
+    ]
+}

@@ -1,10 +1,10 @@
 @font-face {
     font-family: "icons";
-    src: url("../public/fonts/icons.ttf?e083764fa48c2796e34cf0a304cb33f8") format("truetype"),
-url("../public/fonts/icons.woff?e083764fa48c2796e34cf0a304cb33f8") format("woff"),
-url("../public/fonts/icons.woff2?e083764fa48c2796e34cf0a304cb33f8") format("woff2"),
-url("../public/fonts/icons.svg?e083764fa48c2796e34cf0a304cb33f8#icons") format("svg"),
-url("../public/fonts/icons.eot?e083764fa48c2796e34cf0a304cb33f8#iefix") format("embedded-opentype");
+    src: url("../public/fonts/icons.ttf?d01e09d145c8987506e574c19379379c") format("truetype"),
+url("../public/fonts/icons.woff?d01e09d145c8987506e574c19379379c") format("woff"),
+url("../public/fonts/icons.woff2?d01e09d145c8987506e574c19379379c") format("woff2"),
+url("../public/fonts/icons.svg?d01e09d145c8987506e574c19379379c#icons") format("svg"),
+url("../public/fonts/icons.eot?d01e09d145c8987506e574c19379379c#iefix") format("embedded-opentype");
 }
 
 .font:before {
@@ -24,51 +24,72 @@ url("../public/fonts/icons.eot?e083764fa48c2796e34cf0a304cb33f8#iefix") format("
 .font.icon-wishlist:before {
     content: "\f102";
 }
-.font.icon-user:before {
+.font.icon-wallet:before {
     content: "\f103";
 }
-.font.icon-twitter:before {
+.font.icon-user:before {
     content: "\f104";
 }
-.font.icon-tick:before {
+.font.icon-twitter:before {
     content: "\f105";
 }
-.font.icon-search:before {
+.font.icon-tick:before {
     content: "\f106";
 }
-.font.icon-right:before {
+.font.icon-star:before {
     content: "\f107";
 }
-.font.icon-person:before {
+.font.icon-star-half:before {
     content: "\f108";
 }
-.font.icon-logout:before {
+.font.icon-star-filled:before {
     content: "\f109";
 }
-.font.icon-left:before {
+.font.icon-search:before {
     content: "\f10a";
 }
-.font.icon-instagram:before {
+.font.icon-right:before {
     content: "\f10b";
 }
-.font.icon-heart:before {
+.font.icon-replace:before {
     content: "\f10c";
 }
-.font.icon-heart-filled:before {
+.font.icon-person:before {
     content: "\f10d";
 }
-.font.icon-facebook:before {
+.font.icon-logout:before {
     content: "\f10e";
 }
-.font.icon-down:before {
+.font.icon-left:before {
     content: "\f10f";
 }
-.font.icon-cross:before {
+.font.icon-instagram:before {
     content: "\f110";
 }
-.font.icon-bag:before {
+.font.icon-heart:before {
     content: "\f111";
 }
-.font.icon-bag-filled:before {
+.font.icon-heart-filled:before {
     content: "\f112";
+}
+.font.icon-facebook:before {
+    content: "\f113";
+}
+.font.icon-down:before {
+    content: "\f114";
+}
+.font.icon-delivery:before {
+    content: "\f115";
+}
+.font.icon-delete:before {
+    content: "\f116";
+}
+.font.icon-cross:before {
+    content: "\f117";
+}
+.font.icon-bag:before {
+    content: "\f118";
+}
+.font.icon-bag-filled:before {
+    content: "\f119";
 }

@@ -1,0 +1,9 @@
+@import '@styles/partials/variables';
+
+.stars {
+    column-gap: 0.25rem;
+
+    i {
+        color: $star;
+    }
+}

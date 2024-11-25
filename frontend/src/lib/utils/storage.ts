@@ -9,8 +9,7 @@ const getCookies = (key: string) => {
 
 const removeCookies = (key: string) => {
     const cookies = new Cookies();
-    const val = cookies.remove(key);
-    return val;
+    cookies.remove(key, { path: '/' });
 };
 
 const setCookies = ({ key, value, expiryDays }: { key: string; value: string; expiryDays?: number }) => {

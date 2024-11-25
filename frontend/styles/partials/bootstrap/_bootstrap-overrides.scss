@@ -40,11 +40,12 @@
 
     .toast-body {
         padding: 0;
+        @include toRem(width, 368);
 
         p {
             color: $white;
             font-size: 0.875rem;
-            line-height: 1rem;
+            line-height: 1.125rem;
         }
     }
 

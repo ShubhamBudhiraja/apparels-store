@@ -2,9 +2,11 @@
     "continueLabel": "Continue",
     "cancelLabel": "Cancel",
     "requiredFieldError": "This field is required",
-    "fewPiecesLabel": "Hurry! only $ pieces left in stock",
-    "bestSellerLabel": "Best Sellers",
+    "fewPiecesLabel": "Hurry! only $ piece(s) left in stock",
+    "newArrivalsLabel": "New Arrivals",
     "submitLabel": "Submit",
     "invalidEmail": "Please enter a valid email address",
-    "unknownErroMsg": "Something went wrong"
+    "unknownErroMsg": "Something went wrong",
+    "reviewsLabel": "reviews",
+    "variantError": "Please select a variant"
 }

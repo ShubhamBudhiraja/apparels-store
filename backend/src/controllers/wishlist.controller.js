@@ -49,7 +49,6 @@ const WishlistControllers = () => {
                             price,
                             offerPrice,
                             thumbnail,
-                            units,
                         } = foundProduct;
                         const productDetails = {
                             productId,
@@ -57,8 +56,6 @@ const WishlistControllers = () => {
                             price,
                             offerPrice,
                             thumbnail,
-                            isAvailable: units > 0,
-                            inCart: prodPosInCart !== -1,
                         };
                         userDetails.wishlist = [
                             productDetails,

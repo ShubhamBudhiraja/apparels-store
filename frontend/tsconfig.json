@@ -27,6 +27,8 @@
       "@molecules/*": ["src/components/molecules/*"],
       "@organisms": ["src/components/molecules"],
       "@organisms/*": ["src/components/molecules/*"],
+      "@pages": ["src/components/pages"],
+      "@pages/*": ["src/components/pages/*"],
       "@styles": ["styles"],
       "@styles/*": ["styles/*"],
       "@utils": ["src/lib/utils"],

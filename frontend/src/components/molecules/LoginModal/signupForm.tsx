@@ -59,7 +59,7 @@ const SignupForm = (props: ISignupForm) => {
     };
 
     return (
-        <Form className={style.formWrapper} onSubmit={handleSubmit(handleSignupSubmit)}>
+        <Form className={style.formWrapper} onSubmit={handleSubmit(handleSignupSubmit)} key="signup">
             <Controller
                 control={control}
                 name="emailId"

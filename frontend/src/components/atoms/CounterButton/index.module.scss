@@ -1,0 +1,21 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.updateBtn {
+    @include toRem(width, 160);
+    background-color: $black;
+    border-radius: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    color: $white;
+    font-size: 1.125rem;
+    @include toRem(line-height, 44);
+    border: unset;
+
+    span {
+        &.counter {
+            cursor: pointer;
+            padding: 0 1.25rem;
+        }
+    }
+}

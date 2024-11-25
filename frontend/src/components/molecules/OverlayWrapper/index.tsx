@@ -20,6 +20,7 @@ const OverlayWrapper = (props: IOverlayWrapper) => {
         isOffCanvas = true,
         offCanvasHeight,
         bodyClassName = '',
+        wrapperClassName = '',
     } = props;
 
     const { deviceType } = useDeviceType();
@@ -36,7 +37,14 @@ const OverlayWrapper = (props: IOverlayWrapper) => {
             {children}
         </OffCanvas>
     ) : (
-        <Popup show={show} onHide={onHide} heading={heading} headerProps={headerProps} bodyClassName={bodyClassName}>
+        <Popup
+            show={show}
+            onHide={onHide}
+            heading={heading}
+            headerProps={headerProps}
+            bodyClassName={bodyClassName}
+            wrapperClassName={wrapperClassName}
+        >
             {children}
         </Popup>
     );

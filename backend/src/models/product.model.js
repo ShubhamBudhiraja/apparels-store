@@ -1,21 +1,24 @@
 const { default: mongoose } = require("mongoose");
 
 const prouctSchema = new mongoose.Schema({
-    productId: String,
-    title: String,
+    productId: { type: String, required: true },
+    title: { type: String, required: true },
+    price: { type: Number, required: true },
+    segment: { type: String, required: true },
+    category: { type: String, required: true },
+    variants: [
+        {
+            id: { type: String, required: true },
+            units: { type: Number, required: true },
+        },
+    ],
     description: String,
     shortDescription: String,
-    price: Number,
     offerPrice: Number,
     discountPercentage: Number,
     discountAmount: Number,
-    units: Number,
     images: [String],
     thumbnail: String,
-    ratings: Number,
-    ratingsCount: Number,
-    category: String,
-    subCategory: String,
 });
 
 const ProductModel = mongoose.model("productsModel", prouctSchema);
