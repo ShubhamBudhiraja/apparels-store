@@ -4,7 +4,13 @@ const CartControllers = require("../controllers/cart.controller");
 const WishlistControllers = require("../controllers/wishlist.controller");
 
 const ProductRoutes = express.Router();
-const { addProduct, removeProduct, getAllProducts } = ProductControllers();
+const {
+    addProduct,
+    removeProduct,
+    getAllProducts,
+    getProductDetails,
+    getRelatedProducts,
+} = ProductControllers();
 const { addToCart, deleteFromCart, updateCart } = CartControllers();
 const { addToWishlist, deleteFromWishlist } = WishlistControllers();
 
@@ -12,6 +18,8 @@ const { addToWishlist, deleteFromWishlist } = WishlistControllers();
 ProductRoutes.post("/add-to-inventory", addProduct);
 ProductRoutes.delete("/remove-from-inventory", removeProduct);
 ProductRoutes.get("/get-all-products", getAllProducts);
+ProductRoutes.get("/get-product-details", getProductDetails);
+ProductRoutes.get("/get-related-products", getRelatedProducts);
 
 // cart
 ProductRoutes.post("/add-to-cart", addToCart);

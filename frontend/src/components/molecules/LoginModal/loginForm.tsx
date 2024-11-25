@@ -40,7 +40,7 @@ const LoginForm = (props: ILoginForm) => {
     };
 
     return (
-        <Form className={style.formWrapper} onSubmit={handleSubmit(handleLoginSubmit)}>
+        <Form className={style.formWrapper} onSubmit={handleSubmit(handleLoginSubmit)} key="login">
             <Controller
                 control={control}
                 name="emailId"

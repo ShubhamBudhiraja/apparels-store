@@ -1,0 +1,34 @@
+@import '@styles/partials/mixins';
+@import '@styles/partials/variables';
+
+.singleReview {
+    border-top: 0.063rem solid $borderColor;
+    padding: 0.75rem 0;
+
+    &:last-child {
+        border-bottom: 0.063rem solid $borderColor;
+    }
+
+    .reviewHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h6 {
+            font-size: 1.125rem;
+            font-weight: normal;
+        }
+    }
+
+    .date {
+        @include toRem(margin-bottom, 6);
+        display: block;
+        font-size: 0.75rem;
+        color: $color76;
+    }
+
+    p {
+        font-size: 0.875rem;
+        color: $color73;
+    }
+}

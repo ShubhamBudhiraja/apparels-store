@@ -3,15 +3,19 @@ export interface IProductData {
     title?: string;
     description?: string;
     shortDescription?: string;
-    price?: number;
+    price: number;
     offerPrice?: number;
     discountPercentage?: number;
     discountAmount?: number;
     currencySymbol?: string;
     images?: string[];
+    thumbnail?: string;
     units?: number;
     rating?: number;
     ratingsCount?: number;
-    isWishlisted?: boolean;
-    isInCart?: boolean;
+    inWishlist?: boolean;
+    isAvailable?: boolean;
+    quantity: number;
+    segment?: string;
+    selectedVariant?: string;
 }

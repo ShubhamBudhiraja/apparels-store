@@ -41,10 +41,7 @@ const ProductsCarousel = (props: IProductsCarousel) => {
                     <ProductCard
                         key={`product_${index}`}
                         {...product}
-                        isInCart={
-                            !!cart?.products?.find((item: IProductData) => item?.productId === product?.productId)
-                        }
-                        isWishlisted={!!wishlist?.find((item: IProductData) => item?.productId === product?.productId)}
+                        inWishlist={!!wishlist?.find((item: IProductData) => item?.productId === product?.productId)}
                     />
                 </>
             ))}

@@ -1,7 +1,7 @@
 import { IUserData } from '@interface/user';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState: IUserData = {};
+const initialState: IUserData = { cart: { total: 0, cartTotal: 0, discount: 0, products: [] } };
 
 const userProfileSlice = createSlice({
     name: 'userProfileSlice',

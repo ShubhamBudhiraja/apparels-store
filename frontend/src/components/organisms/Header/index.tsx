@@ -7,6 +7,7 @@ import { useAppSelector } from '@store';
 import { IHeaderData, ISingleNavItem, ISocialIcons } from '@interface/layout';
 import useLogin from '@customHooks/useLogin';
 import LinkWrapper from '@atoms/LinkWrapper';
+import { useRouter } from 'next/navigation';
 
 interface IHeader extends IHeaderData {
     socialIcons?: ISocialIcons[];
@@ -20,6 +21,7 @@ const Header = (props: IHeader) => {
 
     const { userId, cart, wishlist } = useAppSelector((state) => state.userProfile);
     const { handleLogout, initiateLogin } = useLogin();
+    const router = useRouter();
 
     const [stickyHeader, setStickyHeader] = useState(false);
 
@@ -31,15 +33,12 @@ const Header = (props: IHeader) => {
         } else setStickyHeader(false);
     };
 
-    const handleSecondaryNavClick = useCallback(
-        (e?: any) => {
-            e?.preventDefault();
-            if (!userId) {
-                initiateLogin();
-            }
-        },
-        [userId]
-    );
+    const handleSecondaryNavClick = (e?: any, url?: string) => {
+        e?.preventDefault();
+        if (!userId) {
+            initiateLogin();
+        } else if (url) router.push(url);
+    };
 
     useEffect(() => {
         document.addEventListener('scroll', () => handleScroll());
@@ -115,7 +114,7 @@ interface ISecondaryNavItem {
     menuItem: ISingleNavItem;
     cartCount?: number;
     wishlistCount?: number;
-    itemClick?: () => void;
+    itemClick?: (e?: any, url?: string) => void;
 }
 
 const SecondaryNavItem = (props: ISecondaryNavItem) => {
@@ -136,7 +135,7 @@ const SecondaryNavItem = (props: ISecondaryNavItem) => {
 
     return (
         <li>
-            <LinkWrapper href={menuItem?.link} onClick={itemClick}>
+            <LinkWrapper href={menuItem?.link} onClick={(e: any) => itemClick?.(e, menuItem?.link)}>
                 <i className={`font icon-${menuItem?.icon}`}></i>
                 {counter > 0 && <span>{counter}</span>}
             </LinkWrapper>

@@ -1,11 +1,16 @@
 export type IconsId =
   | "youtube"
   | "wishlist"
+  | "wallet"
   | "user"
   | "twitter"
   | "tick"
+  | "star"
+  | "star-half"
+  | "star-filled"
   | "search"
   | "right"
+  | "replace"
   | "person"
   | "logout"
   | "left"
@@ -14,6 +19,8 @@ export type IconsId =
   | "heart-filled"
   | "facebook"
   | "down"
+  | "delivery"
+  | "delete"
   | "cross"
   | "bag"
   | "bag-filled";
@@ -21,11 +28,16 @@ export type IconsId =
 export type IconsKey =
   | "Youtube"
   | "Wishlist"
+  | "Wallet"
   | "User"
   | "Twitter"
   | "Tick"
+  | "Star"
+  | "StarHalf"
+  | "StarFilled"
   | "Search"
   | "Right"
+  | "Replace"
   | "Person"
   | "Logout"
   | "Left"
@@ -34,6 +46,8 @@ export type IconsKey =
   | "HeartFilled"
   | "Facebook"
   | "Down"
+  | "Delivery"
+  | "Delete"
   | "Cross"
   | "Bag"
   | "BagFilled";
@@ -41,11 +55,16 @@ export type IconsKey =
 export enum Icons {
   Youtube = "youtube",
   Wishlist = "wishlist",
+  Wallet = "wallet",
   User = "user",
   Twitter = "twitter",
   Tick = "tick",
+  Star = "star",
+  StarHalf = "star-half",
+  StarFilled = "star-filled",
   Search = "search",
   Right = "right",
+  Replace = "replace",
   Person = "person",
   Logout = "logout",
   Left = "left",
@@ -54,6 +73,8 @@ export enum Icons {
   HeartFilled = "heart-filled",
   Facebook = "facebook",
   Down = "down",
+  Delivery = "delivery",
+  Delete = "delete",
   Cross = "cross",
   Bag = "bag",
   BagFilled = "bag-filled",
@@ -62,20 +83,27 @@ export enum Icons {
 export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Youtube]: "61697",
   [Icons.Wishlist]: "61698",
-  [Icons.User]: "61699",
-  [Icons.Twitter]: "61700",
-  [Icons.Tick]: "61701",
-  [Icons.Search]: "61702",
-  [Icons.Right]: "61703",
-  [Icons.Person]: "61704",
-  [Icons.Logout]: "61705",
-  [Icons.Left]: "61706",
-  [Icons.Instagram]: "61707",
-  [Icons.Heart]: "61708",
-  [Icons.HeartFilled]: "61709",
-  [Icons.Facebook]: "61710",
-  [Icons.Down]: "61711",
-  [Icons.Cross]: "61712",
-  [Icons.Bag]: "61713",
-  [Icons.BagFilled]: "61714",
+  [Icons.Wallet]: "61699",
+  [Icons.User]: "61700",
+  [Icons.Twitter]: "61701",
+  [Icons.Tick]: "61702",
+  [Icons.Star]: "61703",
+  [Icons.StarHalf]: "61704",
+  [Icons.StarFilled]: "61705",
+  [Icons.Search]: "61706",
+  [Icons.Right]: "61707",
+  [Icons.Replace]: "61708",
+  [Icons.Person]: "61709",
+  [Icons.Logout]: "61710",
+  [Icons.Left]: "61711",
+  [Icons.Instagram]: "61712",
+  [Icons.Heart]: "61713",
+  [Icons.HeartFilled]: "61714",
+  [Icons.Facebook]: "61715",
+  [Icons.Down]: "61716",
+  [Icons.Delivery]: "61717",
+  [Icons.Delete]: "61718",
+  [Icons.Cross]: "61719",
+  [Icons.Bag]: "61720",
+  [Icons.BagFilled]: "61721",
 };

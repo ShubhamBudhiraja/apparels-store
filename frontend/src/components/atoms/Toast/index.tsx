@@ -12,7 +12,7 @@ const CustomToast = (props: IToast) => {
                     <h5>{title}</h5>
                 </Toast.Header>
             )}
-            <i className="font icon-cross close-icon" onClick={onClose}></i>
+            {autohide ? <></> : <i className="font icon-cross close-icon" onClick={onClose}></i>}
             {description && (
                 <Toast.Body>
                     <p>{description}</p>

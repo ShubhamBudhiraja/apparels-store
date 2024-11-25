@@ -21,6 +21,7 @@ export interface IOverlay {
     headerProps?: ModalHeaderProps;
     children?: React.ReactNode;
     bodyClassName?: string;
+    wrapperClassName?: string;
 }
 
 export interface IFormData {

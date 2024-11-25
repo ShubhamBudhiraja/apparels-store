@@ -6,20 +6,18 @@
     cursor: pointer;
     display: block;
 
-    .thumbnail {
+    figure {
         width: 100%;
         @include toRem(height, 360);
         margin-bottom: 1rem;
         overflow: hidden;
         position: relative;
-        background-size: cover;
-        background-position: center;
 
-        span {
+        figcaption {
             position: absolute;
             left: 0;
             top: 1rem;
-            background-color: $headerCounter;
+            background-color: $brandColor;
             width: 2.5rem;
             height: 1.25rem;
             color: $white;
@@ -29,42 +27,24 @@
             text-align: right;
         }
 
-        .cta {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        img {
             width: 100%;
-
-            button {
-                top: 0;
-                position: absolute;
-                border-radius: 50%;
-                background-color: $black;
-                border: unset;
-                width: 2.5rem;
-                height: 2.5rem;
-
-                &:first-child {
-                    left: 25%;
-                    transition: 0.3s all ease;
-                }
-
-                &:nth-child(2) {
-                    left: 42%;
-                    transition: 0.4s all ease;
-                }
-
-                &:nth-child(3) {
-                    left: 60%;
-                    transition: 0.5s all ease;
-                }
-            }
         }
     }
 
-    h3 {
-        font-size: 1rem;
-        font-weight: $medium;
+    .productTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        h3 {
+            font-size: 1rem;
+            font-weight: $medium;
+        }
+
+        :global(.icon-heart-filled) {
+            color: $brandColor;
+        }
     }
 
     span {
@@ -76,20 +56,5 @@
         margin-left: 0.25rem;
         text-decoration: line-through;
         color: $red;
-    }
-
-    p {
-        color: $red;
-        font-size: 0.75rem;
-    }
-
-    &:hover {
-        .thumbnail {
-            .cta {
-                button {
-                    @include toRem(top, -56);
-                }
-            }
-        }
     }
 }

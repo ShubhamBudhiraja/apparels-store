@@ -9,10 +9,10 @@ const useGlobalHooks = () => {
 
     const handleError = () => {};
 
-    const handleAPIResponse = (showErrorPopup: boolean, res?: any) => {
+    const handleAPIResponse = (showErrorPopup: boolean, res?: any, autohide = false) => {
         if (!res?.data?.status && showErrorPopup) {
             const toastDescription = res?.data?.message || dictionary?.unknownErroMsg;
-            dispatch(ToastActions.updateToastState({ show: true, description: toastDescription }));
+            dispatch(ToastActions.updateToastState({ show: true, description: toastDescription, autohide }));
             return false;
         } else return res?.data;
     };

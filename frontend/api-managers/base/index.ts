@@ -7,17 +7,19 @@ const useApiCall = () => {
         requestUrl,
         config,
         showErrorPopup = true,
+        autoHidePopup = false,
     }: {
         requestUrl: string;
         config?: any;
         showErrorPopup?: boolean;
+        autoHidePopup?: boolean;
     }) => {
         try {
             const res = await Axios.get(requestUrl, config);
 
             return res?.data;
         } catch (e: any) {
-            return handleAPIResponse(showErrorPopup, e?.response);
+            return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
     };
 
@@ -26,18 +28,20 @@ const useApiCall = () => {
         requestPayload,
         config,
         showErrorPopup = true,
+        autoHidePopup = false,
     }: {
         requestUrl: string;
         requestPayload: any;
         config?: any;
         showErrorPopup?: boolean;
+        autoHidePopup?: boolean;
     }) => {
         try {
             const res = await Axios.post(requestUrl, requestPayload, config);
 
             return res?.data;
         } catch (e: any) {
-            return handleAPIResponse(showErrorPopup, e?.response);
+            return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
     };
 
@@ -46,18 +50,20 @@ const useApiCall = () => {
         requestPayload,
         config,
         showErrorPopup = true,
+        autoHidePopup = false,
     }: {
         requestUrl: string;
         requestPayload: any;
         config?: any;
         showErrorPopup?: boolean;
+        autoHidePopup?: boolean;
     }) => {
         try {
             const res = await Axios.patch(requestUrl, requestPayload, config);
 
             return res?.data;
         } catch (e: any) {
-            return handleAPIResponse(showErrorPopup, e?.response);
+            return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
     };
 
@@ -65,17 +71,19 @@ const useApiCall = () => {
         requestUrl,
         config,
         showErrorPopup = true,
+        autoHidePopup = false,
     }: {
         requestUrl: string;
         config?: any;
         showErrorPopup?: boolean;
+        autoHidePopup?: boolean;
     }) => {
         try {
             const res = await Axios.delete(requestUrl, config);
 
             return res?.data;
         } catch (e: any) {
-            return handleAPIResponse(showErrorPopup, e?.response);
+            return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
     };
 

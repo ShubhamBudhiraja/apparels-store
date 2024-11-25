@@ -14,35 +14,25 @@ const UserControllers = () => {
             if (found) {
                 console.log("get profile - user details sent", found);
                 const userDetails = found;
-                if (found.cart.products.length || found.wishlist.length) {
+                if (found.cart.products.length) {
                     const products = await ProductModel.find();
                     if (found.cart.products.length)
                         userDetails.cart.products = found.cart.products.map(
                             (prod) => {
-                                const temp = { ...prod };
+                                const temp = prod;
                                 const foundProduct = products.find(
                                     (item) => item.productId === prod.productId
                                 );
-                                temp.isAvailable = foundProduct.units > 0;
-                                temp.quantity =
-                                    temp.quantity > foundProduct.units
-                                        ? 1
-                                        : temp.quantity;
+                                const availableUnits =
+                                    foundProduct.variants.find(
+                                        (item) =>
+                                            item.id === prod.selectedVariant
+                                    ).units;
+                                temp.isAvailable = availableUnits > 0;
 
                                 return temp;
                             }
                         );
-
-                    if (found.wishlist.length)
-                        userDetails.wishlist = found.wishlist.map((prod) => {
-                            const temp = { ...prod };
-                            const foundProduct = products.find(
-                                (item) => item.productId === prod.productId
-                            );
-                            temp.isAvailable = foundProduct.units > 0;
-
-                            return temp;
-                        });
                 }
                 return res
                     .status(200)
