@@ -18,7 +18,7 @@ const CartControllers = () => {
         cartData.discount -=
             cartData.products[productIndex].quantity *
             cartData.products[productIndex].discountAmount;
-        console.log(cartData, "cartData");
+
         cartData.products.splice(productIndex, 1);
 
         return await UserModel.findOneAndUpdate(
@@ -57,6 +57,7 @@ const CartControllers = () => {
 
                         const userDetails = foundUser;
                         console.log(userDetails, "userDetails");
+
                         if (
                             userDetails.cart.products.find(
                                 (prod) =>
@@ -111,19 +112,14 @@ const CartControllers = () => {
                                 productDetails,
                                 ...userDetails.cart.products,
                             ];
-                            console.log(
-                                discountAmount,
-                                "product",
-                                productDetails,
-                                "object",
-                                userDetails.cart.products
-                            );
+
                             await UserModel.findOneAndUpdate(
                                 { userId },
                                 {
                                     $set: { cart: userDetails.cart },
                                 }
                             );
+
                             return res
                                 .status(200)
                                 .json(generateCommonResponse(2007, true));
@@ -180,8 +176,10 @@ const CartControllers = () => {
                             prod.productId === prodId &&
                             prod.selectedVariant === variant
                     );
+
                     if (productIndex === -1) {
                         console.log("product not found in cart");
+
                         return res
                             .status(400)
                             .json(generateCommonResponse(4006));
@@ -283,7 +281,7 @@ const CartControllers = () => {
 
     const deleteFromCart = async (req, res) => {
         const { userId, prodId, variant } = req.query;
-        console.log(userId, "userId");
+
         try {
             const foundProduct = await ProductModel.findOne({
                 productId: prodId,
@@ -304,8 +302,10 @@ const CartControllers = () => {
                     );
                     if (productIndex !== -1) {
                         console.log("updating cart");
+
                         await handleDeletion(userDetails, productIndex);
                         console.log("deleted");
+
                         return res
                             .status(200)
                             .json(generateCommonResponse(2009, true));
