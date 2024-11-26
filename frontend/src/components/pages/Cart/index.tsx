@@ -5,9 +5,7 @@ import { useAppSelector } from '@store';
 import { IProductData } from '@interface/products';
 import ProductWrapper from './productWrapper';
 
-interface ICart {}
-
-const Cart = (props: ICart) => {
+const Cart = () => {
     const { userId, cart } = useAppSelector((state) => state.userProfile);
 
     return (

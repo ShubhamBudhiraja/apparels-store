@@ -1,4 +1,4 @@
-const { CART_OPERATION } = require("../constants/common");
+const { CART_OPERATION, BILLING_DETAILS } = require("../constants/common");
 const ProductModel = require("../models/product.model");
 const UserModel = require("../models/user.model");
 const commonUtils = require("../utils/common");
@@ -10,14 +10,33 @@ const CartControllers = () => {
         const cartData = userDetails.cart;
         cartData.cartTotal -=
             cartData.products[productIndex].quantity *
-            cartData.products[productIndex].price;
+            (cartData.products[productIndex].offerPrice ||
+                cartData.products[productIndex].price);
         cartData.total -=
             cartData.products[productIndex].quantity *
             (cartData.products[productIndex].offerPrice ||
                 cartData.products[productIndex].price);
-        cartData.discount -=
-            cartData.products[productIndex].quantity *
-            cartData.products[productIndex].discountAmount;
+
+        if (cartData.cartTotal > 0) {
+            if (cartData.isDeliveryFeeIncluded) {
+                if (
+                    cartData.cartTotal > BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                ) {
+                    cartData.total -= BILLING_DETAILS.DELIVERY_FEE;
+                    cartData.isDeliveryFeeIncluded = false;
+                }
+            } else {
+                if (
+                    cartData.cartTotal < BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                ) {
+                    cartData.total += BILLING_DETAILS.DELIVERY_FEE;
+                    cartData.isDeliveryFeeIncluded = true;
+                }
+            }
+        } else {
+            cartData.total = 0;
+            cartData.isDeliveryFeeIncluded = false;
+        }
 
         cartData.products.splice(productIndex, 1);
 
@@ -77,9 +96,7 @@ const CartControllers = () => {
                                 userDetails.wishlist.findIndex(
                                     (prod) => prod.productId === prodId
                                 );
-                            if (prodPosInWishlist !== -1)
-                                userDetails.wishlist[prodPosInWishlist].inCart =
-                                    true;
+
                             const {
                                 productId,
                                 title,
@@ -105,13 +122,33 @@ const CartControllers = () => {
                                 discountAmount,
                                 selectedVariant: variant,
                             };
-                            userDetails.cart.cartTotal += price;
+                            userDetails.cart.cartTotal += offerPrice || price;
                             userDetails.cart.total += offerPrice || price;
-                            userDetails.cart.discount += discountAmount;
+
                             userDetails.cart.products = [
                                 productDetails,
                                 ...userDetails.cart.products,
                             ];
+
+                            if (userDetails.cart.isDeliveryFeeIncluded) {
+                                if (
+                                    userDetails.cart.cartTotal >
+                                    BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                ) {
+                                    userDetails.cart.total -=
+                                        BILLING_DETAILS.DELIVERY_FEE;
+                                    userDetails.cart.isDeliveryFeeIncluded = false;
+                                }
+                            } else {
+                                if (
+                                    userDetails.cart.cartTotal <
+                                    BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                ) {
+                                    userDetails.cart.total +=
+                                        BILLING_DETAILS.DELIVERY_FEE;
+                                    userDetails.cart.isDeliveryFeeIncluded = true;
+                                }
+                            }
 
                             await UserModel.findOneAndUpdate(
                                 { userId },
@@ -202,12 +239,33 @@ const CartControllers = () => {
                                         productIndex
                                     ].quantity += 1;
                                     userDetails.cart.cartTotal +=
+                                        foundProduct.offerPrice ||
                                         foundProduct.price;
                                     userDetails.cart.total +=
                                         foundProduct.offerPrice ||
                                         foundProduct.price;
-                                    userDetails.cart.discount +=
-                                        foundProduct.discountAmount;
+
+                                    if (
+                                        userDetails.cart.isDeliveryFeeIncluded
+                                    ) {
+                                        if (
+                                            userDetails.cart.cartTotal >
+                                            BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                        ) {
+                                            userDetails.cart.total -=
+                                                BILLING_DETAILS.DELIVERY_FEE;
+                                            userDetails.cart.isDeliveryFeeIncluded = false;
+                                        }
+                                    } else {
+                                        if (
+                                            userDetails.cart.cartTotal <
+                                            BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                        ) {
+                                            userDetails.cart.total +=
+                                                BILLING_DETAILS.DELIVERY_FEE;
+                                            userDetails.cart.isDeliveryFeeIncluded = true;
+                                        }
+                                    }
 
                                     await UserModel.findOneAndUpdate(
                                         { userId },
@@ -240,12 +298,33 @@ const CartControllers = () => {
                                         productIndex
                                     ].quantity -= 1;
                                     userDetails.cart.cartTotal -=
+                                        foundProduct.offerPrice ||
                                         foundProduct.price;
                                     userDetails.cart.total -=
                                         foundProduct.offerPrice ||
                                         foundProduct.price;
-                                    userDetails.cart.discount -=
-                                        foundProduct.discountAmount;
+
+                                    if (
+                                        userDetails.cart.isDeliveryFeeIncluded
+                                    ) {
+                                        if (
+                                            userDetails.cart.cartTotal >
+                                            BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                        ) {
+                                            userDetails.cart.total -=
+                                                BILLING_DETAILS.DELIVERY_FEE;
+                                            userDetails.cart.isDeliveryFeeIncluded = false;
+                                        }
+                                    } else {
+                                        if (
+                                            userDetails.cart.cartTotal <
+                                            BILLING_DETAILS.NO_DELIVERY_FEE_VALUE
+                                        ) {
+                                            userDetails.cart.total +=
+                                                BILLING_DETAILS.DELIVERY_FEE;
+                                            userDetails.cart.isDeliveryFeeIncluded = true;
+                                        }
+                                    }
 
                                     await UserModel.findOneAndUpdate(
                                         { userId },

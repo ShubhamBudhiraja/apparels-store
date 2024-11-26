@@ -14,7 +14,7 @@ export interface IUserData {
     dob?: Date;
     address?: IUserAddress;
     wishlist?: IProductData[];
-    cart: { cartTotal: number; total: number; products: IProductData[]; discount: number };
+    cart: { cartTotal: number; total: number; products: IProductData[]; isDeliveryFeeIncluded?: boolean };
 }
 
 export interface ILoginModalSuccess {
