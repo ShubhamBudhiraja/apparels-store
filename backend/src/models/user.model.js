@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema({
     dob: Date,
     addresses: [
         {
+            receiverName: String,
+            receiverPhone: String,
             houseNo: String,
             city: String,
             pincode: String,
@@ -30,9 +32,10 @@ const userSchema = new mongoose.Schema({
                 inWishlist: { type: Boolean, default: false },
             },
         ],
-        discount: { type: Number, default: 0 },
+        couponDiscount: { type: Number, default: 0 },
         cartTotal: { type: Number, default: 0 },
         total: { type: Number, default: 0 },
+        isDeliveryFeeIncluded: { type: Boolean, default: false },
     },
     wishlist: [
         {
@@ -41,6 +44,7 @@ const userSchema = new mongoose.Schema({
             price: Number,
             offerPrice: Number,
             thumbnail: String,
+            discountPercentage: Number,
         },
     ],
 });

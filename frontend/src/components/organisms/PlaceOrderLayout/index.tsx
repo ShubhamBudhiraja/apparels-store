@@ -8,15 +8,17 @@ import cx from 'classnames';
 import CheckoutSummary from './checkoutSummary';
 import { useAppSelector } from '@store';
 import EmptyWrapper from '@molecules/EmptyWrapper';
+import { ROUTES } from 'src/lib/constants/routes';
 
 const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
     const { pageData, children } = props;
 
-    const [step, setStep] = useState(-1);
-
     const pathname = usePathname();
     const router = useRouter();
     const { cart } = useAppSelector((state) => state.userProfile);
+
+    const [step, setStep] = useState(-1);
+    const [ctaText, setCtaText] = useState('');
 
     useEffect(() => {
         if (pageData?.header) {
@@ -24,6 +26,22 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
             setStep(active);
         }
     }, [pageData, pathname]);
+
+    useEffect(() => {
+        if ((step === 1 || step === 2) && cart?.products?.length === 0) router.push(ROUTES.CART);
+
+        switch (step) {
+            case 1:
+                setCtaText(pageData?.buttons?.payment);
+                break;
+            case 2:
+                setCtaText(pageData?.buttons?.pay);
+                break;
+            default:
+                setCtaText(pageData?.buttons?.continue);
+                break;
+        }
+    }, [step]);
 
     if (step !== -1)
         return (
@@ -36,8 +54,8 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
                                 {pageData?.header?.map((item: any, index: number) => (
                                     <li
                                         key={`step_${index}`}
-                                        className={cx(index <= step && style.active)}
-                                        onClick={() => router.push(item?.link)}
+                                        className={cx(index > step && 'pe-none')}
+                                        onClick={() => index < step && router.push(item?.link)}
                                     >
                                         <span>0{index + 1}</span>
                                         <div>
@@ -52,7 +70,11 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
                             <Row className="justify-content-between">
                                 <Col lg={7}>{children}</Col>
                                 <Col lg={4}>
-                                    <CheckoutSummary activeStep={step} />
+                                    <CheckoutSummary
+                                        activeStep={step}
+                                        ctaText={ctaText}
+                                        billingData={pageData?.billingDetails}
+                                    />
                                 </Col>
                             </Row>
                         </SectionWrapper>
@@ -60,9 +82,9 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
                 ) : (
                     <SectionWrapper className="mt-5">
                         <EmptyWrapper
-                            title="Oops! Your cart is empty"
-                            image="/images/empty-cart.png"
-                            description="You haven't added anything to your cart yet. Please add some items and come back to checkout"
+                            title={pageData?.emptyCart?.title}
+                            image={pageData?.emptyCart?.image}
+                            description={pageData?.emptyCart?.description}
                         />
                     </SectionWrapper>
                 )}

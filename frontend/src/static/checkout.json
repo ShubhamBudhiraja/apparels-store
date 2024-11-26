@@ -13,5 +13,24 @@
             "subtitle": "Make Payment",
             "description": "Pay using your preferred mode"
         }
-    ]
+    ],
+    "buttons": {
+        "payment": "Proceed to payment",
+        "pay": "Pay",
+        "continue": "Continue"
+    },
+    "emptyCart": {
+        "title": "Oops! Your cart is empty",
+        "image": "/images/empty-cart.png",
+        "description": "You haven't added anything to your cart yet. Please add some items and come back to checkout"
+    },
+    "billingDetails": {
+        "heading": "Bill Details",
+        "subTotalLabel": "Subtotal",
+        "totalLabel": "Total",
+        "deliveryFee": {
+            "label": "Delivery Fee*",
+            "message": "*Delivery fee of {deliveryFee} is applicable on orders below {minValue}."
+        }
+    }
 }

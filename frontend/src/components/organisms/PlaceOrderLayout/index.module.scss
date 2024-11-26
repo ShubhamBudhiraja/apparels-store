@@ -59,3 +59,53 @@
         }
     }
 }
+
+.summaryWrapper {
+    border: 0.063rem solid $borderColor;
+    padding: 1.25rem;
+    font-size: 0.875rem;
+
+    h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+    }
+
+    button {
+        width: 100%;
+        text-transform: uppercase;
+    }
+
+    .disclaimer {
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        color: $color70;
+        margin-bottom: 1.5rem;
+    }
+
+    .billingDetails {
+        p {
+            color: $color70;
+            @include toRem(line-height, 28);
+
+            .cross {
+                font-size: 0.75rem;
+            }
+        }
+
+        .total {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            padding-top: 0.25rem;
+            border-top: 0.063rem solid $borderColor;
+
+            p {
+                color: $color333;
+            }
+        }
+
+        .discount {
+            color: $green;
+        }
+    }
+}

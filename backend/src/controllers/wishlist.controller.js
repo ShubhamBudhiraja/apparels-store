@@ -49,6 +49,7 @@ const WishlistControllers = () => {
                             price,
                             offerPrice,
                             thumbnail,
+                            discountPercentage,
                         } = foundProduct;
                         const productDetails = {
                             productId,
@@ -56,6 +57,7 @@ const WishlistControllers = () => {
                             price,
                             offerPrice,
                             thumbnail,
+                            discountPercentage,
                         };
                         userDetails.wishlist = [
                             productDetails,

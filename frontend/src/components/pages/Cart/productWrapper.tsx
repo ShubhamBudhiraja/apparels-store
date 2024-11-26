@@ -6,7 +6,6 @@ import cx from 'classnames';
 import CounterButton from '@atoms/CounterButton';
 import { CART_PRODUCT_OPERATION } from '@enums/products';
 import { formatPrice } from '@utils/common';
-import { useAppSelector } from '@store';
 import useProduct from '@customHooks/useProduct';
 
 interface IProductWrapper {
