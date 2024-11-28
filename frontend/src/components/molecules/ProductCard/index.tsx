@@ -4,9 +4,9 @@ import React from 'react';
 import Link from 'next/link';
 import { ILoginModalSuccess } from 'src/lib/interface/user';
 import { IProductData } from '@interface/products';
-import useLogin from '@customHooks/useLogin';
 import useProduct from '@customHooks/useProduct';
 import { useAppSelector } from '@store';
+import useProfile from '@customHooks/useProfile';
 
 const ProductCard = (productData: IProductData) => {
     const {
@@ -21,7 +21,7 @@ const ProductCard = (productData: IProductData) => {
         segment = 'men',
     } = productData;
 
-    const { initiateLogin } = useLogin();
+    const { initiateLogin } = useProfile();
     const { handleAddToWishlist, handleRemoveFromWishlist } = useProduct();
     const { userId } = useAppSelector((state) => state.userProfile);
 

@@ -12,7 +12,7 @@ const UserControllers = () => {
             const found = await UserModel.findOne({ userId });
 
             if (found) {
-                console.log("get profile - user details sent", found);
+                console.log("get profile - user details found", found);
                 const userDetails = found;
                 if (found.cart.products.length) {
                     const products = await ProductModel.find();
@@ -51,6 +51,7 @@ const UserControllers = () => {
         const { userId, ...rest } = req.body;
         delete rest.cart;
         delete rest.wishlist;
+        delete rest.addresses;
 
         try {
             const found = await UserModel.findOneAndUpdate(
@@ -71,7 +72,122 @@ const UserControllers = () => {
         }
     };
 
-    return { getProfile, updateProfile };
+    const addAddress = async (req, res) => {
+        const { userId, address } = req.body;
+
+        try {
+            const found = await UserModel.findOne({ userId });
+
+            if (found) {
+                console.log("user details found", found);
+                const userDetails = found;
+
+                userDetails.addresses.push(address);
+
+                const result = await UserModel.findOneAndUpdate(
+                    { userId },
+                    { $set: { addresses: userDetails.addresses } },
+                    { returnDocument: "after" }
+                );
+
+                const newAddressId =
+                    result.addresses[result.addresses.length - 1].id;
+                console.log("address added", address);
+
+                return res.status(200).json(
+                    generateCommonResponse(2015, true, {
+                        addressId: newAddressId,
+                    })
+                );
+            }
+        } catch (e) {
+            console.log("error occured while adding address", e);
+            return res.status(500).json(generateCommonResponse(5000));
+        }
+    };
+
+    const updateAddress = async (req, res) => {
+        const { userId, addressId, ...rest } = req.body;
+
+        try {
+            const found = await UserModel.findOne({ userId });
+
+            if (found) {
+                console.log("user details found", found);
+                const userDetails = found;
+
+                const addressIndex = userDetails.addresses.findIndex(
+                    (address) => address.id === addressId
+                );
+
+                if (addressIndex === -1) {
+                    console.log("address not found while deleting");
+                    return res.status(400).json(generateCommonResponse(4017));
+                } else {
+                    Object.entries(rest).forEach(([key, value]) => {
+                        userDetails.addresses[addressIndex][key] = value;
+                    });
+                }
+
+                await UserModel.findOneAndUpdate(
+                    { userId },
+                    { $set: { addresses: userDetails.addresses } }
+                );
+
+                console.log("address updated");
+                return res.status(200).json(generateCommonResponse(2016, true));
+            }
+        } catch (e) {
+            console.log("error occured while adding address", e);
+            return res.status(500).json(generateCommonResponse(5000));
+        }
+    };
+
+    const deleteAddress = async (req, res) => {
+        const { userId, addressId } = req.query;
+
+        try {
+            const found = await UserModel.findOne({ userId });
+
+            if (found) {
+                console.log("user details found", found);
+                const userDetails = found;
+
+                const addressIndex = userDetails.addresses.findIndex(
+                    (address) => address.id === addressId
+                );
+
+                if (addressIndex === -1) {
+                    console.log("address not found while deleting");
+                    return res.status(400).json(generateCommonResponse(4017));
+                } else {
+                    const addresses = userDetails.addresses;
+                    addresses.splice(addressIndex, 1);
+
+                    await UserModel.findOneAndUpdate(
+                        { userId },
+                        { $set: { addresses } }
+                    );
+
+                    console.log("address deleted for addressId -> ", addressId);
+                    return res
+                        .status(200)
+                        .json(generateCommonResponse(2017, true));
+                }
+            }
+        } catch (e) {
+            console.log("error occured while deleting address", e);
+            return res.status(500).json(generateCommonResponse(5000));
+        }
+    };
+
+    return {
+        getProfile,
+        updateProfile,
+        addAddress,
+        updateAddress,
+        deleteAddress,
+    };
 };
 
 module.exports = UserControllers;

@@ -9,8 +9,8 @@ import CustomButton from '@atoms/CustomButton';
 import { VALIDATIONS } from '@utils/validations';
 import useAuthApi from 'api-managers/services/auth';
 import { useAppDispatch, useAppSelector } from 'src/lib/store';
-import useLogin from 'src/lib/customHooks/useLogin';
 import { LoginModalActions } from 'src/lib/store/reducers/loginModalSlice';
+import useProfile from '@customHooks/useProfile';
 
 interface ISignupForm {
     formData?: IFormData[];
@@ -22,7 +22,7 @@ const SignupForm = (props: ISignupForm) => {
     const { control, handleSubmit, formState, reset } = useForm();
     const { dictionary } = useContext(LayoutContextData);
     const { signUp, validateOtp } = useAuthApi();
-    const { storeUser } = useLogin();
+    const { storeUser } = useProfile();
     const { onSuccess } = useAppSelector((state) => state.loginModal);
     const dispatch = useAppDispatch();
 

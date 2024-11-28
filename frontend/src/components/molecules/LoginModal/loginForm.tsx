@@ -8,8 +8,8 @@ import style from './index.module.scss';
 import useAuthApi from 'api-managers/services/auth';
 import { LoginModalActions } from 'src/lib/store/reducers/loginModalSlice';
 import { useAppDispatch, useAppSelector } from 'src/lib/store';
-import useLogin from 'src/lib/customHooks/useLogin';
 import CustomButton from '@atoms/CustomButton';
+import useProfile from '@customHooks/useProfile';
 
 interface ILoginForm {
     formData?: IFormData[];
@@ -24,7 +24,7 @@ const LoginForm = (props: ILoginForm) => {
     const { login } = useAuthApi();
     const dispatch = useAppDispatch();
     const { onSuccess } = useAppSelector((state) => state.loginModal);
-    const { storeUser } = useLogin();
+    const { storeUser } = useProfile();
 
     const handleLoginSubmit = async (formValues: any) => {
         const res = await login({ userId: formValues?.emailId, password: formValues?.password });

@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TopBar from './TopBar';
 import style from './index.module.scss';
 import { Container } from 'react-bootstrap';
 import Hamburger from './Hamburger';
 import { useAppSelector } from '@store';
 import { IHeaderData, ISingleNavItem, ISocialIcons } from '@interface/layout';
-import useLogin from '@customHooks/useLogin';
 import LinkWrapper from '@atoms/LinkWrapper';
 import { useRouter } from 'next/navigation';
+import useProfile from '@customHooks/useProfile';
 
 interface IHeader extends IHeaderData {
     socialIcons?: ISocialIcons[];
@@ -20,7 +20,7 @@ const Header = (props: IHeader) => {
         props;
 
     const { userId, cart, wishlist } = useAppSelector((state) => state.userProfile);
-    const { handleLogout, initiateLogin } = useLogin();
+    const { handleLogout, initiateLogin } = useProfile();
     const router = useRouter();
 
     const [stickyHeader, setStickyHeader] = useState(false);

@@ -1,18 +1,7 @@
 import React from 'react';
 import style from './index.module.scss';
 import ProductRatings from '@atoms/ProductRatings';
-import {
-    addMinutes,
-    differenceInYears,
-    format,
-    formatISO,
-    fromUnixTime,
-    getTime,
-    getUnixTime,
-    isValid,
-    parse,
-    toDate,
-} from 'date-fns';
+import { format } from 'date-fns';
 
 interface IReviewBlock {
     customerName?: string;

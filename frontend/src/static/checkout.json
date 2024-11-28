@@ -32,5 +32,8 @@
             "label": "Delivery Fee*",
             "message": "*Delivery fee of {deliveryFee} is applicable on orders below {minValue}."
         }
+    },
+    "shippingData": {
+        "heading": "Shipping Details"
     }
 }

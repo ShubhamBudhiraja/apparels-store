@@ -7,8 +7,6 @@ const useGlobalHooks = () => {
     const dispatch = useAppDispatch();
     const { dictionary } = useContext(LayoutContextData);
 
-    const handleError = () => {};
-
     const handleAPIResponse = (showErrorPopup: boolean, res?: any, autohide = false) => {
         if (!res?.data?.status && showErrorPopup) {
             const toastDescription = res?.data?.message || dictionary?.unknownErroMsg;

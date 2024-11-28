@@ -19,7 +19,11 @@ const ProductGallery = (props: IProductGallery) => {
         <div className={style.wrapper}>
             <div className={style.thumbnails}>
                 {imageList?.map((image: string, index: number) => (
-                    <figure className={cx(image === primaryImg && style.active)} onClick={() => setPrimaryImg(image)}>
+                    <figure
+                        key={`productImage_${index}`}
+                        className={cx(image === primaryImg && style.active)}
+                        onClick={() => setPrimaryImg(image)}
+                    >
                         <img src={image} alt={`productImage_${index}`} />
                     </figure>
                 ))}

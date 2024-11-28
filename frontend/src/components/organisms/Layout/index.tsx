@@ -7,10 +7,10 @@ import { store } from 'src/lib/store/store';
 import LoginModal from '@molecules/LoginModal';
 import { getStorageItem } from '@utils/storage';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
-import useLogin from 'src/lib/customHooks/useLogin';
 import CustomToast from '@atoms/Toast';
 import { useAppDispatch, useAppSelector } from '@store';
 import { ToastActions } from '@store/reducers/toastSlice';
+import useProfile from '@customHooks/useProfile';
 
 interface ILayout {
     headerData?: any;
@@ -23,7 +23,7 @@ interface ILayout {
 const Layout = (props: ILayout) => {
     const { headerData, footerData, loginModalData, socialIcons, children } = props;
 
-    const { storeUser } = useLogin();
+    const { storeUser } = useProfile();
     const { onClose, ...toastProps } = useAppSelector((state) => state.toast);
     const dispatch = useAppDispatch();
 

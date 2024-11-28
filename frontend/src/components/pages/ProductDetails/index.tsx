@@ -9,7 +9,6 @@ import { LayoutContextData } from 'src/lib/context/layout';
 import { useAppSelector } from '@store';
 import { IProductData } from '@interface/products';
 import useProduct from '@customHooks/useProduct';
-import useLogin from '@customHooks/useLogin';
 import { ILoginModalSuccess } from '@interface/user';
 import { CART_PRODUCT_OPERATION, VARIANT_ID } from '@enums/products';
 import ProductRatings from '@atoms/ProductRatings';
@@ -23,6 +22,7 @@ import { SIZE_LABELS } from 'src/lib/constants/product';
 import CustomButton from '@atoms/CustomButton';
 import CounterButton from '@atoms/CounterButton';
 import SizeGuideModal from '@molecules/SizeGuideModal';
+import useProfile from '@customHooks/useProfile';
 
 interface IProductDetails {
     productId: string;
@@ -36,7 +36,7 @@ const ProductDetails = (props: IProductDetails) => {
     const { getProductDetails, getRelatedProducts } = useProductsAPI();
     const router = useRouter();
     const { handleAddToCart, handleUpdateCart } = useProduct();
-    const { initiateLogin } = useLogin();
+    const { initiateLogin } = useProfile();
     const { dictionary } = useContext(LayoutContextData);
     const { userId, cart } = useAppSelector((state) => state.userProfile);
 
@@ -221,7 +221,7 @@ const ProductDetails = (props: IProductDetails) => {
                             )}
                             <Row className={style.usp}>
                                 {serverData?.uspPoints?.map((item: any) => (
-                                    <Col lg={4}>
+                                    <Col lg={4} key={`${item.icon}`}>
                                         <i className={`font icon-${item.icon}`}></i>
                                         <span>{item.title}</span>
                                     </Col>

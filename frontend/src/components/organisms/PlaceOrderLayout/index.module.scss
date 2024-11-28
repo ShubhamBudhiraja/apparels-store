@@ -1,7 +1,7 @@
 @import '@styles/partials/variables';
 @import '@styles/partials/mixins';
 
-.wrapper {
+.stepperWrapper {
     overflow: hidden;
 
     h1 {
@@ -76,10 +76,9 @@
     }
 
     .disclaimer {
-        margin-bottom: 1rem;
         font-size: 0.75rem;
         color: $color70;
-        margin-bottom: 1.5rem;
+        margin-bottom: 2rem;
     }
 
     .billingDetails {
@@ -106,6 +105,21 @@
 
         .discount {
             color: $green;
+        }
+    }
+
+    .addressDetails {
+        margin-bottom: 2rem;
+
+        h6 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        span,
+        p {
+            color: $color70;
+            font-size: 0.875rem;
         }
     }
 }

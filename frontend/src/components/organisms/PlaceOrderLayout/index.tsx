@@ -46,9 +46,9 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
     if (step !== -1)
         return (
             <Container>
-                {cart?.products?.length > 0 ? (
+                {cart?.products && cart?.products?.length > 0 ? (
                     <>
-                        <div className={style.wrapper}>
+                        <div className={style.stepperWrapper}>
                             <h1>{pageData?.header?.[step]?.title}</h1>
                             <ul className={cx(style[`step${step}`], style.stepper)}>
                                 {pageData?.header?.map((item: any, index: number) => (
@@ -74,6 +74,7 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
                                         activeStep={step}
                                         ctaText={ctaText}
                                         billingData={pageData?.billingDetails}
+                                        shippingData={pageData?.shippingData}
                                     />
                                 </Col>
                             </Row>
