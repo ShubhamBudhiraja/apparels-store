@@ -1,0 +1,20 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.addressWrapper {
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.addAddressBtn {
+    width: 100%;
+    text-decoration: none;
+    border-bottom: 0.063rem solid $borderColor;
+    padding: 1.5rem 0;
+
+    &:hover {
+        border-bottom: 0.063rem solid $borderColor;
+    }
+}

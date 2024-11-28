@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import style from './index.module.scss';
 import { useAppSelector } from '@store';
 import { IProductData } from '@interface/products';
@@ -9,17 +9,19 @@ import CustomButton from '@atoms/CustomButton';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from 'src/lib/constants/routes';
 import { VARIANT_ID } from '@enums/products';
+import { IUserAddress } from '@interface/user';
 
 interface ICheckoutSummary {
     activeStep: number;
     ctaText?: string;
     billingData?: any;
+    shippingData?: any;
 }
 
 const CheckoutSummary = (props: ICheckoutSummary) => {
-    const { activeStep, ctaText, billingData } = props;
+    const { activeStep, ctaText, billingData, shippingData } = props;
 
-    const { cart } = useAppSelector((state) => state.userProfile);
+    const { cart, addresses, selectedAddress } = useAppSelector((state) => state.userProfile);
     const router = useRouter();
 
     const deliveryFeeMsg = useMemo(() => {
@@ -28,6 +30,24 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                 ?.replace('{deliveryFee}', formatPrice(BILLING_DETAILS.DELIVERY_FEE, false))
                 ?.replace('{minValue}', formatPrice(BILLING_DETAILS.NO_DELIVERY_FEE_VALUE, false));
     }, [billingData]);
+
+    const isDisabled = useMemo(() => {
+        switch (activeStep) {
+            case 1:
+                if (!selectedAddress) return true;
+                else return false;
+            case 2:
+                return true;
+            default:
+                return false;
+        }
+    }, [activeStep, selectedAddress]);
+
+    const activeAddress = useMemo(() => {
+        if (selectedAddress && addresses?.length && activeStep > 1) {
+            return addresses?.find((address: IUserAddress) => address?._id === selectedAddress);
+        }
+    }, [addresses, selectedAddress, activeStep]);
 
     const handleCtaClick = () => {
         switch (activeStep) {
@@ -78,11 +98,11 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                     </div>
                     <div className="w-25">
                         <p className="text-end">
-                            <span className={cx(!cart.isDeliveryFeeIncluded && 'text-decoration-line-through')}>
+                            <span className={cx(!cart?.isDeliveryFeeIncluded && 'text-decoration-line-through')}>
                                 {formatPrice(BILLING_DETAILS.DELIVERY_FEE, false)}
                             </span>
 
-                            {!cart.isDeliveryFeeIncluded ? (
+                            {!cart?.isDeliveryFeeIncluded ? (
                                 <span className={style.discount}> {formatPrice(0, false)}</span>
                             ) : (
                                 ''
@@ -102,13 +122,22 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
 
             {deliveryFeeMsg && <p className={style.disclaimer}>{deliveryFeeMsg}</p>}
 
-            {activeStep > 1 && (
+            {activeAddress && (
                 <>
-                    <h3>Selected Address</h3>
-                    <div className={style.addressDetails}></div>
+                    <h3>{shippingData?.heading}</h3>
+                    <div className={style.addressDetails}>
+                        <h6>
+                            {activeAddress?.firstName} <span>{activeAddress?.mobileNo}</span>
+                        </h6>
+
+                        <p>
+                            {activeAddress?.houseNo}, {activeAddress?.streetAddress}, {activeAddress?.city},{' '}
+                            {activeAddress?.state} - {activeAddress?.pincode}
+                        </p>
+                    </div>
                 </>
             )}
-            <CustomButton variant="secondary" onClick={handleCtaClick}>
+            <CustomButton variant="secondary" onClick={handleCtaClick} disabled={isDisabled}>
                 {ctaText}
             </CustomButton>
         </div>

@@ -43,11 +43,7 @@ const useProduct = () => {
                 const products = cart?.products?.length
                     ? [{ ...product, quantity: 1, selectedVariant }, ...cart?.products]
                     : [{ ...product, quantity: 1, selectedVariant }];
-                dispatch(
-                    UserDataActions.updateCustomerDetails({
-                        cart: { total, cartTotal, products, isDeliveryFeeIncluded },
-                    })
-                );
+                dispatch(UserDataActions.updateCart({ total, cartTotal, products, isDeliveryFeeIncluded }));
             }
         }
     };
@@ -127,8 +123,11 @@ const useProduct = () => {
                         break;
                 }
                 dispatch(
-                    UserDataActions.updateCustomerDetails({
-                        cart: { total, cartTotal, products, isDeliveryFeeIncluded },
+                    UserDataActions.updateCart({
+                        total,
+                        cartTotal,
+                        products,
+                        isDeliveryFeeIncluded,
                     })
                 );
             }
@@ -180,11 +179,7 @@ const useProduct = () => {
                         }
                         return true;
                     });
-                    dispatch(
-                        UserDataActions.updateCustomerDetails({
-                            cart: { total, cartTotal, products, isDeliveryFeeIncluded },
-                        })
-                    );
+                    dispatch(UserDataActions.updateCart({ total, cartTotal, products, isDeliveryFeeIncluded }));
                 }
             }
         }
@@ -199,12 +194,8 @@ const useProduct = () => {
                     if (prod?.productId === product?.productId) return { ...prod, inWishlist: true };
                     return prod;
                 });
-                dispatch(
-                    UserDataActions.updateCustomerDetails({
-                        wishlist: products,
-                        cart: { ...cart, products: cartProducts },
-                    })
-                );
+                if (products) dispatch(UserDataActions.updateWishlist(products));
+                dispatch(UserDataActions.updateCart({ ...cart, products: cartProducts }));
             }
         }
     };
@@ -213,7 +204,9 @@ const useProduct = () => {
         if (userId && product?.productId) {
             const res = await removeFromWishlist({ userId, productId: product.productId });
             if (res?.status) {
-                const products = wishlist?.filter((prod: IProductData) => prod.productId !== product.productId);
+                const products: IProductData[] | undefined = wishlist?.filter(
+                    (prod: IProductData) => prod.productId !== product.productId
+                );
                 const cartProducts = cart?.products?.map((prod: IProductData) => {
                     if (prod?.productId === product?.productId) {
                         const temp = { ...prod };
@@ -222,12 +215,8 @@ const useProduct = () => {
                     }
                     return prod;
                 });
-                dispatch(
-                    UserDataActions.updateCustomerDetails({
-                        wishlist: products,
-                        cart: { ...cart, products: cartProducts },
-                    })
-                );
+                if (products) dispatch(UserDataActions.updateWishlist(products));
+                dispatch(UserDataActions.updateCart({ ...cart, products: cartProducts }));
             }
         }
     };

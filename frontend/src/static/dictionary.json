@@ -8,5 +8,10 @@
     "invalidEmail": "Please enter a valid email address",
     "unknownErroMsg": "Something went wrong",
     "reviewsLabel": "reviews",
-    "variantError": "Please select a variant"
+    "variantError": "Please select a variant",
+    "editLabel": "Edit",
+    "editDetailsLabel": "Edit Shipping Details",
+    "personalDetailsLabel": "Personal Details",
+    "shippingDetailsLabel": "Shipping Details",
+    "addNewAddressLabel": "Add New Address"
 }

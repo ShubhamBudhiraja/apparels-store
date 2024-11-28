@@ -19,7 +19,7 @@ const ProductRatings = (props: IProductRatings) => {
     return (
         <span className={cx(style.stars, className)}>
             {[...Array(5)].map((_item: any, index: number) => (
-                <i className={`font icon-${getIcon(index)}`}></i>
+                <i className={`font icon-${getIcon(index)}`} key={`star_${index}`}></i>
             ))}
         </span>
     );

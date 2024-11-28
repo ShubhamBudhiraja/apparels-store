@@ -13,7 +13,7 @@ interface IProductsCarousel {
 const ProductsCarousel = (props: IProductsCarousel) => {
     const { productsList } = props;
 
-    const { cart, wishlist } = useAppSelector((state) => state.userProfile);
+    const { wishlist } = useAppSelector((state) => state.userProfile);
 
     const carouselSettings: Settings = {
         infinite: false,

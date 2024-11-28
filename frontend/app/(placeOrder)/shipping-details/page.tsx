@@ -1,7 +1,8 @@
+import ShippingDetails from '@pages/ShippingDetails';
 import React from 'react';
 
 const Page = () => {
-    return <div>Shipping Details</div>;
+    return <ShippingDetails />;
 };
 
 export default Page;

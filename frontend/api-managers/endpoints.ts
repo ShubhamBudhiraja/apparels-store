@@ -9,6 +9,9 @@ const API_ENDPOINTS = {
     USER: {
         GET_PROFILE: '/user/get-profile',
         UPDATE_PROFILE: '/user/update-profile',
+        ADD_ADDRESS: '/user/add-address',
+        UPDATE_ADDRESS: '/user/update-address',
+        DELETE_ADDRESS: '/user/delete-address',
     },
     PRODUCT: {
         GET_ALL_PRODUCTS: '/product/get-all-products',

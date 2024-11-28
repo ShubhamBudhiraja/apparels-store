@@ -2,17 +2,19 @@ const { default: mongoose } = require("mongoose");
 
 const userSchema = new mongoose.Schema({
     userId: String,
-    name: String,
+    firstName: String,
+    lastName: String,
     dob: Date,
     addresses: [
         {
-            receiverName: String,
-            receiverPhone: String,
+            firstName: String,
+            lastName: String,
+            mobileNo: String,
             houseNo: String,
+            streetAddress: String,
             city: String,
             pincode: String,
             state: String,
-            isDefault: { default: false, type: Boolean },
         },
     ],
     mobileNo: String,

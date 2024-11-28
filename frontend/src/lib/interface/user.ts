@@ -1,20 +1,37 @@
 import { IProductData } from './products';
 
 export interface IUserAddress {
-    houseNo: string;
-    city: string;
-    pincode: string;
-    state: string;
+    _id?: string;
+    firstName?: string;
+    lastName?: string;
+    mobileNo?: string;
+    houseNo?: string;
+    streetAddress?: string;
+    city?: string;
+    pincode?: string;
+    state?: string;
 }
 
-export interface IUserData {
-    name?: string;
+export interface IProfileDetails {
+    firstName?: string;
+    lastName?: string;
     userId?: string;
     mobileNo?: string;
     dob?: Date;
-    address?: IUserAddress;
+    selectedAddress?: string;
+}
+
+export interface ICartData {
+    cartTotal: number;
+    total: number;
+    products: IProductData[];
+    isDeliveryFeeIncluded?: boolean;
+}
+
+export interface IUserData extends IProfileDetails {
+    addresses?: IUserAddress[];
     wishlist?: IProductData[];
-    cart: { cartTotal: number; total: number; products: IProductData[]; isDeliveryFeeIncluded?: boolean };
+    cart: ICartData;
 }
 
 export interface ILoginModalSuccess {

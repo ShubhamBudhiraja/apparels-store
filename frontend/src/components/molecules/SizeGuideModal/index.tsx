@@ -21,7 +21,7 @@ const SizeGuideModal = (props: ISizeGuideModal) => {
             bodyClassName={style.modalBody}
             wrapperClassName={style.customWrapper}
         >
-            <img src="/images/size-guide.jpg" />
+            <img src="/images/size-guide.jpg" alt="size guide" />
             <div className={style.content}>
                 {chartData?.map((item: any, index: number) => (
                     <div className={style.tableWrap} key={`guideTable_${index}`}>
@@ -35,10 +35,10 @@ const SizeGuideModal = (props: ISizeGuideModal) => {
                             </thead>
                             <tbody>
                                 {Object.entries(item?.tableData)?.map(([key, values]: any) => (
-                                    <tr>
+                                    <tr key={key}>
                                         <td>{key}</td>
                                         {values?.map((value: any) => (
-                                            <td>{value}</td>
+                                            <td key={`${key}_${value}`}>{value}</td>
                                         ))}
                                     </tr>
                                 ))}
