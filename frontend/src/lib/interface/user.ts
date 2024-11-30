@@ -26,6 +26,7 @@ export interface ICartData {
     total: number;
     products: IProductData[];
     isDeliveryFeeIncluded?: boolean;
+    couponDiscount?: number;
 }
 
 export interface IUserData extends IProfileDetails {

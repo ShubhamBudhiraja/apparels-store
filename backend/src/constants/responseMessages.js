@@ -16,6 +16,8 @@ const RESPONSE_MESSAGES = {
     2015: "Address added successfully",
     2016: "Address updated successfully",
     2017: "Address deleted successfully",
+    2018: "Checkout session created successfully",
+    2019: "Payment successfull",
     4001: "This email is currently in use. Please login",
     4002: "Invalid OTP",
     4003: "Invalid password",
@@ -33,6 +35,7 @@ const RESPONSE_MESSAGES = {
     4015: "Product not in wishlist",
     4016: "Variant not found",
     4017: "Address not found",
+    4018: "Products ran out of stock",
     5000: "Internal Server Error",
     5001: "Something went wrong",
 };

@@ -13,5 +13,8 @@
     "editDetailsLabel": "Edit Shipping Details",
     "personalDetailsLabel": "Personal Details",
     "shippingDetailsLabel": "Shipping Details",
-    "addNewAddressLabel": "Add New Address"
+    "addNewAddressLabel": "Add New Address",
+    "errorMsgs": {
+        "4000": "Order could not be placed successfully. Any amount deducted, will be reverted to the mode of payment within 3-5 business days."
+    }
 }
