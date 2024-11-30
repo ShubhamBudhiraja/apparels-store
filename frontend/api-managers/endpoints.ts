@@ -23,6 +23,10 @@ const API_ENDPOINTS = {
         REMOVE_FROM_WISHLIST: '/product/delete-from-wishlist',
         GET_RELATED_PRODUCTS: '/product/get-related-products',
     },
+    PAYMENT: {
+        CREATE_CHECKOUT_SESSION: '/payment/create-checkout-session',
+        COMPLETE_PAYMENT: '/payment/complete-payment',
+    },
 };
 
 export default API_ENDPOINTS;

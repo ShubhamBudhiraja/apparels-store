@@ -1,7 +1,7 @@
-import React from 'react';
+import Payment from '@pages/Payment';
 
 const Page = () => {
-    return <div>Payment</div>;
+    return <Payment />;
 };
 
 export default Page;

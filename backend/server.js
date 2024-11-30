@@ -7,6 +7,7 @@ const UserRoutes = require("./src/routes/user.routes");
 const ProductRoutes = require("./src/routes/product.routes");
 const cors = require("cors");
 const customCorsOptions = require("./src/middlewares/corsHandler");
+const PaymentRoutes = require("./src/routes/payment.routes");
 
 dotenv.config();
 connectDB();
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
 app.use("/product", ProductRoutes);
+app.use("/payment", PaymentRoutes);
 
 app.use(ErrorHandler);
 
