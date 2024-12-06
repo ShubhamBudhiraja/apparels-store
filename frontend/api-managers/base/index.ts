@@ -5,17 +5,17 @@ const useApiCall = () => {
     const { handleAPIResponse } = useGlobalHooks();
     const getApi = async ({
         requestUrl,
-        config,
+        headers,
         showErrorPopup = true,
         autoHidePopup = false,
     }: {
         requestUrl: string;
-        config?: any;
+        headers?: any;
         showErrorPopup?: boolean;
         autoHidePopup?: boolean;
     }) => {
         try {
-            const res = await Axios.get(requestUrl, config);
+            const res = await Axios.get(requestUrl, headers);
 
             return res?.data;
         } catch (e: any) {
@@ -26,18 +26,18 @@ const useApiCall = () => {
     const postApi = async ({
         requestUrl,
         requestPayload,
-        config,
+        headers,
         showErrorPopup = true,
         autoHidePopup = false,
     }: {
         requestUrl: string;
         requestPayload: any;
-        config?: any;
+        headers?: any;
         showErrorPopup?: boolean;
         autoHidePopup?: boolean;
     }) => {
         try {
-            const res = await Axios.post(requestUrl, requestPayload, config);
+            const res = await Axios.post(requestUrl, requestPayload, headers);
 
             return res?.data;
         } catch (e: any) {
@@ -48,18 +48,18 @@ const useApiCall = () => {
     const patchApi = async ({
         requestUrl,
         requestPayload,
-        config,
+        headers,
         showErrorPopup = true,
         autoHidePopup = false,
     }: {
         requestUrl: string;
         requestPayload: any;
-        config?: any;
+        headers?: any;
         showErrorPopup?: boolean;
         autoHidePopup?: boolean;
     }) => {
         try {
-            const res = await Axios.patch(requestUrl, requestPayload, config);
+            const res = await Axios.patch(requestUrl, requestPayload, headers);
 
             return res?.data;
         } catch (e: any) {
@@ -69,17 +69,17 @@ const useApiCall = () => {
 
     const deleteApi = async ({
         requestUrl,
-        config,
+        headers,
         showErrorPopup = true,
         autoHidePopup = false,
     }: {
         requestUrl: string;
-        config?: any;
+        headers?: any;
         showErrorPopup?: boolean;
         autoHidePopup?: boolean;
     }) => {
         try {
-            const res = await Axios.delete(requestUrl, config);
+            const res = await Axios.delete(requestUrl, headers);
 
             return res?.data;
         } catch (e: any) {
