@@ -8,7 +8,7 @@ const useProfileApi = () => {
     const getProfileData = async ({ userId }: { userId: string }) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.GET_PROFILE}`,
-            config: { params: { userId } },
+            headers: { params: { userId } },
         });
 
         return res;
@@ -44,7 +44,7 @@ const useProfileApi = () => {
     const deleteAddress = async ({ userId, addressId }: { userId: string; addressId: string }) => {
         const res = await deleteApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.DELETE_ADDRESS}`,
-            config: { params: { userId, addressId } },
+            headers: { params: { userId, addressId } },
         });
 
         return res;
