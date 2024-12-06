@@ -17,6 +17,9 @@ app.use(cors(customCorsOptions));
 
 app.use(express.json());
 
+app.get("/", (_req: any, res: any) => {
+    res.send("Welcome to Apparel Store Backend");
+});
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
 app.use("/product", ProductRoutes);

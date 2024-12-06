@@ -29,6 +29,7 @@ const UserControllers = () => {
         const { userId } = req.query;
         try {
             const found = yield user_model_1.UserModel.findOne({ userId });
+            console.log(found, "jhvgh", userId);
             if (found) {
                 console.log("get profile - user details found", found);
                 const cart = found.get("cart");
@@ -44,9 +45,10 @@ const UserControllers = () => {
                             return temp;
                         });
                 }
+                found.set("cart", cart);
                 return res
                     .status(200)
-                    .json((0, common_1.generateCommonResponse)(2006, true, Object.assign(Object.assign({}, found), { cart })));
+                    .json((0, common_1.generateCommonResponse)(2006, true, found));
             }
             else {
                 console.log("get profile - user not found");
