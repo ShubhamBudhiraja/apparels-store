@@ -8,7 +8,7 @@ const useProductsAPI = () => {
     const getProducts = async (params?: any) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.GET_ALL_PRODUCTS}`,
-            config: { params },
+            headers: { params },
             showErrorPopup: false,
         });
 
@@ -19,7 +19,7 @@ const useProductsAPI = () => {
         if (productId && categoryId) {
             const res = await getApi({
                 requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.GET_RELATED_PRODUCTS}`,
-                config: { params: { prodId: productId, categoryId } },
+                headers: { params: { prodId: productId, categoryId } },
             });
 
             return res;
@@ -29,7 +29,7 @@ const useProductsAPI = () => {
     const getProductDetails = async (productId: string, segment: string) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.GET_PRODUCT_DETAILS}`,
-            config: { params: { prodId: productId, segment } },
+            headers: { params: { prodId: productId, segment } },
         });
 
         return res;
@@ -84,7 +84,7 @@ const useProductsAPI = () => {
     }) => {
         const res = await deleteApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_CART}`,
-            config: { params: { userId, prodId: productId, variant } },
+            headers: { params: { userId, prodId: productId, variant } },
             autoHidePopup: true,
         });
 
@@ -104,7 +104,7 @@ const useProductsAPI = () => {
     const removeFromWishlist = async ({ productId, userId }: { productId: string; userId: string }) => {
         const res = await deleteApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PRODUCT.REMOVE_FROM_WISHLIST}`,
-            config: { params: { userId, prodId: productId } },
+            headers: { params: { userId, prodId: productId } },
             autoHidePopup: true,
         });
 
