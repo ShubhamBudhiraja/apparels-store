@@ -1,6 +1,7 @@
 {
     "version": 2,
     "buildCommand": "yarn build",
+    "devCommand": "yarn start",
     "routes": [
         {
             "src": "/(.*)",
