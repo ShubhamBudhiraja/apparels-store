@@ -4,6 +4,12 @@ config();
 
 export const customCorsOptions = {
     origin: (origin: any, callback: any) => {
+        console.log(
+            "origin - >",
+            origin,
+            "allowed origins - >",
+            process.env.ALLOWED_ORIGINS
+        );
         if (process.env.ALLOWED_ORIGINS) {
             const allowedOrigins = process.env.ALLOWED_ORIGINS.split(" ");
 
