@@ -1,7 +1,7 @@
 {
     "scripts": {
         "dev": "nodemon src/server.ts",
-        "build": "yarn && tsc",
+        "build": "yarn",
         "build-local": "rm -r ./dist && tsc && cp package.json ./dist"
     },
     "dependencies": {
