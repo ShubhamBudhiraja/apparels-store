@@ -6,14 +6,21 @@ import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
 import { AuthRoutes } from "./routes/auth.routes";
 import { ErrorHandler } from "./middlewares/errorHandler";
-import { customCorsOptions } from "./middlewares/corsHandler";
+import { customCorsOptions, fun } from "./middlewares/corsHandler";
 import PaymentRoutes from "./routes/payment.routes";
 
 config();
 connectDB();
 
 const app = express();
-app.use(cors(customCorsOptions));
+app.use(
+    cors({
+        origin: (params1, params2) => {
+            console.log(params1, "params1");
+            fun(params1, params2);
+        },
+    })
+);
 
 app.use(express.json());
 
