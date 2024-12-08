@@ -13,7 +13,11 @@ config();
 connectDB();
 
 const app = express();
-app.use(cors(customCorsOptions));
+// app.use(
+//     cors({
+//         origin: ["https://apparels-store.vercel.app/"],
+//     })
+// );
 
 app.use(express.json());
 
