@@ -23,7 +23,9 @@ export const fun = (origin: any, callback: any) => {
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
-            callback(new Error(`Request from unauthorized origin: ${origin}`));
+            callback((error: Error | null, origin?: any) => {
+                throw new Error(`Request from unauthorized: ${origin}`);
+            });
         }
     }
 };
