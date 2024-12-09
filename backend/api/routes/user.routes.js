@@ -13,3 +13,4 @@ UserRoutes.post("/add-address", addAddress);
 UserRoutes.patch("/update-address", updateAddress);
 UserRoutes.delete("/delete-address", deleteAddress);
 exports.default = UserRoutes;
+//# sourceMappingURL=user.routes.js.map

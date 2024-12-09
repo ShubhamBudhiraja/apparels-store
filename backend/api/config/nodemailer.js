@@ -39,3 +39,4 @@ const sendEmailOtp = (email, otp) => __awaiter(void 0, void 0, void 0, function*
     });
 });
 exports.sendEmailOtp = sendEmailOtp;
+//# sourceMappingURL=nodemailer.js.map

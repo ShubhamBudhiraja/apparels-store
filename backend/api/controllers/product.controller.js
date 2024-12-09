@@ -134,3 +134,4 @@ const ProductControllers = () => {
     };
 };
 exports.ProductControllers = ProductControllers;
+//# sourceMappingURL=product.controller.js.map

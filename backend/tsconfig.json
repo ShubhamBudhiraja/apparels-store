@@ -5,15 +5,12 @@
         "outDir": "api",
         "rootDir": "./src",
         "strict": true,
+        "checkJs": true,
         "esModuleInterop": true,
-        "checkJs": true
+        "allowSyntheticDefaultImports": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "baseUrl": "."
     },
-    "exclude": [
-        "node_modules",
-        "./node_modules",
-        "./node_modules/*",
-        "api",
-        "api",
-        "api/*"
-    ]
+    "include": ["./src/**/*"]
 }

@@ -12,3 +12,4 @@ exports.BILLING_DETAILS = {
     DELIVERY_FEE: 199,
     NO_DELIVERY_FEE_VALUE: 1999,
 };
+//# sourceMappingURL=common.js.map

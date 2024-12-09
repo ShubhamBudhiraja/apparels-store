@@ -13,3 +13,4 @@ exports.AuthRoutes.post("/validate-otp", validateOtp);
 exports.AuthRoutes.post("/login", login);
 exports.AuthRoutes.patch("/update-password", updatePassword);
 exports.AuthRoutes.post("/forgot-password", forgotPassword);
+//# sourceMappingURL=auth.routes.js.map

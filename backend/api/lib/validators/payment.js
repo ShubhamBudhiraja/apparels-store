@@ -46,3 +46,4 @@ exports.PaymentValidators = {
         (0, express_validator_1.body)("addressId", "addressId cannot be empty").isString().notEmpty(),
     ],
 };
+//# sourceMappingURL=payment.js.map

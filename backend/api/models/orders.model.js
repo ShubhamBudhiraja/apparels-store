@@ -36,3 +36,4 @@ const ordersSchema = new mongoose_1.default.Schema({
     },
 });
 exports.OrdersModel = mongoose_1.default.model("ordersModel", ordersSchema);
+//# sourceMappingURL=orders.model.js.map

@@ -18,3 +18,4 @@ const authSchema = new mongoose_1.default.Schema({
     isVerified: { type: Boolean, default: false },
 }, { timestamps: true });
 exports.AuthModel = mongoose_1.default.model("authModel", authSchema);
+//# sourceMappingURL=auth.model.js.map

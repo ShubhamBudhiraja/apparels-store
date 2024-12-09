@@ -11,3 +11,4 @@ const generateCommonResponse = (responseCode = 5001, responseStatus = false, res
     };
 };
 exports.generateCommonResponse = generateCommonResponse;
+//# sourceMappingURL=common.js.map

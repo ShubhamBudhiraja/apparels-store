@@ -129,3 +129,4 @@ const WishlistControllers = () => {
     return { addToWishlist, deleteFromWishlist };
 };
 exports.WishlistControllers = WishlistControllers;
+//# sourceMappingURL=wishlist.controller.js.map
