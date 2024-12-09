@@ -16,3 +16,4 @@ const ratingsSchema = new mongoose_1.default.Schema({
     ],
 }, { timestamps: true });
 exports.RatingsModel = mongoose_1.default.model("ratingsModel", ratingsSchema);
+//# sourceMappingURL=ratings.model.js.map

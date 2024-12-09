@@ -13,3 +13,4 @@ const ErrorHandler = (err, _req, res) => {
     });
 };
 exports.ErrorHandler = ErrorHandler;
+//# sourceMappingURL=errorHandler.js.map

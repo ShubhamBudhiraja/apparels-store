@@ -29,3 +29,4 @@ const prouctSchema = new mongoose_1.default.Schema({
     thumbnail: String,
 });
 exports.ProductModel = mongoose_1.default.model("productsModel", prouctSchema);
+//# sourceMappingURL=product.model.js.map

@@ -166,3 +166,4 @@ const UserControllers = () => {
     };
 };
 exports.UserControllers = UserControllers;
+//# sourceMappingURL=user.controller.js.map

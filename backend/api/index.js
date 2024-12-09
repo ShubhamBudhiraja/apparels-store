@@ -34,3 +34,4 @@ app.use(errorHandler_1.ErrorHandler);
 app.listen(process.env.PORT, () => {
     console.log(`Server is active on ${process.env.PORT}`);
 });
+//# sourceMappingURL=index.js.map

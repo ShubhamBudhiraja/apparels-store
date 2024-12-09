@@ -13,3 +13,4 @@ PaymentRoutes.post("/place-order/card", payment_1.PaymentValidators.card, initia
 PaymentRoutes.get("/get-payment-status", payment_1.PaymentValidators.paymentStatus, getPaymentStatus);
 PaymentRoutes.post("/complete-payment", payment_1.PaymentValidators.completePayment, completePayment);
 exports.default = PaymentRoutes;
+//# sourceMappingURL=payment.routes.js.map

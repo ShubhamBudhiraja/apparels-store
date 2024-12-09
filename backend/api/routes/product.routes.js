@@ -25,3 +25,4 @@ ProductRoutes.delete("/delete-from-cart", deleteFromCart);
 ProductRoutes.post("/add-to-wishlist", addToWishlist);
 ProductRoutes.delete("/delete-from-wishlist", deleteFromWishlist);
 exports.default = ProductRoutes;
+//# sourceMappingURL=product.routes.js.map

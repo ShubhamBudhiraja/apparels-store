@@ -30,3 +30,4 @@ const fun = (origin, callback) => {
     }
 };
 exports.fun = fun;
+//# sourceMappingURL=corsHandler.js.map
