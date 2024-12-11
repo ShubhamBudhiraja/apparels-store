@@ -1,6 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
-// import cors from "cors";
+import cors from "cors";
 import { connectDB } from "./config/database";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
@@ -14,6 +14,18 @@ connectDB();
 
 const app = express();
 // app.use(cors(customCorsOptions));
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            console.log(origin, "request origin");
+            callback(null, true);
+        },
+    })
+);
+app.use((req, res, next) => {
+    console.log(req.headers);
+    next();
+});
 
 app.use(express.json());
 
