@@ -9,7 +9,7 @@ interface ITextInput {
     className?: string;
     type?: string;
     disabled?: boolean;
-    controlProps?: { value: string; [key: string]: string };
+    controlProps?: { value: string; [key: string]: string | number };
 }
 
 const TextInput = (props: ITextInput) => {

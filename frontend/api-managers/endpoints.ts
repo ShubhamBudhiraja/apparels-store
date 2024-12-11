@@ -24,8 +24,11 @@ const API_ENDPOINTS = {
         GET_RELATED_PRODUCTS: '/product/get-related-products',
     },
     PAYMENT: {
-        CREATE_CHECKOUT_SESSION: '/payment/create-checkout-session',
-        COMPLETE_PAYMENT: '/payment/complete-payment',
+        GET_PAYMENT_STATUS: '/payment/get-payment-status',
+        CREATE_ORDER: '/payment/create-order',
+        PLACE_ORDER: {
+            CARD: '/payment/place-order/card',
+        },
     },
 };
 

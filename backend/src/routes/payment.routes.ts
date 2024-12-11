@@ -25,10 +25,5 @@ PaymentRoutes.get(
     PaymentValidators.paymentStatus,
     getPaymentStatus
 );
-PaymentRoutes.post(
-    "/complete-payment",
-    PaymentValidators.completePayment,
-    completePayment
-);
 
 export default PaymentRoutes;

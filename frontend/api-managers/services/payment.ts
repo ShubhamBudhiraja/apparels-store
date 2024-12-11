@@ -4,25 +4,27 @@ import API_ENDPOINTS from 'api-managers/endpoints';
 const usePaymentApi = () => {
     const { postApi } = useApiCall();
 
-    const createCheckoutSession = async (payload: any) => {
+    const initiatePayment = async ({ userId, amount }: { userId: string; amount: number }) => {
         const res = await postApi({
-            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.CREATE_CHECKOUT_SESSION}`,
-            requestPayload: payload,
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.CREATE_ORDER}`,
+            requestPayload: { userId, amount },
         });
 
         return res;
     };
 
-    const completePayment = async ({ userId, addressId }: { userId: string; addressId: string }) => {
+    const handleCardPayment = async () => {};
+
+    const getPaymentStatus = async ({ orderId, userId }: { orderId: string; userId: string }) => {
         const res = await postApi({
-            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.COMPLETE_PAYMENT}`,
-            requestPayload: { userId, addressId },
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.GET_PAYMENT_STATUS}`,
+            requestPayload: { orderId, userId },
         });
 
         return res;
     };
 
-    return { createCheckoutSession, completePayment };
+    return { initiatePayment, getPaymentStatus };
 };
 
 export default usePaymentApi;

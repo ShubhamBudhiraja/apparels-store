@@ -9,12 +9,16 @@ export const PaymentValidators = {
     ],
     card: [
         body("orderId", "orderId cannot be empty").isString().notEmpty(),
-        body("isSavedCard").isBoolean(),
-        body("cvvRequired").isBoolean(),
+        body("isSavedCard", "isSavedCard is required").not().isBoolean(),
+        body("cvvRequired").not().isBoolean(),
         body(
             "cardDetails.paymentMethodType",
             "paymentMethodType cannot be empty"
         ).notEmpty(),
+        check("shouldSaveCard", "shouldSaveCard should be boolean")
+            .if((_value, { req }) => !req.body.isSavedCard)
+            .not()
+            .isBoolean(),
         check(
             "cardDetails.cardSecurityCode",
             "cardSecurityCode cannot be empty"
@@ -36,9 +40,7 @@ export const PaymentValidators = {
         check("cardDetails.nameOnCard", "nameOnCard cannot be empty")
             .if((_value, { req }) => !req.body.isSavedCard)
             .notEmpty(),
-        check("cardDetails.shouldSaveCard", "shouldSaveCard should be boolean")
-            .if((_value, { req }) => !req.body.isSavedCard)
-            .isBoolean(),
+
         check("cardDetails.cardToken", "cardToken cannot be empty")
             .if((_value, { req }) => req.body.isSavedCard)
             .notEmpty(),

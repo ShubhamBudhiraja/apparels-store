@@ -1,34 +1,19 @@
 import express from "express";
 import { config } from "dotenv";
-import cors from "cors";
+// import cors from "cors";
 import { connectDB } from "./config/database";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
 import { AuthRoutes } from "./routes/auth.routes";
 import { ErrorHandler } from "./middlewares/errorHandler";
-import { customCorsOptions, fun } from "./middlewares/corsHandler";
+// import { customCorsOptions } from "./middlewares/corsHandler";
 import PaymentRoutes from "./routes/payment.routes";
 
 config();
 connectDB();
 
 const app = express();
-// app.use(
-//     cors({
-//         origin: (params1, params2) => {
-//             console.log(params1, "params1");
-//             fun(params1, params2);
-//         },
-//     })
-// );
-app.use((_req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-});
+// app.use(cors(customCorsOptions));
 
 app.use(express.json());
 

@@ -4,6 +4,7 @@ config();
 
 export const customCorsOptions = {
     origin: (origin: any, callback: any) => {
+        console.log(origin, "origin");
         if (process.env.ALLOWED_ORIGINS) {
             const allowedOrigins = process.env.ALLOWED_ORIGINS.split(" ");
 
@@ -14,18 +15,4 @@ export const customCorsOptions = {
             }
         }
     },
-};
-
-export const fun = (origin: any, callback: any) => {
-    if (process.env.ALLOWED_ORIGINS) {
-        const allowedOrigins = process.env.ALLOWED_ORIGINS.split(" ");
-
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback((error: Error | null, origin?: any) => {
-                throw new Error(`Request from unauthorized: ${origin}`);
-            });
-        }
-    }
 };

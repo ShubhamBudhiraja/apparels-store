@@ -28,19 +28,9 @@ const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
     }, [pageData, pathname]);
 
     useEffect(() => {
-        if ((step === 1 || step === 2) && cart?.products?.length === 0) router.push(ROUTES.CART);
-
-        switch (step) {
-            case 1:
-                setCtaText(pageData?.buttons?.payment);
-                break;
-            case 2:
-                setCtaText(pageData?.buttons?.pay);
-                break;
-            default:
-                setCtaText(pageData?.buttons?.continue);
-                break;
-        }
+        if (step > 0 && cart?.products?.length === 0) router.push(ROUTES.CART);
+        if (step === 1) setCtaText(pageData?.buttons?.payment);
+        else setCtaText(pageData?.buttons?.continue);
     }, [step]);
 
     if (step !== -1)

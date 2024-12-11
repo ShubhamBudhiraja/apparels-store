@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from 'src/lib/constants/routes';
 import { VARIANT_ID } from '@enums/products';
 import { IUserAddress } from '@interface/user';
+import usePaymentApi from 'api-managers/services/payment';
 
 interface ICheckoutSummary {
     activeStep: number;
@@ -21,8 +22,9 @@ interface ICheckoutSummary {
 const CheckoutSummary = (props: ICheckoutSummary) => {
     const { activeStep, ctaText, billingData, shippingData } = props;
 
-    const { cart, addresses, selectedAddress } = useAppSelector((state) => state.userProfile);
+    const { userId, cart, addresses, selectedAddress } = useAppSelector((state) => state.userProfile);
     const router = useRouter();
+    const { initiatePayment } = usePaymentApi();
 
     const deliveryFeeMsg = useMemo(() => {
         if (billingData?.deliveryFee?.message)
@@ -49,13 +51,16 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
         }
     }, [addresses, selectedAddress, activeStep]);
 
-    const handleCtaClick = () => {
+    const handleCtaClick = async () => {
         switch (activeStep) {
             case 0:
                 router.push(ROUTES.SHIPPING_DETAILS);
                 break;
             case 1:
-                router.push(ROUTES.PAYMENT);
+                if (userId) {
+                    const res = await initiatePayment({ userId, amount: cart?.total });
+                    if (res?.status) router.push(`${ROUTES.PAYMENT}?orderId=${res?.responseBody?.order_id}`);
+                }
                 break;
             default:
                 break;
@@ -137,9 +142,11 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                     </div>
                 </>
             )}
-            <CustomButton variant="secondary" onClick={handleCtaClick} disabled={isDisabled}>
-                {ctaText}
-            </CustomButton>
+            {activeStep < 2 && (
+                <CustomButton variant="secondary" onClick={handleCtaClick} disabled={isDisabled}>
+                    {ctaText}
+                </CustomButton>
+            )}
         </div>
     );
 };

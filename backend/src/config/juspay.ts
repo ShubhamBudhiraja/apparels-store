@@ -28,7 +28,7 @@ export const createPaymentOrder = async ({
                 order_id: orderid,
                 amount,
                 customer_id: customerId,
-                return_url: `${process.env.CLIENT_PAYMENT_STATUS_URL}?orderId=${orderid}`,
+                return_url: process.env.CLIENT_PAYMENT_STATUS_URL,
             },
             { headers: { ...headers, "x-routing-id": customerId } }
         );
@@ -60,7 +60,7 @@ export const handleCardTransaction = async ({
                 order_id: orderId,
                 merchant_id: process.env.JUSPAY_MERCHANT_ID,
                 redirect_after_payment: true,
-                tokenize: true,
+                tokenize: "true",
                 format: "json",
                 ...(isSavedCard ? {} : { save_to_locker: shouldSaveCard }),
                 payment_method_type: cardDetails.paymentMethodType,
