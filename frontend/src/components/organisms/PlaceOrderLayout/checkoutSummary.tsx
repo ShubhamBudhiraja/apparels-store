@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import style from './index.module.scss';
 import { useAppSelector } from '@store';
 import { IProductData } from '@interface/products';
@@ -25,6 +25,8 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
     const { userId, cart, addresses, selectedAddress } = useAppSelector((state) => state.userProfile);
     const router = useRouter();
     const { initiatePayment } = usePaymentApi();
+
+    const [loading, setLoading] = useState(false);
 
     const deliveryFeeMsg = useMemo(() => {
         if (billingData?.deliveryFee?.message)
@@ -58,8 +60,10 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                 break;
             case 1:
                 if (userId) {
+                    setLoading(true);
                     const res = await initiatePayment({ userId, amount: cart?.total });
                     if (res?.status) router.push(`${ROUTES.PAYMENT}?orderId=${res?.responseBody?.order_id}`);
+                    setLoading(false);
                 }
                 break;
             default:
@@ -106,7 +110,6 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                             <span className={cx(!cart?.isDeliveryFeeIncluded && 'text-decoration-line-through')}>
                                 {formatPrice(BILLING_DETAILS.DELIVERY_FEE, false)}
                             </span>
-
                             {!cart?.isDeliveryFeeIncluded ? (
                                 <span className={style.discount}> {formatPrice(0, false)}</span>
                             ) : (
@@ -143,7 +146,7 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                 </>
             )}
             {activeStep < 2 && (
-                <CustomButton variant="secondary" onClick={handleCtaClick} disabled={isDisabled}>
+                <CustomButton variant="secondary" onClick={handleCtaClick} disabled={isDisabled} loading={loading}>
                     {ctaText}
                 </CustomButton>
             )}

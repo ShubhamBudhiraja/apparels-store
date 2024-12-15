@@ -21,6 +21,8 @@ export const RESPONSE_MESSAGES: any = {
     2020: "Order created successfully",
     2021: "Card details submitted successfully",
     2022: "Order status fetched successfully",
+    2023: "Cards list sent successfully",
+    2024: "Card info sent successfully",
     4000: "Invalid payload",
     4001: "This email is currently in use. Please login",
     4002: "Invalid OTP",
@@ -43,6 +45,8 @@ export const RESPONSE_MESSAGES: any = {
     4020: "Card details could not be submitted",
     4021: "Order could not be created",
     4022: "Order status not found",
+    4023: "Cards list not found",
+    4024: "Card info not found",
     5000: "Internal Server Error",
     5001: "Something went wrong",
 };

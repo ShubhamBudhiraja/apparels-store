@@ -29,6 +29,7 @@ const API_ENDPOINTS = {
         PLACE_ORDER: {
             CARD: '/payment/place-order/card',
         },
+        GET_SAVED_CARDS_LIST: '/payment/get-saved-cards-list',
     },
 };
 

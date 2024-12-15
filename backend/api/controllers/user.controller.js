@@ -29,9 +29,8 @@ const UserControllers = () => {
         const { userId } = req.query;
         try {
             const found = yield user_model_1.UserModel.findOne({ userId });
-            console.log(found, "jhvgh", userId);
             if (found) {
-                console.log("get profile - user details found", found);
+                console.log("get profile - user details found");
                 const cart = found.get("cart");
                 if (found.cart.products.length) {
                     const products = yield product_model_1.ProductModel.find();
@@ -68,7 +67,7 @@ const UserControllers = () => {
         try {
             const found = yield user_model_1.UserModel.findOneAndUpdate({ userId }, { $set: rest });
             if (found) {
-                console.log("updateProfile user found", found);
+                console.log("updateProfile user found");
                 return res.status(200).json((0, common_1.generateCommonResponse)(2005, true));
             }
             else {
@@ -86,7 +85,7 @@ const UserControllers = () => {
         try {
             const found = yield user_model_1.UserModel.findOne({ userId });
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const userDetails = found;
                 userDetails.addresses.push(address);
                 const result = yield user_model_1.UserModel.findOneAndUpdate({ userId }, { $set: { addresses: userDetails.addresses } }, { returnDocument: "after" });
@@ -107,7 +106,7 @@ const UserControllers = () => {
         try {
             const found = yield user_model_1.UserModel.findOne({ userId });
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const addresses = found.get("addresses");
                 const addressIndex = found.addresses.findIndex((address) => address.id === addressId);
                 if (addressIndex === -1) {
@@ -134,7 +133,7 @@ const UserControllers = () => {
         try {
             const found = yield user_model_1.UserModel.findOne({ userId });
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const userDetails = found;
                 const addressIndex = userDetails.addresses.findIndex((address) => address.id === addressId);
                 if (addressIndex === -1) {

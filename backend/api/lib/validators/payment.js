@@ -9,9 +9,12 @@ exports.PaymentValidators = {
     ],
     card: [
         (0, express_validator_1.body)("orderId", "orderId cannot be empty").isString().notEmpty(),
-        (0, express_validator_1.body)("isSavedCard").isBoolean(),
-        (0, express_validator_1.body)("cvvRequired").isBoolean(),
+        (0, express_validator_1.body)("isSavedCard", "isSavedCard is required").isBoolean(),
+        (0, express_validator_1.body)("cvvRequired", "cvvRequired is required").isBoolean(),
         (0, express_validator_1.body)("cardDetails.paymentMethodType", "paymentMethodType cannot be empty").notEmpty(),
+        (0, express_validator_1.check)("shouldSaveCard", "shouldSaveCard should be boolean")
+            .if((_value, { req }) => !req.body.isSavedCard)
+            .isBoolean(),
         (0, express_validator_1.check)("cardDetails.cardSecurityCode", "cardSecurityCode cannot be empty")
             .if((_value, { req }) => req.body.cvvRequired)
             .notEmpty(),
@@ -30,15 +33,12 @@ exports.PaymentValidators = {
         (0, express_validator_1.check)("cardDetails.nameOnCard", "nameOnCard cannot be empty")
             .if((_value, { req }) => !req.body.isSavedCard)
             .notEmpty(),
-        (0, express_validator_1.check)("cardDetails.shouldSaveCard", "shouldSaveCard should be boolean")
-            .if((_value, { req }) => !req.body.isSavedCard)
-            .isBoolean(),
         (0, express_validator_1.check)("cardDetails.cardToken", "cardToken cannot be empty")
             .if((_value, { req }) => req.body.isSavedCard)
             .notEmpty(),
     ],
     paymentStatus: [
-        (0, express_validator_1.body)("orderId", "orderId cannot be empty").isString().notEmpty(),
+        (0, express_validator_1.query)("orderId", "orderId cannot be empty").isString().notEmpty(),
     ],
     completePayment: [
         (0, express_validator_1.body)("orderId", "orderId cannot be empty").isString().notEmpty(),

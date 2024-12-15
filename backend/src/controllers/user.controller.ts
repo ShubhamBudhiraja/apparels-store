@@ -8,9 +8,9 @@ export const UserControllers = () => {
 
         try {
             const found = await UserModel.findOne({ userId });
-            console.log(found, "jhvgh", userId);
+
             if (found) {
-                console.log("get profile - user details found", found);
+                console.log("get profile - user details found");
                 const cart: any = found.get("cart");
                 if (found.cart.products.length) {
                     const products = await ProductModel.find();
@@ -58,7 +58,7 @@ export const UserControllers = () => {
             );
 
             if (found) {
-                console.log("updateProfile user found", found);
+                console.log("updateProfile user found");
                 return res.status(200).json(generateCommonResponse(2005, true));
             } else {
                 console.log("updateProfile user not found");
@@ -77,7 +77,7 @@ export const UserControllers = () => {
             const found = await UserModel.findOne({ userId });
 
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const userDetails = found;
 
                 userDetails.addresses.push(address);
@@ -111,7 +111,7 @@ export const UserControllers = () => {
             const found = await UserModel.findOne({ userId });
 
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const addresses: any = found.get("addresses");
 
                 const addressIndex = found.addresses.findIndex(
@@ -148,7 +148,7 @@ export const UserControllers = () => {
             const found = await UserModel.findOne({ userId });
 
             if (found) {
-                console.log("user details found", found);
+                console.log("user details found");
                 const userDetails = found;
 
                 const addressIndex = userDetails.addresses.findIndex(

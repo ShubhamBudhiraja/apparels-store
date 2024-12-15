@@ -33,10 +33,10 @@ export const createPaymentOrder = async ({
             { headers: { ...headers, "x-routing-id": customerId } }
         );
         console.log("juspay create order success", response);
-        return response.data;
+        return { status: true, data: response.data };
     } catch (e: any) {
         console.log("error occured while creating order");
-        return e?.response?.data;
+        return { status: false, data: e?.response?.data };
     }
 };
 
@@ -60,25 +60,59 @@ export const handleCardTransaction = async ({
                 order_id: orderId,
                 merchant_id: process.env.JUSPAY_MERCHANT_ID,
                 redirect_after_payment: true,
-                tokenize: "true",
                 format: "json",
-                ...(isSavedCard ? {} : { save_to_locker: shouldSaveCard }),
+                ...(isSavedCard
+                    ? {}
+                    : {
+                          save_to_locker: shouldSaveCard,
+                          card_token: cardDetails?.cardToken,
+                          tokenize: `${shouldSaveCard}`,
+                      }),
                 payment_method_type: cardDetails.paymentMethodType,
                 payment_method: cardDetails.paymentMethod,
-                card_token: cardDetails?.cardToken,
                 card_number: cardDetails?.cardNumber,
                 card_exp_month: cardDetails?.cardExpMonth,
                 card_exp_year: cardDetails?.cardExpYear,
                 name_on_card: cardDetails?.nameOnCard,
                 card_security_code: cardDetails?.cardSecurityCode,
             },
-            { headers: { "x-routing-id": customerId } }
+            { headers: { ...headers, "x-routing-id": customerId } }
         );
 
-        return response.data;
+        console.log(response, "resp");
+
+        return { status: true, data: response.data };
     } catch (e: any) {
         console.log("error occured while handling card transaction");
-        return e?.response?.data;
+        return { status: false, data: e?.response?.data };
+    }
+};
+
+export const getSavedCardsList = async (customer_id: string) => {
+    try {
+        const response = await axios.get(ENDPOINTS.JUSPAY_SAVED_CARDS_LIST, {
+            headers: { ...headers, "x-routing-id": customer_id },
+            params: { customer_id },
+        });
+
+        return { status: true, data: response.data };
+    } catch (e: any) {
+        console.log("error occured while getting card list");
+        return { status: false, data: e?.response?.data };
+    }
+};
+
+export const getCardDetails = async (cardBin: string) => {
+    try {
+        const response = await axios.get(
+            `${ENDPOINTS.JUSPAY_GET_CARD_DETAILS}/${cardBin}`,
+            { headers }
+        );
+
+        return { status: true, data: response.data };
+    } catch (e: any) {
+        console.log("error occured while getting card details");
+        return { status: false, data: e?.response?.data };
     }
 };
 
@@ -89,12 +123,12 @@ export const getTransactionStatus = async (
     try {
         const response = await axios.get(
             `${ENDPOINTS.JUSPAY_ORDER_STATUS}/${orderId}`,
-            { headers: { "x-routing-id": customerId } }
+            { headers: { ...headers, "x-routing-id": customerId } }
         );
 
-        return response.data;
+        return { status: true, data: response.data };
     } catch (e: any) {
         console.log("error occured while handling card transaction");
-        return e?.response?.data;
+        return { status: false, data: e?.response?.data };
     }
 };

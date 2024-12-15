@@ -3,19 +3,37 @@ import { useAppSelector } from '@store';
 import React, { useEffect } from 'react';
 import style from './index.module.scss';
 import Card from './Card';
-import { useSearchParams } from 'next/navigation';
+import usePaymentApi from 'api-managers/services/payment';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from 'src/lib/constants/routes';
 
-const Payment = () => {
-    const { cart } = useAppSelector((state) => state.userProfile);
-    const params = useSearchParams();
+interface IPayment {
+    orderId?: string;
+}
 
-    console.log(params);
+const Payment = (props: IPayment) => {
+    const { orderId } = props;
 
-    if (cart.products.length === 0) return <></>;
+    const { userId, cart } = useAppSelector((state) => state.userProfile);
+    const { getPaymentStatus } = usePaymentApi();
+    const router = useRouter();
+
+    const initialiser = async () => {
+        if (orderId && userId) {
+            const res = await getPaymentStatus({ userId, orderId });
+            if (!res?.status) router.push(ROUTES.SHIPPING_DETAILS);
+        }
+    };
+
+    useEffect(() => {
+        initialiser();
+    }, []);
+
+    if (cart.products.length === 0 || !orderId) return <></>;
 
     return (
         <div className={style.wrapper}>
-            <Card total={cart.total} />
+            <Card total={cart.total} orderId={orderId} />
         </div>
     );
 };

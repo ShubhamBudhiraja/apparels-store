@@ -3,6 +3,8 @@ import { generateCommonResponse } from "../lib/utils/common";
 import { UserModel } from "../models/user.model";
 import {
     createPaymentOrder,
+    getCardDetails,
+    getSavedCardsList,
     getTransactionStatus,
     handleCardTransaction,
 } from "../config/juspay";
@@ -37,7 +39,13 @@ export const PaymentControllers = () => {
                         console.log("order created successfully");
                         return res
                             .status(200)
-                            .json(generateCommonResponse(2020, true, response));
+                            .json(
+                                generateCommonResponse(
+                                    2020,
+                                    true,
+                                    response?.data
+                                )
+                            );
                     } else {
                         console.log("order created successfully");
                         return res
@@ -85,10 +93,13 @@ export const PaymentControllers = () => {
             });
 
             if (response?.status) {
-                console.log("card details submitted successfully");
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2021, true, response));
+                console.log("card details submitted successfully", response);
+                return res.status(200).json(
+                    generateCommonResponse(2021, true, {
+                        paymentUrl:
+                            response?.data?.payment?.authentication?.url,
+                    })
+                );
             } else {
                 console.log("card details could not be submitted");
                 return res
@@ -105,24 +116,67 @@ export const PaymentControllers = () => {
         }
     };
 
+    const getSavedCards = async (req: any, res: any) => {
+        const { userId } = req.query;
+        if (userId) {
+            const response = await getSavedCardsList(userId);
+
+            if (response?.status) {
+                console.log("cards list sent successfully");
+                return res
+                    .status(200)
+                    .json(generateCommonResponse(2023, true, response?.data));
+            } else {
+                console.log("cards list not found");
+                return res
+                    .status(400)
+                    .json(generateCommonResponse(4023, false, response));
+            }
+        }
+    };
+
+    const getCardInfo = async (req: any, res: any) => {
+        const { cardBin } = req.query;
+        if (cardBin) {
+            const response = await getCardDetails(cardBin);
+
+            if (response?.status) {
+                console.log("cards info sent successfully");
+                return res
+                    .status(200)
+                    .json(generateCommonResponse(2024, true, response?.data));
+            } else {
+                console.log("cards info not found");
+                return res
+                    .status(400)
+                    .json(generateCommonResponse(4024, false, response));
+            }
+        }
+    };
+
     const getPaymentStatus = async (req: any, res: any) => {
         const errors = validationResult(req);
 
         if (errors.isEmpty()) {
-            const { userId, orderId } = req.body;
+            const { userId, orderId } = req.query;
 
-            const response = await getTransactionStatus(orderId, userId);
+            const response = await getTransactionStatus(
+                orderId as string,
+                userId as string
+            );
 
-            if (response?.status) {
+            if (response?.status && response?.data?.status_id !== 40) {
                 console.log("payment status sent successfully");
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2022, true, response));
+                return res.status(200).json(
+                    generateCommonResponse(2022, true, {
+                        status: response?.data?.status,
+                        statusId: response?.data?.status_id,
+                        amount: response?.data?.amount,
+                    })
+                );
             } else {
                 console.log("payment status not found");
-                return res
-                    .status(400)
-                    .json(generateCommonResponse(4022, false, response));
+                return res.status(400).json(generateCommonResponse(4022));
             }
         } else {
             console.log("invalid payload - payment status");
@@ -132,6 +186,23 @@ export const PaymentControllers = () => {
                 })
             );
         }
+    };
+
+    const getPaymentUpdate = async (req: any, res: any) => {
+        console.log(
+            "request starts ***************\n",
+            req.body,
+            "request body ends***********\n",
+            req.url
+        );
+
+        await OrdersModel.create({
+            userId: "test",
+            orderId: "test",
+            orderTimeStamp: new Date(),
+        });
+
+        res.send("OK");
     };
 
     const completePayment = async (req: any, res: any) => {
@@ -212,8 +283,11 @@ export const PaymentControllers = () => {
 
     return {
         createNewOrder,
+        getCardInfo,
         initiateCardTransaction,
+        getSavedCards,
         getPaymentStatus,
         completePayment,
+        getPaymentUpdate,
     };
 };

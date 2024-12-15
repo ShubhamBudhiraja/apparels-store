@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTransactionStatus = exports.handleCardTransaction = exports.createPaymentOrder = void 0;
+exports.getTransactionStatus = exports.getCardDetails = exports.getSavedCardsList = exports.handleCardTransaction = exports.createPaymentOrder = void 0;
 const dotenv_1 = require("dotenv");
 const endpoints_1 = require("../constants/endpoints");
 const axios_1 = __importDefault(require("axios"));
@@ -30,38 +30,72 @@ const createPaymentOrder = (_a) => __awaiter(void 0, [_a], void 0, function* ({ 
             order_id: orderid,
             amount,
             customer_id: customerId,
-            return_url: `${process.env.CLIENT_PAYMENT_STATUS_URL}?orderId=${orderid}`,
+            return_url: process.env.CLIENT_PAYMENT_STATUS_URL,
         }, { headers: Object.assign(Object.assign({}, headers), { "x-routing-id": customerId }) });
         console.log("juspay create order success", response);
-        return response.data;
+        return { status: true, data: response.data };
     }
     catch (e) {
         console.log("error occured while creating order");
-        return (_b = e === null || e === void 0 ? void 0 : e.response) === null || _b === void 0 ? void 0 : _b.data;
+        return { status: false, data: (_b = e === null || e === void 0 ? void 0 : e.response) === null || _b === void 0 ? void 0 : _b.data };
     }
 });
 exports.createPaymentOrder = createPaymentOrder;
 const handleCardTransaction = (_a) => __awaiter(void 0, [_a], void 0, function* ({ orderId, customerId, isSavedCard = false, shouldSaveCard = false, cardDetails, }) {
     var _b;
     try {
-        const response = yield axios_1.default.post(endpoints_1.ENDPOINTS.JUSPAY_TRANSACTION, Object.assign(Object.assign({ order_id: orderId, merchant_id: process.env.JUSPAY_MERCHANT_ID, redirect_after_payment: true, tokenize: true, format: "json" }, (isSavedCard ? {} : { save_to_locker: shouldSaveCard })), { payment_method_type: cardDetails.paymentMethodType, payment_method: cardDetails.paymentMethod, card_token: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardToken, card_number: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardNumber, card_exp_month: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpMonth, card_exp_year: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpYear, name_on_card: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.nameOnCard, card_security_code: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardSecurityCode }), { headers: { "x-routing-id": customerId } });
-        return response.data;
+        const response = yield axios_1.default.post(endpoints_1.ENDPOINTS.JUSPAY_TRANSACTION, Object.assign(Object.assign({ order_id: orderId, merchant_id: process.env.JUSPAY_MERCHANT_ID, redirect_after_payment: true, format: "json" }, (isSavedCard
+            ? {}
+            : {
+                save_to_locker: shouldSaveCard,
+                card_token: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardToken,
+                tokenize: `${shouldSaveCard}`,
+            })), { payment_method_type: cardDetails.paymentMethodType, payment_method: cardDetails.paymentMethod, card_number: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardNumber, card_exp_month: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpMonth, card_exp_year: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpYear, name_on_card: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.nameOnCard, card_security_code: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardSecurityCode }), { headers: Object.assign(Object.assign({}, headers), { "x-routing-id": customerId }) });
+        console.log(response, "resp");
+        return { status: true, data: response.data };
     }
     catch (e) {
         console.log("error occured while handling card transaction");
-        return (_b = e === null || e === void 0 ? void 0 : e.response) === null || _b === void 0 ? void 0 : _b.data;
+        return { status: false, data: (_b = e === null || e === void 0 ? void 0 : e.response) === null || _b === void 0 ? void 0 : _b.data };
     }
 });
 exports.handleCardTransaction = handleCardTransaction;
+const getSavedCardsList = (customer_id) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const response = yield axios_1.default.get(endpoints_1.ENDPOINTS.JUSPAY_SAVED_CARDS_LIST, {
+            headers: Object.assign(Object.assign({}, headers), { "x-routing-id": customer_id }),
+            params: { customer_id },
+        });
+        return { status: true, data: response.data };
+    }
+    catch (e) {
+        console.log("error occured while getting card list");
+        return { status: false, data: (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.data };
+    }
+});
+exports.getSavedCardsList = getSavedCardsList;
+const getCardDetails = (cardBin) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const response = yield axios_1.default.get(`${endpoints_1.ENDPOINTS.JUSPAY_GET_CARD_DETAILS}/${cardBin}`, { headers });
+        return { status: true, data: response.data };
+    }
+    catch (e) {
+        console.log("error occured while getting card details");
+        return { status: false, data: (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.data };
+    }
+});
+exports.getCardDetails = getCardDetails;
 const getTransactionStatus = (orderId, customerId) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        const response = yield axios_1.default.get(`${endpoints_1.ENDPOINTS.JUSPAY_ORDER_STATUS}/${orderId}`, { headers: { "x-routing-id": customerId } });
-        return response.data;
+        const response = yield axios_1.default.get(`${endpoints_1.ENDPOINTS.JUSPAY_ORDER_STATUS}/${orderId}`, { headers: Object.assign(Object.assign({}, headers), { "x-routing-id": customerId }) });
+        return { status: true, data: response.data };
     }
     catch (e) {
         console.log("error occured while handling card transaction");
-        return (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.data;
+        return { status: false, data: (_a = e === null || e === void 0 ? void 0 : e.response) === null || _a === void 0 ? void 0 : _a.data };
     }
 });
 exports.getTransactionStatus = getTransactionStatus;

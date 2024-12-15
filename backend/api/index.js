@@ -5,28 +5,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = require("dotenv");
+const cors_1 = __importDefault(require("cors"));
 const database_1 = require("./config/database");
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const auth_routes_1 = require("./routes/auth.routes");
 const errorHandler_1 = require("./middlewares/errorHandler");
+const corsHandler_1 = require("./middlewares/corsHandler");
 const payment_routes_1 = __importDefault(require("./routes/payment.routes"));
+const accessHandler_1 = require("./middlewares/accessHandler");
 (0, dotenv_1.config)();
 (0, database_1.connectDB)();
 const app = (0, express_1.default)();
-// app.use(
-//     cors({
-//         origin: (params1, params2) => {
-//             console.log(params1, "params1");
-//             fun(params1, params2);
-//         },
-//     })
-// );
-app.use((_req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use((0, cors_1.default)(corsHandler_1.customCorsOptions));
+app.use(accessHandler_1.handleAppAccess);
 app.use(express_1.default.json());
 app.get("/", (_req, res) => {
     res.send("Welcome to Apparel Store Backend");

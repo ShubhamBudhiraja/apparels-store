@@ -1,4 +1,4 @@
-import { body, check } from "express-validator";
+import { body, check, query } from "express-validator";
 
 export const PaymentValidators = {
     createOrder: [
@@ -9,15 +9,14 @@ export const PaymentValidators = {
     ],
     card: [
         body("orderId", "orderId cannot be empty").isString().notEmpty(),
-        body("isSavedCard", "isSavedCard is required").not().isBoolean(),
-        body("cvvRequired").not().isBoolean(),
+        body("isSavedCard", "isSavedCard is required").isBoolean(),
+        body("cvvRequired", "cvvRequired is required").isBoolean(),
         body(
             "cardDetails.paymentMethodType",
             "paymentMethodType cannot be empty"
         ).notEmpty(),
         check("shouldSaveCard", "shouldSaveCard should be boolean")
             .if((_value, { req }) => !req.body.isSavedCard)
-            .not()
             .isBoolean(),
         check(
             "cardDetails.cardSecurityCode",
@@ -46,7 +45,7 @@ export const PaymentValidators = {
             .notEmpty(),
     ],
     paymentStatus: [
-        body("orderId", "orderId cannot be empty").isString().notEmpty(),
+        query("orderId", "orderId cannot be empty").isString().notEmpty(),
     ],
     completePayment: [
         body("orderId", "orderId cannot be empty").isString().notEmpty(),

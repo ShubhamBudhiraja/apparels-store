@@ -36,7 +36,7 @@ const PaymentControllers = () => {
                         console.log("order created successfully");
                         return res
                             .status(200)
-                            .json((0, common_1.generateCommonResponse)(2020, true, response));
+                            .json((0, common_1.generateCommonResponse)(2020, true, response === null || response === void 0 ? void 0 : response.data));
                     }
                     else {
                         console.log("order created successfully");
@@ -63,6 +63,7 @@ const PaymentControllers = () => {
         }
     });
     const initiateCardTransaction = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b, _c;
         const errors = (0, express_validator_1.validationResult)(req);
         if (errors.isEmpty()) {
             const { userId, orderId, cardDetails, shouldSaveCard, isSavedCard, } = req.body;
@@ -74,10 +75,10 @@ const PaymentControllers = () => {
                 customerId: userId,
             });
             if (response === null || response === void 0 ? void 0 : response.status) {
-                console.log("card details submitted successfully");
-                return res
-                    .status(200)
-                    .json((0, common_1.generateCommonResponse)(2021, true, response));
+                console.log("card details submitted successfully", response);
+                return res.status(200).json((0, common_1.generateCommonResponse)(2021, true, {
+                    paymentUrl: (_c = (_b = (_a = response === null || response === void 0 ? void 0 : response.data) === null || _a === void 0 ? void 0 : _a.payment) === null || _b === void 0 ? void 0 : _b.authentication) === null || _c === void 0 ? void 0 : _c.url,
+                }));
             }
             else {
                 console.log("card details could not be submitted");
@@ -93,22 +94,59 @@ const PaymentControllers = () => {
             }));
         }
     });
-    const getPaymentStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const errors = (0, express_validator_1.validationResult)(req);
-        if (errors.isEmpty()) {
-            const { userId, orderId } = req.body;
-            const response = yield (0, juspay_1.getTransactionStatus)(orderId, userId);
+    const getSavedCards = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { userId } = req.query;
+        if (userId) {
+            const response = yield (0, juspay_1.getSavedCardsList)(userId);
             if (response === null || response === void 0 ? void 0 : response.status) {
-                console.log("payment status sent successfully");
+                console.log("cards list sent successfully");
                 return res
                     .status(200)
-                    .json((0, common_1.generateCommonResponse)(2022, true, response));
+                    .json((0, common_1.generateCommonResponse)(2023, true, response === null || response === void 0 ? void 0 : response.data));
+            }
+            else {
+                console.log("cards list not found");
+                return res
+                    .status(400)
+                    .json((0, common_1.generateCommonResponse)(4023, false, response));
+            }
+        }
+    });
+    const getCardInfo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { cardBin } = req.query;
+        if (cardBin) {
+            const response = yield (0, juspay_1.getCardDetails)(cardBin);
+            if (response === null || response === void 0 ? void 0 : response.status) {
+                console.log("cards info sent successfully");
+                return res
+                    .status(200)
+                    .json((0, common_1.generateCommonResponse)(2024, true, response === null || response === void 0 ? void 0 : response.data));
+            }
+            else {
+                console.log("cards info not found");
+                return res
+                    .status(400)
+                    .json((0, common_1.generateCommonResponse)(4024, false, response));
+            }
+        }
+    });
+    const getPaymentStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b, _c, _d;
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (errors.isEmpty()) {
+            const { userId, orderId } = req.query;
+            const response = yield (0, juspay_1.getTransactionStatus)(orderId, userId);
+            if ((response === null || response === void 0 ? void 0 : response.status) && ((_a = response === null || response === void 0 ? void 0 : response.data) === null || _a === void 0 ? void 0 : _a.status_id) !== 40) {
+                console.log("payment status sent successfully");
+                return res.status(200).json((0, common_1.generateCommonResponse)(2022, true, {
+                    status: (_b = response === null || response === void 0 ? void 0 : response.data) === null || _b === void 0 ? void 0 : _b.status,
+                    statusId: (_c = response === null || response === void 0 ? void 0 : response.data) === null || _c === void 0 ? void 0 : _c.status_id,
+                    amount: (_d = response === null || response === void 0 ? void 0 : response.data) === null || _d === void 0 ? void 0 : _d.amount,
+                }));
             }
             else {
                 console.log("payment status not found");
-                return res
-                    .status(400)
-                    .json((0, common_1.generateCommonResponse)(4022, false, response));
+                return res.status(400).json((0, common_1.generateCommonResponse)(4022));
             }
         }
         else {
@@ -117,6 +155,15 @@ const PaymentControllers = () => {
                 errors: errors.array(),
             }));
         }
+    });
+    const getPaymentUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("request starts ***************\n", req.body, "request body ends***********\n", req.url);
+        yield orders_model_1.OrdersModel.create({
+            userId: "test",
+            orderId: "test",
+            orderTimeStamp: new Date(),
+        });
+        res.send("OK");
     });
     const completePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
@@ -172,9 +219,12 @@ const PaymentControllers = () => {
     });
     return {
         createNewOrder,
+        getCardInfo,
         initiateCardTransaction,
+        getSavedCards,
         getPaymentStatus,
         completePayment,
+        getPaymentUpdate,
     };
 };
 exports.PaymentControllers = PaymentControllers;

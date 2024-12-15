@@ -9,7 +9,7 @@ exports.CART_OPERATION = {
     DECREASE: "decrease",
 };
 exports.BILLING_DETAILS = {
-    DELIVERY_FEE: 199,
-    NO_DELIVERY_FEE_VALUE: 1999,
+    DELIVERY_FEE: 20,
+    NO_DELIVERY_FEE_VALUE: 50,
 };
 //# sourceMappingURL=common.js.map

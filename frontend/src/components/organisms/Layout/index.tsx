@@ -11,6 +11,7 @@ import CustomToast from '@atoms/Toast';
 import { useAppDispatch, useAppSelector } from '@store';
 import { ToastActions } from '@store/reducers/toastSlice';
 import useProfile from '@customHooks/useProfile';
+import PageLoader from '@atoms/PageLoader';
 
 interface ILayout {
     headerData?: any;
@@ -28,15 +29,22 @@ const Layout = (props: ILayout) => {
     const dispatch = useAppDispatch();
 
     const [showHamburger, setShowHamburger] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
 
     const handleToastClose = () => {
         onClose?.();
         dispatch(ToastActions.updateToastState({ show: false }));
     };
 
-    useEffect(() => {
+    const initialiser = async () => {
+        setShowLoader(true);
         const userId = getStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
-        if (userId) storeUser({ userId });
+        if (userId) await storeUser({ userId });
+        setShowLoader(false);
+    };
+
+    useEffect(() => {
+        initialiser();
     }, []);
 
     return (
@@ -44,24 +52,30 @@ const Layout = (props: ILayout) => {
             <Provider store={store}>
                 <CustomToast onClose={handleToastClose} {...toastProps} />
                 <main>
-                    <Header
-                        topBar={headerData?.topBar}
-                        primaryMenu={headerData?.primaryMenu}
-                        secondaryMenu={headerData?.secondaryMenu}
-                        logo={headerData?.logo}
-                        socialIcons={socialIcons}
-                        setShowHamburger={setShowHamburger}
-                        showHamburger={showHamburger}
-                        hamburgerData={headerData?.hamburgerData}
-                    />
-                    {children}
-                    <Footer
-                        formData={footerData?.formData}
-                        siteInfo={footerData?.siteInformation}
-                        copyrightInfo={footerData?.copyrightText}
-                        socialIcons={socialIcons}
-                    />
-                    <LoginModal modalData={loginModalData} />
+                    {showLoader ? (
+                        <PageLoader />
+                    ) : (
+                        <>
+                            <Header
+                                topBar={headerData?.topBar}
+                                primaryMenu={headerData?.primaryMenu}
+                                secondaryMenu={headerData?.secondaryMenu}
+                                logo={headerData?.logo}
+                                socialIcons={socialIcons}
+                                setShowHamburger={setShowHamburger}
+                                showHamburger={showHamburger}
+                                hamburgerData={headerData?.hamburgerData}
+                            />
+                            {children}
+                            <Footer
+                                formData={footerData?.formData}
+                                siteInfo={footerData?.siteInformation}
+                                copyrightInfo={footerData?.copyrightText}
+                                socialIcons={socialIcons}
+                            />
+                            <LoginModal modalData={loginModalData} />
+                        </>
+                    )}
                 </main>
             </Provider>
         </body>

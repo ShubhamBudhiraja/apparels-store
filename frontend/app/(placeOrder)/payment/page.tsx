@@ -1,7 +1,7 @@
 import Payment from '@pages/Payment';
 
-const Page = () => {
-    return <Payment />;
+const Page = (pageProps: any) => {
+    return <Payment orderId={pageProps?.searchParams?.orderId} />;
 };
 
 export default Page;
