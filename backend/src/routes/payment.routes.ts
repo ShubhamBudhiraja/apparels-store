@@ -34,6 +34,6 @@ PaymentRoutes.get("/get-saved-cards-list", getSavedCards);
 
 PaymentRoutes.get("/get-card-info", getCardInfo);
 
-PaymentRoutes.post("/payment/get-payment-update", getPaymentUpdate);
+PaymentRoutes.post("/get-payment-update", getPaymentUpdate);
 
 export default PaymentRoutes;
