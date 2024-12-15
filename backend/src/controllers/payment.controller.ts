@@ -191,9 +191,9 @@ export const PaymentControllers = () => {
     const getPaymentUpdate = async (req: any, res: any) => {
         console.log(
             "request starts ***************\n",
-            req.body,
+            req?.body,
             "request body ends***********\n",
-            req.url,
+            req?.url,
             "request ends"
         );
 
@@ -203,7 +203,7 @@ export const PaymentControllers = () => {
             orderTimeStamp: new Date(),
         });
 
-        res.send("OK");
+        res.status(200).json({ message: "Ok" });
     };
 
     const completePayment = async (req: any, res: any) => {
