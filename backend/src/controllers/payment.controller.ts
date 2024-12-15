@@ -193,7 +193,8 @@ export const PaymentControllers = () => {
             "request starts ***************\n",
             req.body,
             "request body ends***********\n",
-            req.url
+            req.url,
+            "request ends"
         );
 
         await OrdersModel.create({
