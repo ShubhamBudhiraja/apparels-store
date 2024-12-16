@@ -17,6 +17,8 @@ const juspay_1 = require("../config/juspay");
 const product_model_1 = require("../models/product.model");
 const payment_1 = require("../lib/utils/payment");
 const orders_model_1 = require("../models/orders.model");
+const dotenv_1 = require("dotenv");
+(0, dotenv_1.config)();
 const PaymentControllers = () => {
     const createNewOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
