@@ -21,6 +21,7 @@ app.use((0, cors_1.default)(corsHandler_1.customCorsOptions));
 app.use(accessHandler_1.handleAppAccess);
 app.use(express_1.default.json());
 app.get("/", (_req, res) => {
+    throw new Error("error checking");
     res.send("Welcome to Apparel Store Backend");
 });
 app.use("/auth", auth_routes_1.AuthRoutes);

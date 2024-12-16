@@ -1,4 +1,4 @@
-export const ErrorHandler = (err: any, _req: any, res: any) => {
+export const ErrorHandler = (err: any, _req: any, res: any, _next: any) => {
     console.log("Middleware Error Handling");
 
     const errStatus = err.statusCode || 500;

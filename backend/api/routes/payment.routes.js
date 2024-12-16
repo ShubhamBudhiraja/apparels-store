@@ -13,6 +13,6 @@ PaymentRoutes.post("/place-order/card", payment_1.PaymentValidators.card, initia
 PaymentRoutes.get("/get-payment-status", payment_1.PaymentValidators.paymentStatus, getPaymentStatus);
 PaymentRoutes.get("/get-saved-cards-list", getSavedCards);
 PaymentRoutes.get("/get-card-info", getCardInfo);
-PaymentRoutes.get("/payment/get-payment-update", getPaymentUpdate);
+PaymentRoutes.post("/get-payment-update", getPaymentUpdate);
 exports.default = PaymentRoutes;
 //# sourceMappingURL=payment.routes.js.map
