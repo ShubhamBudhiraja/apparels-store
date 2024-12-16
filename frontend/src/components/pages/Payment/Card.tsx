@@ -38,7 +38,7 @@ const Card = (props: ICart) => {
                     cardSecurityCode: formData?.cvv,
                     nameOnCard: formData.nameOnCard,
                 },
-                shouldSaveCard: formData?.shouldSaveCard,
+                shouldSaveCard: formData?.shouldSaveCard || false,
                 isSavedCard: false,
                 cvvRequired: true,
             };
@@ -139,7 +139,7 @@ const Card = (props: ICart) => {
                     <Controller
                         control={control}
                         name="shouldSaveCard"
-                        rules={{ required: dictionary?.requiredFieldError }}
+                        // rules={{ required: dictionary?.requiredFieldError }}
                         render={({ field: { value, onChange } }) => (
                             <Form.Check
                                 type="checkbox"

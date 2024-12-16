@@ -15,6 +15,9 @@ import {
     updateProductInventory,
 } from "../lib/utils/payment";
 import { OrdersModel } from "../models/orders.model";
+import { config } from "dotenv";
+
+config();
 
 export const PaymentControllers = () => {
     const createNewOrder = async (req: any, res: any) => {
