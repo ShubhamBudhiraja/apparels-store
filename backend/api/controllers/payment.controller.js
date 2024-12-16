@@ -157,13 +157,13 @@ const PaymentControllers = () => {
         }
     });
     const getPaymentUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("request starts ***************\n", req.body, "request body ends***********\n", req.url);
+        console.log("request starts ***************\n", req === null || req === void 0 ? void 0 : req.body, "request body ends***********\n", req === null || req === void 0 ? void 0 : req.url, "request ends");
         yield orders_model_1.OrdersModel.create({
             userId: "test",
             orderId: "test",
             orderTimeStamp: new Date(),
         });
-        res.send("OK");
+        res.status(200).json({ message: "Ok" });
     });
     const completePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);

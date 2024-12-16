@@ -20,6 +20,7 @@ app.use(handleAppAccess);
 app.use(express.json());
 
 app.get("/", (_req: any, res: Response) => {
+    throw new Error("error checking");
     res.send("Welcome to Apparel Store Backend");
 });
 app.use("/auth", AuthRoutes);
