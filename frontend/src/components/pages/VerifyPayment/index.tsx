@@ -2,7 +2,7 @@
 import PageLoader from '@atoms/PageLoader';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { ROUTES } from 'src/lib/constants/routes';
+import { ROUTES } from '@enums/routes';
 
 interface IVerifyPayment {
     orderId?: string;

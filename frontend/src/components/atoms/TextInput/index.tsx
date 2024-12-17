@@ -4,18 +4,32 @@ import { Form, FormControl } from 'react-bootstrap';
 
 interface ITextInput {
     placeholder?: string;
-    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    onChange: React.ChangeEventHandler;
+    onKeyDown?: React.KeyboardEventHandler;
     error?: string;
     className?: string;
     type?: string;
     disabled?: boolean;
-    controlProps?: { value: string; [key: string]: string | number };
+    controlProps?: { [key: string]: string | number };
+    icon?: string;
+    onIconClick?: () => void;
 }
 
 const TextInput = (props: ITextInput) => {
-    const { placeholder, type = 'text', onChange, error, className = '', disabled = false, controlProps } = props;
+    const {
+        placeholder,
+        type = 'text',
+        onChange,
+        onKeyDown,
+        error,
+        className = '',
+        disabled = false,
+        controlProps,
+        icon,
+        onIconClick,
+    } = props;
 
-    const { value, ...restProps } = controlProps || {};
+    const { value = '', ...restProps } = controlProps || {};
 
     return (
         <div
@@ -26,10 +40,13 @@ const TextInput = (props: ITextInput) => {
             <Form.Control
                 placeholder={placeholder}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 value={value}
                 type={type}
+                autoComplete="off"
                 {...restProps}
             ></Form.Control>
+            {icon && <i className={`font icon-${icon} ${style.icon}`} onClick={onIconClick}></i>}
             {error && (
                 <FormControl.Feedback className={style.error} type="invalid">
                     {error}

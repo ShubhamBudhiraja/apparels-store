@@ -7,7 +7,7 @@ import { formatPrice } from '@utils/common';
 import cx from 'classnames';
 import CustomButton from '@atoms/CustomButton';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from 'src/lib/constants/routes';
+import { ROUTES } from '@enums/routes';
 import { VARIANT_ID } from '@enums/products';
 import { IUserAddress } from '@interface/user';
 import usePaymentApi from 'api-managers/services/payment';
@@ -59,9 +59,9 @@ const CheckoutSummary = (props: ICheckoutSummary) => {
                 router.push(ROUTES.SHIPPING_DETAILS);
                 break;
             case 1:
-                if (userId) {
+                if (userId && selectedAddress) {
                     setLoading(true);
-                    const res = await initiatePayment({ userId, amount: cart?.total });
+                    const res = await initiatePayment({ userId, amount: cart?.total, addressId: selectedAddress });
                     if (res?.status) router.push(`${ROUTES.PAYMENT}?orderId=${res?.responseBody?.order_id}`);
                     setLoading(false);
                 }

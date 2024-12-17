@@ -79,8 +79,6 @@ export const handleCardTransaction = async ({
             { headers: { ...headers, "x-routing-id": customerId } }
         );
 
-        console.log(response, "resp");
-
         return { status: true, data: response.data };
     } catch (e: any) {
         console.log("error occured while handling card transaction");

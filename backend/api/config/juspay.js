@@ -51,7 +51,6 @@ const handleCardTransaction = (_a) => __awaiter(void 0, [_a], void 0, function* 
                 card_token: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardToken,
                 tokenize: `${shouldSaveCard}`,
             })), { payment_method_type: cardDetails.paymentMethodType, payment_method: cardDetails.paymentMethod, card_number: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardNumber, card_exp_month: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpMonth, card_exp_year: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardExpYear, name_on_card: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.nameOnCard, card_security_code: cardDetails === null || cardDetails === void 0 ? void 0 : cardDetails.cardSecurityCode }), { headers: Object.assign(Object.assign({}, headers), { "x-routing-id": customerId }) });
-        console.log(response, "resp");
         return { status: true, data: response.data };
     }
     catch (e) {
