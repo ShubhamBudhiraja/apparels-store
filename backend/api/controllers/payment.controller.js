@@ -206,12 +206,6 @@ const PaymentControllers = () => {
                     else
                         res.status(400).json((0, common_1.generateCommonResponse)(4018));
                 }
-                yield orders_model_1.OrdersModel.create({
-                    userId: "test",
-                    orderId: "test",
-                    orderTimeStamp: new Date(),
-                });
-                res.status(200).json({ message: "Ok" });
             }
             else {
                 console.log("user not found while completing payment");

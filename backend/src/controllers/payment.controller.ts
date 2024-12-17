@@ -277,14 +277,6 @@ export const PaymentControllers = () => {
                         );
                     else res.status(400).json(generateCommonResponse(4018));
                 }
-
-                await OrdersModel.create({
-                    userId: "test",
-                    orderId: "test",
-                    orderTimeStamp: new Date(),
-                });
-
-                res.status(200).json({ message: "Ok" });
             } else {
                 console.log("user not found while completing payment");
                 return res.status(400).json(generateCommonResponse(4004));
