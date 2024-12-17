@@ -5,7 +5,7 @@ import style from './index.module.scss';
 import Card from './Card';
 import usePaymentApi from 'api-managers/services/payment';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from 'src/lib/constants/routes';
+import { ROUTES } from '@enums/routes';
 
 interface IPayment {
     orderId?: string;

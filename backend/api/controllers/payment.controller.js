@@ -23,12 +23,12 @@ const PaymentControllers = () => {
     const createNewOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const errors = (0, express_validator_1.validationResult)(req);
         if (errors.isEmpty()) {
-            const { amount, userId } = req.body;
+            const { amount, userId, addressId } = req.body;
             try {
                 const foundUser = yield user_model_1.UserModel.findOne({ userId });
                 if (foundUser) {
                     const timeStamp = new Date();
-                    const orderId = `${timeStamp.getTime()}${timeStamp.getMonth()}${timeStamp.getDate()}${timeStamp.getFullYear()}`;
+                    const orderId = `${timeStamp.getTime()}${timeStamp.getMonth()}${timeStamp.getDate()}${timeStamp.getFullYear()}_${addressId}`;
                     const response = yield (0, juspay_1.createPaymentOrder)({
                         amount,
                         orderid: orderId,
@@ -158,65 +158,69 @@ const PaymentControllers = () => {
             }));
         }
     });
+    const completePayment = (_a) => __awaiter(void 0, [_a], void 0, function* ({ orderId, userId, addressId, userDetails, }) {
+        const allProducts = yield product_model_1.ProductModel.find();
+        let allProductsAvailable = (0, payment_1.checkProductsAvailability)(allProducts, userDetails.cart.products);
+        if (!allProductsAvailable) {
+            console.log("some products went out of stock");
+            return false;
+        }
+        console.log("all products available");
+        (0, payment_1.updateProductInventory)(allProducts, userDetails.cart.products);
+        const orderDetails = (0, payment_1.generateOrderDetails)({
+            orderId,
+            userDetails: userDetails,
+            addressId,
+        });
+        yield orders_model_1.OrdersModel.findOneAndUpdate({ userId }, { $set: Object.assign({}, orderDetails) });
+        console.log("orders collection updated");
+        const cart = {
+            cartTotal: 0,
+            total: 0,
+            products: [],
+            isDeliveryFeeIncluded: false,
+            couponDiscount: 0,
+        };
+        yield user_model_1.UserModel.findOneAndUpdate({ userId }, { $set: { cart } });
+        console.log("user cart updated");
+        return true;
+    });
     const getPaymentUpdate = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("request starts ***************\n", req === null || req === void 0 ? void 0 : req.body, "request body ends***********\n", req === null || req === void 0 ? void 0 : req.url, "request ends");
-        yield orders_model_1.OrdersModel.create({
-            userId: "test",
-            orderId: "test",
-            orderTimeStamp: new Date(),
-        });
-        res.status(200).json({ message: "Ok" });
-    });
-    const completePayment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const errors = (0, express_validator_1.validationResult)(req);
-        if (errors.isEmpty()) {
-            const { orderId, userId, addressId } = req.body;
-            try {
-                const foundUser = yield user_model_1.UserModel.findOne({ userId });
-                if (foundUser) {
-                    const allProducts = yield product_model_1.ProductModel.find();
-                    let allProductsAvailable = (0, payment_1.checkProductsAvailability)(allProducts, foundUser.cart.products);
-                    if (!allProductsAvailable) {
-                        console.log("some products went out of stock");
-                        return res
-                            .status(400)
-                            .json((0, common_1.generateCommonResponse)(4018));
-                    }
-                    console.log("all products available");
-                    (0, payment_1.updateProductInventory)(allProducts, foundUser.cart.products);
-                    const orderDetails = (0, payment_1.generateOrderDetails)({
+        const { content: { order }, } = req.body;
+        try {
+            const foundUser = yield user_model_1.UserModel.findOne({
+                userId: order.customer_id,
+            });
+            if (foundUser) {
+                if (order.status_id === 21) {
+                    const [orderId, addressId] = order.order_id.split("_");
+                    const status = yield completePayment({
                         orderId,
-                        userDetails: foundUser,
+                        userId: order.customer_id,
                         addressId,
+                        userDetails: foundUser,
                     });
-                    yield orders_model_1.OrdersModel.findOneAndUpdate({ userId }, { $set: Object.assign({}, orderDetails) });
-                    console.log("orders collection updated");
-                    const cart = {
-                        cartTotal: 0,
-                        total: 0,
-                        products: [],
-                        isDeliveryFeeIncluded: false,
-                        couponDiscount: 0,
-                    };
-                    yield user_model_1.UserModel.findOneAndUpdate({ userId }, { $set: { cart } });
-                    console.log("user cart updated");
-                    res.status(200).json((0, common_1.generateCommonResponse)(2019, true));
+                    if (status)
+                        res.status(200).json((0, common_1.generateCommonResponse)(2019, true));
+                    else
+                        res.status(400).json((0, common_1.generateCommonResponse)(4018));
                 }
-                else {
-                    console.log("user not found while completing payment");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4004));
-                }
+                yield orders_model_1.OrdersModel.create({
+                    userId: "test",
+                    orderId: "test",
+                    orderTimeStamp: new Date(),
+                });
+                res.status(200).json({ message: "Ok" });
             }
-            catch (e) {
-                console.log("error occured while completing payment", e);
-                return res.status(500).json((0, common_1.generateCommonResponse)(5000));
+            else {
+                console.log("user not found while completing payment");
+                return res.status(400).json((0, common_1.generateCommonResponse)(4004));
             }
         }
-        else {
-            console.log("invalid payload - payment status");
-            return res.status(400).json((0, common_1.generateCommonResponse)(4000, false, {
-                errors: errors.array(),
-            }));
+        catch (e) {
+            console.log("error occured while completing payment", e);
+            return res.status(500).json((0, common_1.generateCommonResponse)(5000));
         }
     });
     return {

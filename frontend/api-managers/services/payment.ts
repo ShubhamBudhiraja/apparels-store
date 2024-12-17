@@ -5,10 +5,18 @@ import API_ENDPOINTS from 'api-managers/endpoints';
 const usePaymentApi = () => {
     const { getApi, postApi } = useApiCall();
 
-    const initiatePayment = async ({ userId, amount }: { userId: string; amount: number }) => {
+    const initiatePayment = async ({
+        userId,
+        amount,
+        addressId,
+    }: {
+        userId: string;
+        amount: number;
+        addressId: string;
+    }) => {
         const res = await postApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.CREATE_ORDER}`,
-            requestPayload: { userId, amount },
+            requestPayload: { userId, amount, addressId },
         });
 
         return res;
@@ -38,6 +46,15 @@ const usePaymentApi = () => {
         return res;
     };
 
+    const getCardInfo = async (cardBin: string) => {
+        const res = await getApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.GET_CARD_DETAILS}`,
+            headers: { params: { cardBin } },
+        });
+
+        return res;
+    };
+
     const getPaymentStatus = async ({ orderId, userId }: { orderId: string; userId: string }) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.PAYMENT.GET_PAYMENT_STATUS}`,
@@ -47,7 +64,7 @@ const usePaymentApi = () => {
         return res;
     };
 
-    return { initiatePayment, handleCardPayment, getSavedCardsList, getPaymentStatus };
+    return { initiatePayment, handleCardPayment, getSavedCardsList, getCardInfo, getPaymentStatus };
 };
 
 export default usePaymentApi;

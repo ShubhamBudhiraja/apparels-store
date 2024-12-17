@@ -18,6 +18,8 @@ export type IconsId =
   | "heart"
   | "heart-filled"
   | "facebook"
+  | "eye"
+  | "eye-slash"
   | "down"
   | "delivery"
   | "delete"
@@ -45,6 +47,8 @@ export type IconsKey =
   | "Heart"
   | "HeartFilled"
   | "Facebook"
+  | "Eye"
+  | "EyeSlash"
   | "Down"
   | "Delivery"
   | "Delete"
@@ -72,6 +76,8 @@ export enum Icons {
   Heart = "heart",
   HeartFilled = "heart-filled",
   Facebook = "facebook",
+  Eye = "eye",
+  EyeSlash = "eye-slash",
   Down = "down",
   Delivery = "delivery",
   Delete = "delete",
@@ -100,10 +106,12 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Heart]: "61713",
   [Icons.HeartFilled]: "61714",
   [Icons.Facebook]: "61715",
-  [Icons.Down]: "61716",
-  [Icons.Delivery]: "61717",
-  [Icons.Delete]: "61718",
-  [Icons.Cross]: "61719",
-  [Icons.Bag]: "61720",
-  [Icons.BagFilled]: "61721",
+  [Icons.Eye]: "61716",
+  [Icons.EyeSlash]: "61717",
+  [Icons.Down]: "61718",
+  [Icons.Delivery]: "61719",
+  [Icons.Delete]: "61720",
+  [Icons.Cross]: "61721",
+  [Icons.Bag]: "61722",
+  [Icons.BagFilled]: "61723",
 };

@@ -8,7 +8,7 @@ import cx from 'classnames';
 import CheckoutSummary from './checkoutSummary';
 import { useAppSelector } from '@store';
 import EmptyWrapper from '@molecules/EmptyWrapper';
-import { ROUTES } from 'src/lib/constants/routes';
+import { ROUTES } from '@enums/routes';
 
 const PlaceOrderLayout = (props: { pageData?: any; children: ReactNode }) => {
     const { pageData, children } = props;
