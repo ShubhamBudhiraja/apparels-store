@@ -226,7 +226,8 @@ export const PaymentControllers = () => {
 
         await OrdersModel.findOneAndUpdate(
             { userId },
-            { $set: { ...orderDetails } }
+            { $set: { ...orderDetails } },
+            { upsert: true }
         );
         console.log("orders collection updated");
 
