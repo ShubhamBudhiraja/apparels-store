@@ -172,7 +172,7 @@ const PaymentControllers = () => {
             userDetails: userDetails,
             addressId,
         });
-        yield orders_model_1.OrdersModel.findOneAndUpdate({ userId }, { $set: Object.assign({}, orderDetails) });
+        yield orders_model_1.OrdersModel.findOneAndUpdate({ userId }, { $set: Object.assign({}, orderDetails) }, { upsert: true });
         console.log("orders collection updated");
         const cart = {
             cartTotal: 0,
