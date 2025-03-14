@@ -17,7 +17,7 @@ const useApiCall = () => {
         try {
             const res = await Axios.get(requestUrl, headers);
 
-            return res?.data;
+            return handleAPIResponse(showErrorPopup, res, autoHidePopup);
         } catch (e: any) {
             return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
@@ -39,7 +39,7 @@ const useApiCall = () => {
         try {
             const res = await Axios.post(requestUrl, requestPayload, headers);
 
-            return res?.data;
+            return handleAPIResponse(showErrorPopup, res, autoHidePopup);
         } catch (e: any) {
             return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
@@ -61,7 +61,7 @@ const useApiCall = () => {
         try {
             const res = await Axios.patch(requestUrl, requestPayload, headers);
 
-            return res?.data;
+            return handleAPIResponse(showErrorPopup, res, autoHidePopup);
         } catch (e: any) {
             return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
@@ -81,7 +81,7 @@ const useApiCall = () => {
         try {
             const res = await Axios.delete(requestUrl, headers);
 
-            return res?.data;
+            return handleAPIResponse(showErrorPopup, res, autoHidePopup);
         } catch (e: any) {
             return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }

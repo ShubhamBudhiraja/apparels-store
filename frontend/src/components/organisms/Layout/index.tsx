@@ -1,3 +1,4 @@
+'use client';
 import Footer from 'src/components/organisms/Footer';
 import Header from 'src/components/organisms/Header';
 import React, { useEffect, useState } from 'react';
@@ -49,35 +50,33 @@ const Layout = (props: ILayout) => {
 
     return (
         <body className={showHamburger ? 'overflow-hidden' : ''}>
-            <Provider store={store}>
-                <CustomToast onClose={handleToastClose} {...toastProps} />
-                <main>
-                    {showLoader ? (
-                        <PageLoader />
-                    ) : (
-                        <>
-                            <Header
-                                topBar={headerData?.topBar}
-                                primaryMenu={headerData?.primaryMenu}
-                                secondaryMenu={headerData?.secondaryMenu}
-                                logo={headerData?.logo}
-                                socialIcons={socialIcons}
-                                setShowHamburger={setShowHamburger}
-                                showHamburger={showHamburger}
-                                hamburgerData={headerData?.hamburgerData}
-                            />
-                            {children}
-                            <Footer
-                                formData={footerData?.formData}
-                                siteInfo={footerData?.siteInformation}
-                                copyrightInfo={footerData?.copyrightText}
-                                socialIcons={socialIcons}
-                            />
-                            <LoginModal modalData={loginModalData} />
-                        </>
-                    )}
-                </main>
-            </Provider>
+            <CustomToast onClose={handleToastClose} {...toastProps} />
+            <main>
+                {showLoader ? (
+                    <PageLoader />
+                ) : (
+                    <>
+                        <Header
+                            topBar={headerData?.topBar}
+                            primaryMenu={headerData?.primaryMenu}
+                            secondaryMenu={headerData?.secondaryMenu}
+                            logo={headerData?.logo}
+                            socialIcons={socialIcons}
+                            setShowHamburger={setShowHamburger}
+                            showHamburger={showHamburger}
+                            hamburgerData={headerData?.hamburgerData}
+                        />
+                        {children}
+                        <Footer
+                            formData={footerData?.formData}
+                            siteInfo={footerData?.siteInformation}
+                            copyrightInfo={footerData?.copyrightText}
+                            socialIcons={socialIcons}
+                        />
+                        <LoginModal modalData={loginModalData} />
+                    </>
+                )}
+            </main>
         </body>
     );
 };

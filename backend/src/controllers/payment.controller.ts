@@ -52,14 +52,14 @@ export const PaymentControllers = () => {
                     } else {
                         console.log("order created successfully");
                         return res
-                            .status(400)
+                            .status(200)
                             .json(
                                 generateCommonResponse(4021, false, response)
                             );
                     }
                 } else {
                     console.log("user not found while initiating payment");
-                    return res.status(400).json(generateCommonResponse(4004));
+                    return res.status(200).json(generateCommonResponse(4004));
                 }
             } catch (e) {
                 console.log("error occured while creating order", e);
@@ -67,7 +67,7 @@ export const PaymentControllers = () => {
             }
         } else {
             console.log("invalid payload received while creating order");
-            return res.status(400).json(
+            return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
                 })
@@ -106,12 +106,12 @@ export const PaymentControllers = () => {
             } else {
                 console.log("card details could not be submitted");
                 return res
-                    .status(400)
+                    .status(200)
                     .json(generateCommonResponse(4020, false, response));
             }
         } else {
             console.log("invalid payload - initiating card transaction");
-            return res.status(400).json(
+            return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
                 })
@@ -132,7 +132,7 @@ export const PaymentControllers = () => {
             } else {
                 console.log("cards list not found");
                 return res
-                    .status(400)
+                    .status(200)
                     .json(generateCommonResponse(4023, false, response));
             }
         }
@@ -151,7 +151,7 @@ export const PaymentControllers = () => {
             } else {
                 console.log("cards info not found");
                 return res
-                    .status(400)
+                    .status(200)
                     .json(generateCommonResponse(4024, false, response));
             }
         }
@@ -179,11 +179,11 @@ export const PaymentControllers = () => {
                 );
             } else {
                 console.log("payment status not found");
-                return res.status(400).json(generateCommonResponse(4022));
+                return res.status(200).json(generateCommonResponse(4022));
             }
         } else {
             console.log("invalid payload - payment status");
-            return res.status(400).json(
+            return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
                 })
@@ -276,11 +276,11 @@ export const PaymentControllers = () => {
                         res.status(200).json(
                             generateCommonResponse(2019, true)
                         );
-                    else res.status(400).json(generateCommonResponse(4018));
+                    else res.status(200).json(generateCommonResponse(4018));
                 }
             } else {
                 console.log("user not found while completing payment");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while completing payment", e);
@@ -294,7 +294,6 @@ export const PaymentControllers = () => {
         initiateCardTransaction,
         getSavedCards,
         getPaymentStatus,
-        completePayment,
         getPaymentUpdate,
     };
 };

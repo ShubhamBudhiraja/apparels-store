@@ -10,6 +10,7 @@ import SectionHeader from '@atoms/SectionHeader';
 import { LayoutContextData } from 'src/lib/context/layout';
 import useProductsAPI from 'api-managers/services/products';
 import { ISingleSlide } from '@interface/common';
+import { ClientPageRoot } from 'next/dist/client/components/client-page';
 
 interface IHome {
     serverData?: any;
@@ -33,7 +34,6 @@ const Home = (props: IHome) => {
     useEffect(() => {
         initialiser();
     }, []);
-    console.info("helo")
 
     return (
         <>
