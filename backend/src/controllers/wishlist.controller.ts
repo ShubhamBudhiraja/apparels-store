@@ -27,7 +27,7 @@ export const WishlistControllers = () => {
                         console.log("product already added in wishlist");
 
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4014));
                     } else {
                         console.log("adding product to wishlist");
@@ -69,11 +69,11 @@ export const WishlistControllers = () => {
                     }
                 } else {
                     console.log("product not found");
-                    return res.status(400).json(generateCommonResponse(4008));
+                    return res.status(200).json(generateCommonResponse(4008));
                 }
             } else {
                 console.log("user not found while adding product to wishlist");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while adding product to wishlist", e);
@@ -103,7 +103,7 @@ export const WishlistControllers = () => {
                     if (productIndex === -1) {
                         console.log("product not found in wishlist");
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4015));
                     } else {
                         console.log("updating wishlist");
@@ -134,11 +134,11 @@ export const WishlistControllers = () => {
                     }
                 } else {
                     console.log("product not found");
-                    return res.status(400).json(generateCommonResponse(4008));
+                    return res.status(200).json(generateCommonResponse(4008));
                 }
             } else {
                 console.log("user not found while adding product to cart");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while adding product to cart", e);
