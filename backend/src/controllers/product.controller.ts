@@ -14,7 +14,7 @@ export const ProductControllers = () => {
 
             if (foundProduct) {
                 console.log("product found");
-                return res.status(400).json(generateCommonResponse(4013));
+                return res.status(200).json(generateCommonResponse(4013));
             } else {
                 if (productData.productId) {
                     await ProductModel.create(productData);
@@ -24,7 +24,7 @@ export const ProductControllers = () => {
                         .json(generateCommonResponse(2011, true));
                 } else {
                     console.log("product id is missing");
-                    return res.status(400).json(generateCommonResponse(4012));
+                    return res.status(200).json(generateCommonResponse(4012));
                 }
             }
         } catch (e) {
@@ -46,7 +46,7 @@ export const ProductControllers = () => {
                 return res.status(200).json(generateCommonResponse(2010, true));
             } else {
                 console.log("product not found");
-                return res.status(400).json(generateCommonResponse(4008));
+                return res.status(200).json(generateCommonResponse(4008));
             }
         } catch (e) {
             console.log("error occured while removing product", e);
@@ -93,7 +93,7 @@ export const ProductControllers = () => {
                     .json(generateCommonResponse(2012, true, productDetails));
             } else {
                 console.log("product not found");
-                return res.status(400).json(generateCommonResponse(4008));
+                return res.status(200).json(generateCommonResponse(4008));
             }
         } catch (e) {
             console.log("error occured while getting product details", e);

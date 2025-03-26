@@ -63,7 +63,7 @@ export const AuthControllers = () => {
                         .json(generateCommonResponse(2001, true));
                 }
             } else {
-                return res.status(400).json(generateCommonResponse(4000));
+                return res.status(200).json(generateCommonResponse(4000));
             }
         } catch (e: any) {
             console.log("error occured while registering", e);
@@ -87,11 +87,11 @@ export const AuthControllers = () => {
                         .json(generateCommonResponse(2003, true));
                 } else {
                     console.log("invalid password");
-                    return res.status(400).json(generateCommonResponse(4003));
+                    return res.status(200).json(generateCommonResponse(4003));
                 }
             } else {
                 console.log("invalid email");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e: any) {
             console.log("error occured while logging in", e);
@@ -119,7 +119,7 @@ export const AuthControllers = () => {
                 return res.status(200).json(generateCommonResponse(2002, true));
             } else {
                 console.log("invalid otp");
-                return res.status(400).json(generateCommonResponse(4002));
+                return res.status(200).json(generateCommonResponse(4002));
             }
         } catch (e: any) {
             console.log("error occured while validating otp", e);
@@ -148,7 +148,7 @@ export const AuthControllers = () => {
 
                 return res.status(200).json(generateCommonResponse(2001, true));
             } else {
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e: any) {
             console.log("error occured during forgot otp", e);
@@ -172,7 +172,7 @@ export const AuthControllers = () => {
                 return res.status(200).json(generateCommonResponse(2004, true));
             } else {
                 console.log("invalid email");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e: any) {
             console.log("error occured while updating password", e);

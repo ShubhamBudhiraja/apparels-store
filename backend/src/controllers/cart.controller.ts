@@ -68,7 +68,7 @@ export const CartControllers = () => {
                             console.log("product is out of stock");
 
                             return res
-                                .status(400)
+                                .status(200)
                                 .json(generateCommonResponse(4007));
                         }
 
@@ -85,7 +85,7 @@ export const CartControllers = () => {
                             console.log("product already added in cart");
 
                             return res
-                                .status(400)
+                                .status(200)
                                 .json(generateCommonResponse(4005));
                         } else {
                             console.log("adding product to cart");
@@ -159,16 +159,16 @@ export const CartControllers = () => {
                     } else {
                         console.log("variant not found");
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4016));
                     }
                 } else {
                     console.log("product not found");
-                    return res.status(400).json(generateCommonResponse(4008));
+                    return res.status(200).json(generateCommonResponse(4008));
                 }
             } else {
                 console.log("user not found while adding product to cart");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while adding product to cart", e);
@@ -198,7 +198,7 @@ export const CartControllers = () => {
                         console.log("product is out of stock");
 
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4007));
                     }
 
@@ -213,7 +213,7 @@ export const CartControllers = () => {
                         console.log("product not found in cart");
 
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4006));
                     } else {
                         console.log("updating cart");
@@ -227,7 +227,7 @@ export const CartControllers = () => {
                                     console.log("maximum inventory reached");
 
                                     return res
-                                        .status(400)
+                                        .status(200)
                                         .json(generateCommonResponse(4009));
                                 } else {
                                     userDetails.cart.products[
@@ -339,17 +339,17 @@ export const CartControllers = () => {
                             default:
                                 console.log("invalid operation");
                                 return res
-                                    .status(400)
+                                    .status(200)
                                     .json(generateCommonResponse(4010));
                         }
                     }
                 } else {
                     console.log("product not found");
-                    return res.status(400).json(generateCommonResponse(4008));
+                    return res.status(200).json(generateCommonResponse(4008));
                 }
             } else {
                 console.log("user not found while adding product to cart");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while adding product to cart", e);
@@ -390,16 +390,16 @@ export const CartControllers = () => {
                     } else {
                         console.log("product not found in cart");
                         return res
-                            .status(400)
+                            .status(200)
                             .json(generateCommonResponse(4006));
                     }
                 } else {
                     console.log("product not found");
-                    return res.status(400).json(generateCommonResponse(4008));
+                    return res.status(200).json(generateCommonResponse(4008));
                 }
             } else {
                 console.log("user not found while deleting product from cart");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while deleting product from cart", e);
