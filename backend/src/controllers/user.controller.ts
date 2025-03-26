@@ -37,7 +37,7 @@ export const UserControllers = () => {
                     .json(generateCommonResponse(2006, true, found));
             } else {
                 console.log("get profile - user not found");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while getting profile", e);
@@ -62,7 +62,7 @@ export const UserControllers = () => {
                 return res.status(200).json(generateCommonResponse(2005, true));
             } else {
                 console.log("updateProfile user not found");
-                return res.status(400).json(generateCommonResponse(4004));
+                return res.status(200).json(generateCommonResponse(4004));
             }
         } catch (e) {
             console.log("error occured while updating profile", e);
@@ -120,7 +120,7 @@ export const UserControllers = () => {
 
                 if (addressIndex === -1) {
                     console.log("address not found while deleting");
-                    return res.status(400).json(generateCommonResponse(4017));
+                    return res.status(200).json(generateCommonResponse(4017));
                 } else {
                     Object.entries(rest).forEach(([key, value]) => {
                         addresses[addressIndex][key] = value;
@@ -157,7 +157,7 @@ export const UserControllers = () => {
 
                 if (addressIndex === -1) {
                     console.log("address not found while deleting");
-                    return res.status(400).json(generateCommonResponse(4017));
+                    return res.status(200).json(generateCommonResponse(4017));
                 } else {
                     const addresses = userDetails.addresses;
                     addresses.splice(addressIndex, 1);
