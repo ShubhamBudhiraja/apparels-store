@@ -30,3 +30,13 @@ Backend:
 Deployment:
 
 -> Vercel (Backend)
+
+## 📈 Future Improvements
+
+-> Product reviews and ratings
+
+-> Admin dashboard for inventory management
+
+-> Real-time order notifications / Order tracking
+
+-> Product Listings Filtering
