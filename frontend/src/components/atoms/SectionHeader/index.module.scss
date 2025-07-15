@@ -1,8 +1,7 @@
 @import '@styles/partials/variables';
-@import '@styles/partials/mixins';
 
 .heading {
-    @include toRem(font-size, 32);
+    font-size: 2rem;
     margin-bottom: 1.5rem;
     font-weight: $bold;
 }

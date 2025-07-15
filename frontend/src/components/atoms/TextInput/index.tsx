@@ -13,6 +13,7 @@ interface ITextInput {
     controlProps?: { [key: string]: string | number };
     icon?: string;
     onIconClick?: () => void;
+    textarea?: boolean;
 }
 
 const TextInput = (props: ITextInput) => {
@@ -27,6 +28,7 @@ const TextInput = (props: ITextInput) => {
         controlProps,
         icon,
         onIconClick,
+        textarea,
     } = props;
 
     const { value = '', ...restProps } = controlProps || {};
@@ -43,6 +45,7 @@ const TextInput = (props: ITextInput) => {
                 onKeyDown={onKeyDown}
                 value={value}
                 type={type}
+                as={textarea ? 'textarea' : 'input'}
                 autoComplete="off"
                 {...restProps}
             ></Form.Control>

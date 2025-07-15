@@ -9,6 +9,7 @@ import { ErrorHandler } from "./middlewares/errorHandler";
 import { customCorsOptions } from "./middlewares/corsHandler";
 import PaymentRoutes from "./routes/payment.routes";
 import { handleAppAccess } from "./middlewares/accessHandler";
+import { OrdersRoutes } from "./routes/orders.routes";
 
 config();
 connectDB();
@@ -20,13 +21,13 @@ app.use(handleAppAccess);
 app.use(express.json());
 
 app.get("/", (_req: any, res: Response) => {
-    throw new Error("error checking");
     res.send("Welcome to Apparel Store Backend");
 });
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
 app.use("/product", ProductRoutes);
 app.use("/payment", PaymentRoutes);
+app.use("/orders", OrdersRoutes);
 
 app.use(ErrorHandler);
 

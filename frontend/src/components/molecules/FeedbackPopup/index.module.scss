@@ -1,0 +1,11 @@
+@import '@styles/partials/mixins';
+
+.popupWrap {
+    @include toRem(max-width, 420);
+
+    .customPopupHeader {
+        border: unset;
+        justify-content: center;
+        padding-bottom: 0;
+    }
+}

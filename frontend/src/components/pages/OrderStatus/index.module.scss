@@ -1,0 +1,72 @@
+@import '@styles/partials/variables';
+
+.statusWrapper {
+    max-width: 35rem;
+    display: block;
+    margin: 0 auto;
+    padding: 4rem 0;
+
+    h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+    }
+
+    .banner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 3rem;
+
+        img {
+            width: 4.5rem;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        p {
+            text-align: left;
+
+            i {
+                cursor: pointer;
+                margin-left: 0.5rem;
+            }
+        }
+    }
+
+    .productWrapper {
+        display: flex;
+        column-gap: 1.5rem;
+        border: 0.063rem solid $borderColor;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+
+        h5 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        p {
+            font-size: 0.875rem;
+        }
+
+        figure {
+            width: 6rem;
+            height: 6rem;
+
+            img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+        }
+    }
+}

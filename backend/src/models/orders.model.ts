@@ -29,6 +29,10 @@ const ordersSchema = new mongoose.Schema({
         pincode: String,
         state: String,
     },
+    feedback: {
+        rating: { type: Number, default: 0 },
+        description: { type: String },
+    },
 });
 
 export const OrdersModel = mongoose.model("ordersModel", ordersSchema);

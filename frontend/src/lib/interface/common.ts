@@ -1,4 +1,4 @@
-import { ModalHeaderProps } from 'react-bootstrap';
+import { ModalHeaderProps, ModalProps } from 'react-bootstrap';
 
 export interface IDropdownOptions {
     title?: string;
@@ -22,6 +22,7 @@ export interface IOverlay {
     children?: React.ReactNode;
     bodyClassName?: string;
     wrapperClassName?: string;
+    modalProps?: ModalProps;
 }
 
 export interface IFormData {

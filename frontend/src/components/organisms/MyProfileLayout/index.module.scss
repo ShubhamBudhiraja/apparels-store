@@ -1,0 +1,41 @@
+@import '@styles/partials/variables';
+
+.profileHeader {
+    margin-bottom: 1.5rem;
+
+    h1 {
+        font-size: 2.25rem;
+        font-weight: $bold;
+    }
+}
+
+.sidebar {
+    border-right: $borderColor 0.063rem solid;
+    padding-right: 0;
+
+    li {
+        position: relative;
+        a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            font-size: 1.125rem;
+        }
+
+        &.active {
+            &::after {
+                content: '';
+                width: 0.125rem;
+                height: 100%;
+                background-color: $black;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+
+            a {
+                background-color: #f3f3f3;
+                font-weight: $bold;
+            }
+        }
+    }
+}

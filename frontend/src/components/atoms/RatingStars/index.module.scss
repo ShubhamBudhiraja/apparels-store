@@ -1,0 +1,13 @@
+@import '@styles/partials/variables';
+
+.wrapper {
+    display: flex;
+    column-gap: 0.5rem;
+    justify-content: center;
+
+    i {
+        color: $star;
+        cursor: pointer;
+        font-size: 1.5rem;
+    }
+}
