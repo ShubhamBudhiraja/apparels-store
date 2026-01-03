@@ -258,8 +258,11 @@ export const PaymentControllers = () => {
                 userId: order.customer_id,
             });
 
+            console.log(order, "order");
+
             if (foundUser) {
                 if (order.status_id === 21) {
+                    console.log(order.status_id, "order.status_id");
                     const [orderId, addressId] = order.order_id.split("_");
                     const status = await completePayment({
                         orderId,
