@@ -33,7 +33,6 @@ const Home = (props: IHome) => {
     useEffect(() => {
         initialiser();
     }, []);
-    console.info("helo")
 
     return (
         <>

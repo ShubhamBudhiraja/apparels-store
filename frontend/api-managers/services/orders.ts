@@ -4,6 +4,15 @@ import API_ENDPOINTS from 'api-managers/endpoints';
 const ordersApiHandler = () => {
     const { getApi, postApi } = useApiCall();
 
+    const getOrdersList = async (userId: string, pageNumber: number, limit = 1) => {
+        const res = await getApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.ORDERS.GET_ORDERS}`,
+            headers: { params: { userId, pageNumber, limit } },
+        });
+
+        return res;
+    };
+
     const getOrderDetails = async (orderId: string, userId: string) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.ORDERS.GET_ORDER_DETAILS}`,
@@ -27,7 +36,7 @@ const ordersApiHandler = () => {
         return res;
     };
 
-    return { getOrderDetails, submitOrderFeedback };
+    return { getOrdersList, getOrderDetails, submitOrderFeedback };
 };
 
 export default ordersApiHandler;

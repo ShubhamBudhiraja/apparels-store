@@ -1,11 +1,6 @@
 @import '@styles/partials/variables';
 
 .statusWrapper {
-    max-width: 35rem;
-    display: block;
-    margin: 0 auto;
-    padding: 4rem 0;
-
     h2 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
@@ -38,16 +33,29 @@
         }
     }
 
+    .billTotal {
+        border-top: 1px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .discount {
+        color: #5ac95a;
+    }
+
+    .prodQuantity {
+        margin-left: 8px;
+        color: #c5c5c5;
+        font-size: 12px;
+    }
+
     .productWrapper {
         display: flex;
         column-gap: 1.5rem;
         border: 0.063rem solid $borderColor;
         border-radius: 0.5rem;
         padding: 0.75rem;
-
-        &:not(:last-child) {
-            margin-bottom: 1rem;
-        }
 
         h5 {
             font-size: 1.125rem;
@@ -61,7 +69,6 @@
 
         figure {
             width: 6rem;
-            height: 6rem;
 
             img {
                 max-width: 100%;

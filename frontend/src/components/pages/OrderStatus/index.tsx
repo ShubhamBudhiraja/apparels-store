@@ -8,12 +8,12 @@ import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-boot
 import style from './index.module.scss';
 import { STATUS_MESSAGES } from 'src/lib/constants/orders';
 import { IProductData } from '@interface/products';
-import { SIZE_LABELS } from 'src/lib/constants/product';
+import { BILLING_DETAILS, SIZE_LABELS } from 'src/lib/constants/product';
 import { formatPrice } from '@utils/common';
 import FeedbackPopup from '@molecules/FeedbackPopup';
 
-const OrderStatus = (props: { orderId: string; orderStatusId: string }) => {
-    const { orderId, orderStatusId } = props;
+const OrderStatus = (props: { orderId: string; orderStatusId?: string }) => {
+    const { orderId, orderStatusId = '21' } = props;
 
     const { getOrderDetails } = ordersApiHandler();
     const router = useRouter();
@@ -21,11 +21,11 @@ const OrderStatus = (props: { orderId: string; orderStatusId: string }) => {
 
     const [orderDetails, setOrderDetails] = useState<any>();
     const [showTooltip, setShowTooltip] = useState(false);
-    const [showFeedbackPopup, setShowFeedbackPopup] = useState(true);
+    const [showFeedbackPopup, setShowFeedbackPopup] = useState(false);
 
     const deliveryLocation = useMemo(() => {
         if (orderDetails) {
-            return `${orderDetails?.address?.houseNo} ${orderDetails?.address?.streetAddress} ${orderDetails?.address?.city} ${orderDetails?.address?.state} ${orderDetails?.address?.pincode}`;
+            return `${orderDetails?.address?.houseNo}, ${orderDetails?.address?.streetAddress}, ${orderDetails?.address?.city}, ${orderDetails?.address?.state}`;
         }
     }, [orderDetails]);
 
@@ -35,6 +35,10 @@ const OrderStatus = (props: { orderId: string; orderStatusId: string }) => {
 
             if (res?.status) {
                 setOrderDetails(res?.responseBody);
+
+                if (!res?.responseBody?.feedback?.rating) {
+                    setShowFeedbackPopup(true);
+                }
             } else router.push(ROUTES.HOME);
         }
     };
@@ -66,50 +70,103 @@ const OrderStatus = (props: { orderId: string; orderStatusId: string }) => {
                     </div>
                 </div>
                 <div className="mb-5">
-                    <h2>Billing Address</h2>
-                    <Row>
-                        <Col md={4} xs={6} className="fw-bold">
-                            Name:
+                    <h2>Delivered To</h2>
+                    <Row className="justify-content-between">
+                        <Col md={4} xs={6} className="my-1">
+                            Name
                         </Col>
-                        <Col md={7} xs={6}>
+                        <Col md={7} xs={6} className="text-end my-1">
                             {orderDetails?.address?.firstName} {orderDetails?.address?.lastName}
                         </Col>
-                        <Col md={4} xs={6} className="fw-bold">
-                            Mobile No.:
+                        <Col md={4} xs={6} className="my-1">
+                            Mobile No.
                         </Col>
-                        <Col md={7} xs={6}>
+                        <Col md={7} xs={6} className="text-end my-1">
                             {orderDetails?.address?.mobileNo}
                         </Col>
-                        <Col md={4} xs={6} className="fw-bold">
-                            Delivery Location:
+                        <Col md={4} xs={6} className="my-1">
+                            Location
                         </Col>
-                        <Col md={7} xs={6}>
+                        <Col md={7} xs={6} className="text-end my-1">
                             {deliveryLocation}
+                        </Col>
+                    </Row>
+                </div>
+                <div className="mb-5 overflow-hidden">
+                    <h2>Billing Details</h2>
+
+                    {orderDetails?.products?.map((product: any) => (
+                        <Row className="justify-content-between my-2">
+                            <Col xs={6}>
+                                {product.title}
+                                <span className={style.prodQuantity}>X {product.quantity}</span>
+                            </Col>
+                            <Col xs={6} className="text-end">
+                                {formatPrice((product?.offerPrice || product?.price) * product.quantity)}
+                            </Col>
+                        </Row>
+                    ))}
+                    <Row className={style.billTotal}>
+                        <Col xs={6} className="fw-bold">
+                            Subtotal
+                        </Col>
+                        <Col xs={6} className="text-end fw-bold">
+                            {formatPrice(orderDetails.cartTotal)}
+                        </Col>
+                    </Row>
+                    {orderDetails.couponDiscount ? (
+                        <Row className="justify-content-between my-2">
+                            <Col xs={6}>Discount</Col>
+                            <Col xs={6} className={`${style.discount} text-end`}>
+                                -{formatPrice(orderDetails.couponDiscount)}
+                            </Col>
+                        </Row>
+                    ) : (
+                        <></>
+                    )}
+                    <Row className="justify-content-between my-2">
+                        <Col xs={6}>Delivery Fee</Col>
+                        <Col xs={6} className="text-end">
+                            {formatPrice(orderDetails.isDeliveryFeeIncluded ? BILLING_DETAILS.DELIVERY_FEE : 0)}
+                        </Col>
+                    </Row>
+                    <Row className={style.billTotal}>
+                        <Col xs={6} className="fw-bold">
+                            Total
+                        </Col>
+                        <Col xs={6} className="text-end fw-bold">
+                            {formatPrice(orderDetails.total)}
                         </Col>
                     </Row>
                 </div>
                 <div className={style.orderDetails}>
                     <h2>Order Summary</h2>
-                    {orderDetails?.products?.map((product: IProductData) => (
-                        <div className={style.productWrapper}>
-                            <figure>
-                                <img src={product?.thumbnail} alt="" />
-                            </figure>
-                            <div className="d-md-flex justify-content-between w-100">
-                                <div>
-                                    <h5>{product?.title}</h5>
-                                    <p>
-                                        <span className="fw-bold">Quantity:</span> {product?.quantity}
-                                    </p>
-                                    <p>
-                                        <span className="fw-bold">Variant:</span>{' '}
-                                        {SIZE_LABELS?.[product?.selectedVariant || 'default']}
-                                    </p>
+                    <Row>
+                        {orderDetails?.products?.map((product: IProductData) => (
+                            <Col lg={4}>
+                                <div className={style.productWrapper}>
+                                    <figure>
+                                        <img src={product?.thumbnail} alt="" />
+                                    </figure>
+                                    <div className="d-md-flex justify-content-between w-100">
+                                        <div>
+                                            <h5>{product?.title}</h5>
+                                            <p>
+                                                <span className="fw-bold">Quantity:</span> {product?.quantity}
+                                            </p>
+                                            <p>
+                                                <span className="fw-bold">Variant:</span>{' '}
+                                                {SIZE_LABELS?.[product?.selectedVariant || 'default']}
+                                            </p>
+                                        </div>
+                                        <span className="fw-bold">
+                                            {formatPrice(product?.offerPrice || product?.price)}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="fw-bold">{formatPrice(product?.offerPrice || product?.price)}</span>
-                            </div>
-                        </div>
-                    ))}
+                            </Col>
+                        ))}
+                    </Row>
                 </div>
             </div>
             <FeedbackPopup show={showFeedbackPopup} setShow={setShowFeedbackPopup} userId={userId} orderId={orderId} />

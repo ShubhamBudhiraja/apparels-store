@@ -6,9 +6,9 @@ export function generateMetadata(): Metadata {
 }
 
 const Page = async (pageParams: any) => {
-    const { orderId, statusId } = (await pageParams?.searchParams) || {};
+    const { orderId } = (await pageParams?.params) || {};
 
-    return <OrderStatus orderId={orderId} orderStatusId={statusId} />;
+    return <OrderStatus orderId={orderId} />;
 };
 
 export default Page;

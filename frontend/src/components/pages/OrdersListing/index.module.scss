@@ -1,0 +1,85 @@
+@import '@styles/partials/variables';
+
+.card {
+    display: block;
+    border: 1px solid $borderColor;
+    border-radius: 12px;
+    padding: 16px;
+
+    .cardHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+
+        h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .status {
+            display: block;
+            height: max-content;
+            border: 1px solid $borderColor;
+            border-radius: 24px;
+            padding: 2px 16px;
+            font-size: 12px;
+        }
+
+        .dot {
+            color: #ccc;
+        }
+
+        .meta {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    }
+
+    .details {
+        h5 {
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+
+        p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+    }
+
+    .images {
+        display: flex;
+        column-gap: 12px;
+
+        figure {
+            padding: 4px;
+
+            img {
+                max-width: 100%;
+                max-height: 100;
+                aspect-ratio: 1;
+                border-radius: 6px;
+            }
+        }
+
+        .thumbnail {
+            width: 54px;
+            height: 54px;
+            border: 1px solid $borderColor;
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                font-size: 10px;
+                color: #666;
+            }
+        }
+    }
+}

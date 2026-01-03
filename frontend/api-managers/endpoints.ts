@@ -33,6 +33,7 @@ const API_ENDPOINTS = {
         GET_CARD_DETAILS: '/payment/get-card-info',
     },
     ORDERS: {
+        GET_ORDERS: '/orders/get-orders-list',
         GET_ORDER_DETAILS: '/orders/get-order-details',
         SUBMIT_ORDER_FEEDBACK: '/orders/submit-feedback',
     },

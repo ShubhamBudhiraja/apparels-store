@@ -4,8 +4,9 @@ import OverlayWrapper from '@molecules/OverlayWrapper';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import style from './index.module.scss';
-import { Button, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import ordersApiHandler from 'api-managers/services/orders';
+import CustomButton from '@atoms/CustomButton';
 
 interface IFeedbackPopup {
     show?: boolean;
@@ -18,7 +19,7 @@ const FeedbackPopup = (props: IFeedbackPopup) => {
     const { show = false, setShow, userId, orderId } = props;
 
     const { submitOrderFeedback } = ordersApiHandler();
-    const { control, handleSubmit } = useForm();
+    const { control, formState, handleSubmit } = useForm();
 
     const handleFormSubmit = async (formValues: any) => {
         if (userId) {
@@ -29,6 +30,10 @@ const FeedbackPopup = (props: IFeedbackPopup) => {
                 description: formValues.comment,
             };
             const res = await submitOrderFeedback(payload);
+
+            if (res.status) {
+                setShow(false);
+            }
         }
     };
 
@@ -66,9 +71,14 @@ const FeedbackPopup = (props: IFeedbackPopup) => {
                         />
                     )}
                 />
-                <Button variant="secondary" className="d-block m-auto w-50" type="submit">
+                <CustomButton
+                    variant="secondary"
+                    className="d-block m-auto w-50"
+                    type="submit"
+                    loading={formState.isSubmitting}
+                >
                     Submit
-                </Button>
+                </CustomButton>
             </Form>
         </OverlayWrapper>
     );
