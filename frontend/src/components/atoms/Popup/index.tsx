@@ -3,12 +3,12 @@ import { Modal } from 'react-bootstrap';
 import { IOverlay } from 'src/lib/interface/common';
 
 const Popup = (props: IOverlay) => {
-    const { show, onHide, heading, headerProps, children, bodyClassName, wrapperClassName = '' } = props;
+    const { show, onHide, heading, headerProps, children, bodyClassName, wrapperClassName = '', modalProps } = props;
 
     return (
-        <Modal show={show} onHide={onHide} centered className={wrapperClassName}>
+        <Modal show={show} onHide={onHide} centered className={wrapperClassName} {...modalProps}>
             {heading && (
-                <Modal.Header closeButton {...headerProps}>
+                <Modal.Header {...headerProps}>
                     <Modal.Title>{heading}</Modal.Title>
                 </Modal.Header>
             )}

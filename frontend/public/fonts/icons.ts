@@ -24,6 +24,7 @@ export type IconsId =
   | "delivery"
   | "delete"
   | "cross"
+  | "copy"
   | "bag"
   | "bag-filled";
 
@@ -53,6 +54,7 @@ export type IconsKey =
   | "Delivery"
   | "Delete"
   | "Cross"
+  | "Copy"
   | "Bag"
   | "BagFilled";
 
@@ -82,6 +84,7 @@ export enum Icons {
   Delivery = "delivery",
   Delete = "delete",
   Cross = "cross",
+  Copy = "copy",
   Bag = "bag",
   BagFilled = "bag-filled",
 }
@@ -112,6 +115,7 @@ export const ICONS_CODEPOINTS: { [key in Icons]: string } = {
   [Icons.Delivery]: "61719",
   [Icons.Delete]: "61720",
   [Icons.Cross]: "61721",
-  [Icons.Bag]: "61722",
-  [Icons.BagFilled]: "61723",
+  [Icons.Copy]: "61722",
+  [Icons.Bag]: "61723",
+  [Icons.BagFilled]: "61724",
 };

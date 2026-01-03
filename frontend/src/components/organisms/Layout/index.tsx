@@ -29,7 +29,7 @@ const Layout = (props: ILayout) => {
     const dispatch = useAppDispatch();
 
     const [showHamburger, setShowHamburger] = useState(false);
-    const [showLoader, setShowLoader] = useState(false);
+    const [showLoader, setShowLoader] = useState(true);
 
     const handleToastClose = () => {
         onClose?.();
@@ -37,7 +37,6 @@ const Layout = (props: ILayout) => {
     };
 
     const initialiser = async () => {
-        setShowLoader(true);
         const userId = getStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
         if (userId) await storeUser({ userId });
         setShowLoader(false);

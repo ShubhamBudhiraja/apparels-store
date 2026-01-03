@@ -1,0 +1,8 @@
+{
+    "sidebar": [
+        { "title": "My Profile", "link": "/my-profile" },
+        { "title": "Orders", "link": "/orders" },
+        { "title": "Saved Addresses", "link": "/saved-addresses" },
+        { "title": "Payment Methods", "link": "/payment-methods" }
+    ]
+}

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const ordersSchema = new mongoose.Schema({
     userId: { type: String, required: true },
-    orderId: { type: String, required: true },
+    orderId: { type: String, required: true, unique: true },
     orderTimeStamp: { type: Date, required: true },
     products: [
         {
@@ -28,6 +28,10 @@ const ordersSchema = new mongoose.Schema({
         city: String,
         pincode: String,
         state: String,
+    },
+    feedback: {
+        rating: { type: Number, default: 0 },
+        description: { type: String },
     },
 });
 
