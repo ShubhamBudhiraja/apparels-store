@@ -64,8 +64,6 @@
     }
 
     .price {
-        @include toRem(margin-bottom, 38);
-
         span {
             @include toRem(font-size, 22);
             display: inline-block;

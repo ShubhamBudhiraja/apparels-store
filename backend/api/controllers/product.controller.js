@@ -23,7 +23,7 @@ const ProductControllers = () => {
             });
             if (foundProduct) {
                 console.log("product found");
-                return res.status(400).json((0, common_1.generateCommonResponse)(4013));
+                return res.status(200).json((0, common_1.generateCommonResponse)(4013));
             }
             else {
                 if (productData.productId) {
@@ -35,7 +35,7 @@ const ProductControllers = () => {
                 }
                 else {
                     console.log("product id is missing");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4012));
+                    return res.status(200).json((0, common_1.generateCommonResponse)(4012));
                 }
             }
         }
@@ -56,7 +56,7 @@ const ProductControllers = () => {
             }
             else {
                 console.log("product not found");
-                return res.status(400).json((0, common_1.generateCommonResponse)(4008));
+                return res.status(200).json((0, common_1.generateCommonResponse)(4008));
             }
         }
         catch (e) {
@@ -89,7 +89,7 @@ const ProductControllers = () => {
             }
             else {
                 console.log("product not found");
-                return res.status(400).json((0, common_1.generateCommonResponse)(4008));
+                return res.status(200).json((0, common_1.generateCommonResponse)(4008));
             }
         }
         catch (e) {

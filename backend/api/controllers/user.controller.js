@@ -51,7 +51,7 @@ const UserControllers = () => {
             }
             else {
                 console.log("get profile - user not found");
-                return res.status(400).json((0, common_1.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_1.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -72,7 +72,7 @@ const UserControllers = () => {
             }
             else {
                 console.log("updateProfile user not found");
-                return res.status(400).json((0, common_1.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_1.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -111,7 +111,7 @@ const UserControllers = () => {
                 const addressIndex = found.addresses.findIndex((address) => address.id === addressId);
                 if (addressIndex === -1) {
                     console.log("address not found while deleting");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4017));
+                    return res.status(200).json((0, common_1.generateCommonResponse)(4017));
                 }
                 else {
                     Object.entries(rest).forEach(([key, value]) => {
@@ -138,7 +138,7 @@ const UserControllers = () => {
                 const addressIndex = userDetails.addresses.findIndex((address) => address.id === addressId);
                 if (addressIndex === -1) {
                     console.log("address not found while deleting");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4017));
+                    return res.status(200).json((0, common_1.generateCommonResponse)(4017));
                 }
                 else {
                     const addresses = userDetails.addresses;

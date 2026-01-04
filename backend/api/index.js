@@ -14,6 +14,7 @@ const errorHandler_1 = require("./middlewares/errorHandler");
 const corsHandler_1 = require("./middlewares/corsHandler");
 const payment_routes_1 = __importDefault(require("./routes/payment.routes"));
 const accessHandler_1 = require("./middlewares/accessHandler");
+const orders_routes_1 = require("./routes/orders.routes");
 (0, dotenv_1.config)();
 (0, database_1.connectDB)();
 const app = (0, express_1.default)();
@@ -21,13 +22,13 @@ app.use((0, cors_1.default)(corsHandler_1.customCorsOptions));
 app.use(accessHandler_1.handleAppAccess);
 app.use(express_1.default.json());
 app.get("/", (_req, res) => {
-    throw new Error("error checking");
     res.send("Welcome to Apparel Store Backend");
 });
 app.use("/auth", auth_routes_1.AuthRoutes);
 app.use("/user", user_routes_1.default);
 app.use("/product", product_routes_1.default);
 app.use("/payment", payment_routes_1.default);
+app.use("/orders", orders_routes_1.OrdersRoutes);
 app.use(errorHandler_1.ErrorHandler);
 app.listen(process.env.PORT, () => {
     console.log(`Server is active on ${process.env.PORT}`);

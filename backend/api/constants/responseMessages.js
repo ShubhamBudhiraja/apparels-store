@@ -26,6 +26,9 @@ exports.RESPONSE_MESSAGES = {
     2022: "Order status fetched successfully",
     2023: "Cards list sent successfully",
     2024: "Card info sent successfully",
+    2025: "Order details sent successfully",
+    2026: "Orders sent successfully",
+    2027: "Order feedback submitted successfully",
     4000: "Invalid payload",
     4001: "This email is currently in use. Please login",
     4002: "Invalid OTP",
@@ -50,6 +53,8 @@ exports.RESPONSE_MESSAGES = {
     4022: "Order status not found",
     4023: "Cards list not found",
     4024: "Card info not found",
+    4025: "Order ID not found",
+    4026: "No orders found",
     5000: "Internal Server Error",
     5001: "Something went wrong",
 };

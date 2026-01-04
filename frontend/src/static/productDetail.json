@@ -22,7 +22,8 @@
     "buttons": {
         "seeReviews": "See all reviews",
         "sizeGuide": "Size Guide",
-        "addToCart": "ADD TO CART"
+        "addToCart": "ADD TO CART",
+        "outOfStock": "OUT OF STOCK"
     },
     "uspPoints": [
         {

@@ -7,7 +7,7 @@ exports.OrdersModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const ordersSchema = new mongoose_1.default.Schema({
     userId: { type: String, required: true },
-    orderId: { type: String, required: true },
+    orderId: { type: String, required: true, unique: true },
     orderTimeStamp: { type: Date, required: true },
     products: [
         {
@@ -33,6 +33,10 @@ const ordersSchema = new mongoose_1.default.Schema({
         city: String,
         pincode: String,
         state: String,
+    },
+    feedback: {
+        rating: { type: Number, default: 0 },
+        description: { type: String },
     },
 });
 exports.OrdersModel = mongoose_1.default.model("ordersModel", ordersSchema);

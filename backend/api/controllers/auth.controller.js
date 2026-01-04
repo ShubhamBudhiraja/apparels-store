@@ -63,7 +63,7 @@ const AuthControllers = () => {
                 }
             }
             else {
-                return res.status(400).json((0, common_2.generateCommonResponse)(4000));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4000));
             }
         }
         catch (e) {
@@ -85,12 +85,12 @@ const AuthControllers = () => {
                 }
                 else {
                     console.log("invalid password");
-                    return res.status(400).json((0, common_2.generateCommonResponse)(4003));
+                    return res.status(200).json((0, common_2.generateCommonResponse)(4003));
                 }
             }
             else {
                 console.log("invalid email");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -113,7 +113,7 @@ const AuthControllers = () => {
             }
             else {
                 console.log("invalid otp");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4002));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4002));
             }
         }
         catch (e) {
@@ -134,7 +134,7 @@ const AuthControllers = () => {
                 return res.status(200).json((0, common_2.generateCommonResponse)(2001, true));
             }
             else {
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -155,7 +155,7 @@ const AuthControllers = () => {
             }
             else {
                 console.log("invalid email");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {

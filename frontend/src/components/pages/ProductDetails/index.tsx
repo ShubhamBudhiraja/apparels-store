@@ -57,7 +57,8 @@ const ProductDetails = (props: IProductDetails) => {
     const fewPiecesMsg = useMemo(() => {
         if (productData && selectedVariant) {
             const found = productData?.variants?.find((item: any) => item?.id === selectedVariant);
-            const msg = found?.units < 10 ? dictionary?.fewPiecesLabel?.replace('$', found?.units) : '';
+            const msg =
+                found?.units < 10 && found?.units > 0 ? dictionary?.fewPiecesLabel?.replace('$', found?.units) : '';
             return msg;
         } else return '';
     }, [productData, selectedVariant, dictionary]);
@@ -139,7 +140,7 @@ const ProductDetails = (props: IProductDetails) => {
                                     </span>
                                 </div>
                             )}
-                            <div className={style.price}>
+                            <div className={`${style.price} ${fewPiecesMsg ? 'mb-5' : 'mb-3'}`}>
                                 {productData?.offerPrice > 0 && (
                                     <span className={style.discounted}>
                                         {formatPrice(productData?.offerPrice, false)}
@@ -149,12 +150,14 @@ const ProductDetails = (props: IProductDetails) => {
                                     {formatPrice(productData?.price, false)}
                                 </span>
                                 <p>{serverData?.mrpLabel}</p>
-                                <FormControl.Feedback
-                                    className={fewPiecesMsg ? 'd-block position-absolute' : ''}
-                                    type="invalid"
-                                >
-                                    {fewPiecesMsg}
-                                </FormControl.Feedback>
+                                {fewPiecesMsg && (
+                                    <FormControl.Feedback
+                                        className={fewPiecesMsg ? 'd-block position-absolute' : ''}
+                                        type="invalid"
+                                    >
+                                        {fewPiecesMsg}
+                                    </FormControl.Feedback>
+                                )}
                             </div>
                             <div className={style.description}>
                                 <p>{productData?.shortDescription}</p>
@@ -216,7 +219,7 @@ const ProductDetails = (props: IProductDetails) => {
                                     disabled={isUnavailable}
                                     loading={isLoading}
                                 >
-                                    {serverData?.buttons?.addToCart}
+                                    {isUnavailable ? serverData?.buttons?.outOfStock : serverData?.buttons?.addToCart}
                                 </CustomButton>
                             )}
                             <Row className={style.usp}>

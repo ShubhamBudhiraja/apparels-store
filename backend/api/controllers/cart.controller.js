@@ -63,7 +63,7 @@ const CartControllers = () => {
                         if (foundVariant.units === 0) {
                             console.log("product is out of stock");
                             return res
-                                .status(400)
+                                .status(200)
                                 .json((0, common_2.generateCommonResponse)(4007));
                         }
                         const wishlistData = foundUser.get("wishlist");
@@ -72,7 +72,7 @@ const CartControllers = () => {
                             prod.selectedVariant === variant)) {
                             console.log("product already added in cart");
                             return res
-                                .status(400)
+                                .status(200)
                                 .json((0, common_2.generateCommonResponse)(4005));
                         }
                         else {
@@ -130,18 +130,18 @@ const CartControllers = () => {
                     else {
                         console.log("variant not found");
                         return res
-                            .status(400)
+                            .status(200)
                             .json((0, common_2.generateCommonResponse)(4016));
                     }
                 }
                 else {
                     console.log("product not found");
-                    return res.status(400).json((0, common_2.generateCommonResponse)(4008));
+                    return res.status(200).json((0, common_2.generateCommonResponse)(4008));
                 }
             }
             else {
                 console.log("user not found while adding product to cart");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -165,7 +165,7 @@ const CartControllers = () => {
                     if ((variantData === null || variantData === void 0 ? void 0 : variantData.units) === 0) {
                         console.log("product is out of stock");
                         return res
-                            .status(400)
+                            .status(200)
                             .json((0, common_2.generateCommonResponse)(4007));
                     }
                     const userDetails = foundUser;
@@ -174,7 +174,7 @@ const CartControllers = () => {
                     if (productIndex === -1) {
                         console.log("product not found in cart");
                         return res
-                            .status(400)
+                            .status(200)
                             .json((0, common_2.generateCommonResponse)(4006));
                     }
                     else {
@@ -185,7 +185,7 @@ const CartControllers = () => {
                                     .quantity === (variantData === null || variantData === void 0 ? void 0 : variantData.units)) {
                                     console.log("maximum inventory reached");
                                     return res
-                                        .status(400)
+                                        .status(200)
                                         .json((0, common_2.generateCommonResponse)(4009));
                                 }
                                 else {
@@ -261,19 +261,19 @@ const CartControllers = () => {
                             default:
                                 console.log("invalid operation");
                                 return res
-                                    .status(400)
+                                    .status(200)
                                     .json((0, common_2.generateCommonResponse)(4010));
                         }
                     }
                 }
                 else {
                     console.log("product not found");
-                    return res.status(400).json((0, common_2.generateCommonResponse)(4008));
+                    return res.status(200).json((0, common_2.generateCommonResponse)(4008));
                 }
             }
             else {
                 console.log("user not found while adding product to cart");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {
@@ -306,18 +306,18 @@ const CartControllers = () => {
                     else {
                         console.log("product not found in cart");
                         return res
-                            .status(400)
+                            .status(200)
                             .json((0, common_2.generateCommonResponse)(4006));
                     }
                 }
                 else {
                     console.log("product not found");
-                    return res.status(400).json((0, common_2.generateCommonResponse)(4008));
+                    return res.status(200).json((0, common_2.generateCommonResponse)(4008));
                 }
             }
             else {
                 console.log("user not found while deleting product from cart");
-                return res.status(400).json((0, common_2.generateCommonResponse)(4004));
+                return res.status(200).json((0, common_2.generateCommonResponse)(4004));
             }
         }
         catch (e) {
