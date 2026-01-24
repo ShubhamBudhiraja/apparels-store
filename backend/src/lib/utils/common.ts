@@ -8,8 +8,7 @@ export const generateCommonResponse = (
     return {
         status: responseStatus,
         responseCode,
-        // message: RESPONSE_MESSAGES[responseCode],
-        message: "helo",
+        message: RESPONSE_MESSAGES[responseCode],
         responseBody,
     };
 };

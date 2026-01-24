@@ -41,7 +41,6 @@ const useApiCall = () => {
 
             return res?.data;
         } catch (e: any) {
-            console.log(e, 'helo');
             return handleAPIResponse(showErrorPopup, e?.response, autoHidePopup);
         }
     };

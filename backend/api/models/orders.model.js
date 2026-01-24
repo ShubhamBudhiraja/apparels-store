@@ -20,6 +20,7 @@ const ordersSchema = new mongoose_1.default.Schema({
             selectedVariant: String,
         },
     ],
+    status: { type: String, required: true },
     couponDiscount: { type: Number, default: 0 },
     cartTotal: { type: Number, default: 0 },
     total: { type: Number, default: 0 },

@@ -31,13 +31,35 @@ const OrdersControllers = () => {
         return res.status(200).json((0, common_1.generateCommonResponse)(4025));
     });
     const getOrdersByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { userId } = req.query;
-        const foundUser = yield orders_model_1.OrdersModel.find({ userId });
-        if (foundUser) {
+        const { userId, limit, pageNumber, startDate, endDate } = req.query;
+        const ordersLimit = limit || 10;
+        const ordersPage = Number(pageNumber) || 1;
+        const skip = (ordersPage - 1) * ordersLimit;
+        const query = {
+            userId,
+        };
+        if (startDate || endDate) {
+            query.orderTimeStamp = {};
+            if (startDate) {
+                query.orderTimeStamp.$gte = new Date(startDate);
+            }
+            if (endDate) {
+                query.orderTimeStamp.$lte = new Date(endDate);
+            }
+        }
+        const orders = yield orders_model_1.OrdersModel.find(query)
+            .skip(skip)
+            .limit(ordersLimit)
+            .sort({ orderTimeStamp: -1 });
+        if (orders) {
             console.log("orders found");
-            return res
-                .status(200)
-                .json((0, common_1.generateCommonResponse)(2026, true, foundUser));
+            return res.status(200).json((0, common_1.generateCommonResponse)(2026, true, {
+                list: orders,
+                pagination: {
+                    hasMore: orders.length > ordersLimit,
+                    currentPage: ordersPage,
+                },
+            }));
         }
         else
             return res.status(200).json((0, common_1.generateCommonResponse)(4026));

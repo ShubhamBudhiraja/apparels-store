@@ -41,15 +41,15 @@ const PaymentControllers = () => {
                             .json((0, common_1.generateCommonResponse)(2020, true, response === null || response === void 0 ? void 0 : response.data));
                     }
                     else {
-                        console.log("order created successfully");
+                        console.log("order could not be created");
                         return res
-                            .status(200)
+                            .status(400)
                             .json((0, common_1.generateCommonResponse)(4021, false, response));
                     }
                 }
                 else {
                     console.log("user not found while initiating payment");
-                    return res.status(200).json((0, common_1.generateCommonResponse)(4004));
+                    return res.status(400).json((0, common_1.generateCommonResponse)(4004));
                 }
             }
             catch (e) {
@@ -59,7 +59,7 @@ const PaymentControllers = () => {
         }
         else {
             console.log("invalid payload received while creating order");
-            return res.status(200).json((0, common_1.generateCommonResponse)(4000, false, {
+            return res.status(400).json((0, common_1.generateCommonResponse)(4000, false, {
                 errors: errors.array(),
             }));
         }
@@ -85,13 +85,13 @@ const PaymentControllers = () => {
             else {
                 console.log("card details could not be submitted");
                 return res
-                    .status(200)
+                    .status(400)
                     .json((0, common_1.generateCommonResponse)(4020, false, response));
             }
         }
         else {
             console.log("invalid payload - initiating card transaction");
-            return res.status(200).json((0, common_1.generateCommonResponse)(4000, false, {
+            return res.status(400).json((0, common_1.generateCommonResponse)(4000, false, {
                 errors: errors.array(),
             }));
         }
@@ -109,7 +109,7 @@ const PaymentControllers = () => {
             else {
                 console.log("cards list not found");
                 return res
-                    .status(200)
+                    .status(400)
                     .json((0, common_1.generateCommonResponse)(4023, false, response));
             }
         }
@@ -127,7 +127,7 @@ const PaymentControllers = () => {
             else {
                 console.log("cards info not found");
                 return res
-                    .status(200)
+                    .status(400)
                     .json((0, common_1.generateCommonResponse)(4024, false, response));
             }
         }
@@ -148,12 +148,12 @@ const PaymentControllers = () => {
             }
             else {
                 console.log("payment status not found");
-                return res.status(200).json((0, common_1.generateCommonResponse)(4022));
+                return res.status(400).json((0, common_1.generateCommonResponse)(4022));
             }
         }
         else {
             console.log("invalid payload - payment status");
-            return res.status(200).json((0, common_1.generateCommonResponse)(4000, false, {
+            return res.status(400).json((0, common_1.generateCommonResponse)(4000, false, {
                 errors: errors.array(),
             }));
         }
@@ -172,7 +172,7 @@ const PaymentControllers = () => {
             userDetails: userDetails,
             addressId,
         });
-        yield orders_model_1.OrdersModel.create(Object.assign({ userId }, orderDetails));
+        yield orders_model_1.OrdersModel.create(Object.assign(Object.assign({ userId }, orderDetails), { status: "delivered" }));
         console.log("orders collection updated");
         const cart = {
             cartTotal: 0,
@@ -206,12 +206,12 @@ const PaymentControllers = () => {
                     if (status)
                         res.status(200).json((0, common_1.generateCommonResponse)(2019, true));
                     else
-                        res.status(200).json((0, common_1.generateCommonResponse)(4018));
+                        res.status(400).json((0, common_1.generateCommonResponse)(4018));
                 }
             }
             else {
                 console.log("user not found while completing payment");
-                return res.status(200).json((0, common_1.generateCommonResponse)(4004));
+                return res.status(400).json((0, common_1.generateCommonResponse)(4004));
             }
         }
         catch (e) {
