@@ -1,4 +1,4 @@
-import OrderStatus from '@pages/OrderStatus';
+import OrderDetails from '@pages/OrderDetails';
 import { Metadata } from 'next';
 
 export function generateMetadata(): Metadata {
@@ -8,7 +8,7 @@ export function generateMetadata(): Metadata {
 const Page = async (pageParams: any) => {
     const { orderId } = (await pageParams?.params) || {};
 
-    return <OrderStatus orderId={orderId} />;
+    return <OrderDetails orderId={orderId} />;
 };
 
 export default Page;

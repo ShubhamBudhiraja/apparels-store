@@ -41,7 +41,7 @@ const FeedbackPopup = (props: IFeedbackPopup) => {
         <OverlayWrapper
             show={show}
             onHide={() => setShow(false)}
-            heading="Rate your journey with us!"
+            heading="Leave order feedback!"
             headerProps={{ className: style.customPopupHeader }}
             modalProps={{ dialogClassName: style.popupWrap }}
             bodyClassName="pt-2"

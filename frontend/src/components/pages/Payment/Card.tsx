@@ -19,7 +19,7 @@ interface ICart {
 const Card = (props: ICart) => {
     const { total, orderId } = props;
 
-    const { control, handleSubmit, formState } = useForm();
+    const { control, handleSubmit, formState, setValue } = useForm();
     const { dictionary } = useContext(LayoutContextData);
     const { userId } = useAppSelector((state) => state.userProfile);
     const { handleCardPayment, getCardInfo } = usePaymentApi();
@@ -27,39 +27,6 @@ const Card = (props: ICart) => {
 
     const [showCvv, setShowCvv] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState('');
-
-    const handleDateChange = (inputDate?: string) => {
-        let temp = inputDate ? `${inputDate}` : '';
-        if (temp[temp.length - 1] === '/' && temp.length !== 3) {
-            temp = temp.substring(0, temp.length - 1);
-        } else if (temp.length === 2 && inputDate?.length === 1) {
-            temp += '/';
-        } else if (temp.length == 2 && inputDate?.length == 3) {
-            temp = temp.substring(0, temp.length - 1);
-        }
-
-        const parts = temp?.split('/');
-        const month = parts?.[0];
-        const year = parts?.[1];
-
-        if (month && parseInt(month) > 12) {
-            parts[0] = '12';
-            temp = parts?.join('/');
-        }
-
-        const yearValidThrough = (new Date().getFullYear() + 20)?.toString()?.slice(-2);
-
-        if (year && parseInt(year) > parseInt(yearValidThrough)) {
-            parts[1] = yearValidThrough;
-            temp = parts.join('/');
-        }
-
-        temp = temp.replace(
-            /[^\d\/]|^[\/]*$/g,
-            '' // To allow only digits and `/`
-        );
-        return temp;
-    };
 
     const getCardDetails = async (cardBin: string) => {
         const res = await getCardInfo(cardBin);
@@ -91,6 +58,28 @@ const Card = (props: ICart) => {
                 router.push(res?.responseBody?.paymentUrl);
             }
         }
+    };
+
+    const handleExpiryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value.replace(/\D/g, '');
+
+        if (value.length === 1) {
+            const firstDigit = Number(value);
+            if (firstDigit > 1) {
+                value = `0${firstDigit}`;
+            }
+        }
+
+        if (value.length >= 2) {
+            const month = Number(value.slice(0, 2));
+            if (month === 0 || month > 12) return;
+        }
+
+        if (value.length > 2) {
+            value = `${value.slice(0, 2)}/${value.slice(2, 4)}`;
+        }
+
+        setValue('cardExpiryDate', value, { shouldValidate: true });
     };
 
     return (
@@ -134,15 +123,12 @@ const Card = (props: ICart) => {
                         rules={{ required: dictionary?.requiredFieldError }}
                         render={({ field: { value, onChange }, fieldState: { error } }) => (
                             <TextInput
-                                onChange={(e: any) => {
-                                    const val = handleDateChange(e?.target?.value);
-                                    onChange(val);
-                                }}
+                                onChange={handleExpiryChange}
                                 placeholder="MM/YY"
                                 controlProps={{ value, maxLength: 5 }}
                                 error={error?.message}
                                 className="mb-4"
-                                type="tel"
+                                // type="text"
                             />
                         )}
                     />

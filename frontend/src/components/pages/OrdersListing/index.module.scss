@@ -5,6 +5,7 @@
     border: 1px solid $borderColor;
     border-radius: 12px;
     padding: 16px;
+    margin-bottom: 24px;
 
     .cardHeader {
         display: flex;
@@ -20,10 +21,12 @@
         .status {
             display: block;
             height: max-content;
-            border: 1px solid $borderColor;
-            border-radius: 24px;
+            border-radius: 8px;
             padding: 2px 16px;
             font-size: 12px;
+            background-color: #79cb79;
+            border: 1px solid #79cb79;
+            color: white;
         }
 
         .dot {

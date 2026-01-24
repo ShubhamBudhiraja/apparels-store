@@ -4,10 +4,22 @@ import API_ENDPOINTS from 'api-managers/endpoints';
 const ordersApiHandler = () => {
     const { getApi, postApi } = useApiCall();
 
-    const getOrdersList = async (userId: string, pageNumber: number, limit = 1) => {
+    const getOrdersList = async ({
+        userId = '',
+        pageNumber = 1,
+        limit = 10,
+        startDate = '',
+        endDate = '',
+    }: {
+        userId: string;
+        pageNumber?: number;
+        limit?: number;
+        startDate?: string;
+        endDate?: string;
+    }) => {
         const res = await getApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.ORDERS.GET_ORDERS}`,
-            headers: { params: { userId, pageNumber, limit } },
+            headers: { params: { userId, pageNumber, limit, startDate, endDate } },
         });
 
         return res;

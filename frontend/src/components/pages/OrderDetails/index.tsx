@@ -4,7 +4,7 @@ import { useAppSelector } from '@store';
 import ordersApiHandler from 'api-managers/services/orders';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Button, Col, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import style from './index.module.scss';
 import { STATUS_MESSAGES } from 'src/lib/constants/orders';
 import { IProductData } from '@interface/products';
@@ -12,7 +12,7 @@ import { BILLING_DETAILS, SIZE_LABELS } from 'src/lib/constants/product';
 import { formatPrice } from '@utils/common';
 import FeedbackPopup from '@molecules/FeedbackPopup';
 
-const OrderStatus = (props: { orderId: string; orderStatusId?: string }) => {
+const OrderDetails = (props: { orderId: string; orderStatusId?: string }) => {
     const { orderId, orderStatusId = '21' } = props;
 
     const { getOrderDetails } = ordersApiHandler();
@@ -66,7 +66,9 @@ const OrderStatus = (props: { orderId: string; orderStatusId?: string }) => {
                                 <i className="font icon-copy" onClick={handleCopy}></i>
                             </OverlayTrigger>
                         </p>
-                        <Button variant="link">Continue Shopping</Button>
+                        <Button variant="link" onClick={() => router.push(ROUTES.SHOP)}>
+                            Continue Shopping
+                        </Button>
                     </div>
                 </div>
                 <div className="mb-5">
@@ -176,4 +178,4 @@ const OrderStatus = (props: { orderId: string; orderStatusId?: string }) => {
     );
 };
 
-export default OrderStatus;
+export default OrderDetails;

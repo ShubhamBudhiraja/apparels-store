@@ -46,15 +46,15 @@ export const PaymentControllers = () => {
                                 generateCommonResponse(
                                     2020,
                                     true,
-                                    response?.data
-                                )
+                                    response?.data,
+                                ),
                             );
                     } else {
                         console.log("order created successfully");
                         return res
                             .status(200)
                             .json(
-                                generateCommonResponse(4021, false, response)
+                                generateCommonResponse(4021, false, response),
                             );
                     }
                 } else {
@@ -70,7 +70,7 @@ export const PaymentControllers = () => {
             return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
-                })
+                }),
             );
         }
     };
@@ -101,7 +101,7 @@ export const PaymentControllers = () => {
                     generateCommonResponse(2021, true, {
                         paymentUrl:
                             response?.data?.payment?.authentication?.url,
-                    })
+                    }),
                 );
             } else {
                 console.log("card details could not be submitted");
@@ -114,7 +114,7 @@ export const PaymentControllers = () => {
             return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
-                })
+                }),
             );
         }
     };
@@ -165,7 +165,7 @@ export const PaymentControllers = () => {
 
             const response = await getTransactionStatus(
                 orderId as string,
-                userId as string
+                userId as string,
             );
 
             if (response?.status && response?.data?.status_id !== 40) {
@@ -175,7 +175,7 @@ export const PaymentControllers = () => {
                         status: response?.data?.status,
                         statusId: response?.data?.status_id,
                         amount: response?.data?.amount,
-                    })
+                    }),
                 );
             } else {
                 console.log("payment status not found");
@@ -186,7 +186,7 @@ export const PaymentControllers = () => {
             return res.status(200).json(
                 generateCommonResponse(4000, false, {
                     errors: errors.array(),
-                })
+                }),
             );
         }
     };
@@ -206,7 +206,7 @@ export const PaymentControllers = () => {
 
         let allProductsAvailable = checkProductsAvailability(
             allProducts,
-            userDetails.cart.products
+            userDetails.cart.products,
         );
 
         if (!allProductsAvailable) {
@@ -224,7 +224,11 @@ export const PaymentControllers = () => {
             addressId,
         });
 
-        await OrdersModel.create({ userId, ...orderDetails });
+        await OrdersModel.create({
+            userId,
+            ...orderDetails,
+            status: "delivered",
+        });
         console.log("orders collection updated");
 
         const cart = {
@@ -247,7 +251,7 @@ export const PaymentControllers = () => {
             req?.body,
             "request body ends***********\n",
             req?.url,
-            "request ends"
+            "request ends",
         );
 
         const {
@@ -273,7 +277,7 @@ export const PaymentControllers = () => {
 
                     if (status)
                         res.status(200).json(
-                            generateCommonResponse(2019, true)
+                            generateCommonResponse(2019, true),
                         );
                     else res.status(200).json(generateCommonResponse(4018));
                 }

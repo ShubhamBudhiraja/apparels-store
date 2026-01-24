@@ -26,16 +26,45 @@ export const OrdersControllers = () => {
     };
 
     const getOrdersByUser = async (req: any, res: any) => {
-        const { userId } = req.query;
+        const { userId, limit, pageNumber, startDate, endDate } = req.query;
 
-        const foundUser = await OrdersModel.find({ userId });
+        const ordersLimit = limit || 10;
+        const ordersPage = Number(pageNumber) || 1;
+        const skip = (ordersPage - 1) * ordersLimit;
 
-        if (foundUser) {
+        const query: any = {
+            userId,
+        };
+
+        if (startDate || endDate) {
+            query.orderTimeStamp = {};
+
+            if (startDate) {
+                query.orderTimeStamp.$gte = new Date(startDate);
+            }
+
+            if (endDate) {
+                query.orderTimeStamp.$lte = new Date(endDate);
+            }
+        }
+
+        const orders = await OrdersModel.find(query)
+            .skip(skip)
+            .limit(ordersLimit)
+            .sort({ orderTimeStamp: -1 });
+
+        if (orders) {
             console.log("orders found");
 
-            return res
-                .status(200)
-                .json(generateCommonResponse(2026, true, foundUser));
+            return res.status(200).json(
+                generateCommonResponse(2026, true, {
+                    list: orders,
+                    pagination: {
+                        hasMore: orders.length > ordersLimit,
+                        currentPage: ordersPage,
+                    },
+                })
+            );
         } else return res.status(200).json(generateCommonResponse(4026));
     };
 

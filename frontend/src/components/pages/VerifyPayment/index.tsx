@@ -15,9 +15,7 @@ const VerifyPayment = (props: IVerifyPayment) => {
     const router = useRouter();
 
     useEffect(() => {
-        router.push(
-            `${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}${ROUTES.ORDERS}?orderId=${orderId}&statusId=${statusId}`
-        );
+        router.push(`${process.env.NEXT_PUBLIC_CLIENT_BASE_URL}${ROUTES.ORDERS}/${orderId}?statusId=${statusId}`);
     }, [orderId, statusId]);
 
     return <PageLoader />;

@@ -4,4 +4,5 @@ export const ROUTES = {
     SHIPPING_DETAILS: '/shipping-details',
     PAYMENT: '/payment',
     ORDERS: '/orders',
+    SHOP: '/shop',
 };
