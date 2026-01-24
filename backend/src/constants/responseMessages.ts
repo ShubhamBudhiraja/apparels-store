@@ -45,7 +45,7 @@ export const RESPONSE_MESSAGES: any = {
     4016: "Variant not found",
     4017: "Address not found",
     4018: "Product(s) ran out of stock",
-    4020: "Card details could not be submitted",
+    4020: "Card details could not be submitted!",
     4021: "Order could not be created",
     4022: "Order status not found",
     4023: "Cards list not found",
