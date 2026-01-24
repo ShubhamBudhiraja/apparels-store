@@ -44,7 +44,9 @@ const OrdersControllers = () => {
                 query.orderTimeStamp.$gte = new Date(startDate);
             }
             if (endDate) {
-                query.orderTimeStamp.$lte = new Date(endDate);
+                const inclusiveEndDate = new Date(endDate);
+                inclusiveEndDate.setHours(23, 59, 59, 999);
+                query.orderTimeStamp.$lte = inclusiveEndDate;
             }
         }
         const orders = yield orders_model_1.OrdersModel.find(query)

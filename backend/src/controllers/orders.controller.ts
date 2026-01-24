@@ -44,7 +44,9 @@ export const OrdersControllers = () => {
             }
 
             if (endDate) {
-                query.orderTimeStamp.$lte = new Date(endDate);
+                const inclusiveEndDate = new Date(endDate);
+                inclusiveEndDate.setHours(23, 59, 59, 999);
+                query.orderTimeStamp.$lte = inclusiveEndDate;
             }
         }
 
@@ -63,7 +65,7 @@ export const OrdersControllers = () => {
                         hasMore: orders.length > ordersLimit,
                         currentPage: ordersPage,
                     },
-                })
+                }),
             );
         } else return res.status(200).json(generateCommonResponse(4026));
     };
@@ -79,7 +81,7 @@ export const OrdersControllers = () => {
                     userId,
                     orderId: formattedOrderId,
                 },
-                { feedback: { description, rating } }
+                { feedback: { description, rating } },
             );
 
             if (foundOrder) {
