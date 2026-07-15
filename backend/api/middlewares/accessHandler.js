@@ -1,15 +1,55 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.handleAppAccess = void 0;
+const parseAllowedHosts = () => (process.env.ALLOWED_HOSTS || "")
+    .replace(/["']/g, "")
+    .split(/[\s,]+/)
+    .map((host) => host.trim().toLowerCase())
+    .filter(Boolean);
+const getRequestHost = (req) => {
+    const forwarded = req.headers["x-forwarded-host"];
+    const raw = ((Array.isArray(forwarded) ? forwarded[0] : forwarded) ||
+        req.headers.host ||
+        "")
+        .toString()
+        .split(",")[0]
+        .trim()
+        .toLowerCase();
+    return raw;
+};
+const getOriginHost = (req) => {
+    const origin = req.headers.origin;
+    if (!origin)
+        return "";
+    try {
+        return new URL(origin).host.toLowerCase();
+    }
+    catch (_a) {
+        return "";
+    }
+};
 const handleAppAccess = (req, res, next) => {
-    var _a, _b, _c;
-    if ((_a = req === null || req === void 0 ? void 0 : req.headers) === null || _a === void 0 ? void 0 : _a.host)
-        if (!((_b = process.env.ALLOWED_HOSTS) === null || _b === void 0 ? void 0 : _b.split(" ").includes((_c = req === null || req === void 0 ? void 0 : req.headers) === null || _c === void 0 ? void 0 : _c.host)))
-            res.status(500).send("Unauthorised User");
-        else
-            next();
-    else
-        res.status(500).send("Unauthorised User");
+    const allowedHosts = parseAllowedHosts();
+    // Fail open only if allowlist is unset (local misconfig); otherwise enforce.
+    if (!allowedHosts.length) {
+        console.warn("ALLOWED_HOSTS is empty - blocking request");
+        res.status(401).send("Unauthorised User");
+        return;
+    }
+    const requestHost = getRequestHost(req);
+    const originHost = getOriginHost(req);
+    const isAllowed = (requestHost && allowedHosts.includes(requestHost)) ||
+        (originHost && allowedHosts.includes(originHost));
+    if (!isAllowed) {
+        console.log("blocked request", {
+            requestHost,
+            originHost,
+            allowedHosts,
+        });
+        res.status(401).send("Unauthorised User");
+        return;
+    }
+    next();
 };
 exports.handleAppAccess = handleAppAccess;
 //# sourceMappingURL=accessHandler.js.map
