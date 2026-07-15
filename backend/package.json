@@ -1,7 +1,9 @@
 {
     "scripts": {
         "dev": "nodemon src/index.ts",
-        "build": "rimraf api && tsc",
+        "build": "prisma generate && rimraf api && tsc",
+        "postinstall": "prisma generate",
+        "vercel-build": "prisma generate && rimraf api && tsc",
         "start": "node api/index.js",
         "ts.check": "tsc --project tsconfig.json",
         "db:seed": "ts-node prisma/seed.ts"
