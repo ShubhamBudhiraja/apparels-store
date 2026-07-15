@@ -10,14 +10,17 @@ export interface IUserAddress {
     city?: string;
     pincode?: string;
     state?: string;
+    isDefault?: boolean;
 }
 
 export interface IProfileDetails {
     firstName?: string;
     lastName?: string;
     userId?: string;
+    emailId?: string;
     mobileNo?: string;
     dob?: Date;
+    isVerified?: boolean;
     selectedAddress?: string;
 }
 
@@ -37,4 +40,8 @@ export interface IUserData extends IProfileDetails {
 
 export interface ILoginModalSuccess {
     userId?: string;
+}
+
+export interface IAuthTokenResponse {
+    token: string;
 }

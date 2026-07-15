@@ -8,25 +8,41 @@ import { Controller, useForm } from 'react-hook-form';
 import { LayoutContextData } from 'src/lib/context/layout';
 import style from './index.module.scss';
 import CustomButton from '@atoms/CustomButton';
+import useProfile from '@customHooks/useProfile';
 
 const MyProfile = () => {
-    const { control, reset } = useForm();
+    const { control, reset, handleSubmit, formState } = useForm();
     const { dictionary } = useContext(LayoutContextData);
     const userDetails = useAppSelector((state) => state.userProfile);
+    const { handleUpdateProfile } = useProfile();
 
     useEffect(() => {
         reset({
             firstName: userDetails?.firstName,
             lastName: userDetails?.lastName,
             mobileNo: userDetails?.mobileNo,
-            emailId: userDetails?.userId,
+            emailId: userDetails?.emailId || userDetails?.userId,
         });
-    }, [userDetails]);
+    }, [userDetails, reset]);
+
+    const onSubmit = async (formValues: {
+        firstName?: string;
+        lastName?: string;
+        mobileNo?: string;
+    }) => {
+        if (!userDetails?.userId) return;
+
+        await handleUpdateProfile(userDetails.userId, {
+            firstName: formValues.firstName,
+            lastName: formValues.lastName,
+            mobileNo: formValues.mobileNo,
+        });
+    };
 
     return (
         <section className={style.formWrap}>
             <SectionHeader heading="Edit Profile Details" />
-            <Form>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <Row>
                     <Col lg={5} className="mb-4">
                         <Controller
@@ -89,7 +105,12 @@ const MyProfile = () => {
                         />
                     </Col>
                     <Col lg={3}>
-                        <CustomButton variant="secondary" className="w-100" type="submit">
+                        <CustomButton
+                            variant="secondary"
+                            className="w-100"
+                            type="submit"
+                            loading={formState.isSubmitting}
+                        >
                             Update
                         </CustomButton>
                     </Col>

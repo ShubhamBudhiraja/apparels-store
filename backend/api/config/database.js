@@ -8,24 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connectDB = void 0;
-const dotenv_1 = require("dotenv");
-const mongoose_1 = __importDefault(require("mongoose"));
-(0, dotenv_1.configDotenv)();
+/**
+ * MongoDB connection is no longer used.
+ * All domain data now lives in PostgreSQL via Prisma.
+ */
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        if (process.env.MONGODB_URI) {
-            mongoose_1.default.connect(process.env.MONGODB_URI);
-            console.log("DB Connected");
-        }
-    }
-    catch (e) {
-        console.log(e);
-    }
+    console.log("connectDB is a no-op; Prisma handles PostgreSQL");
 });
 exports.connectDB = connectDB;
 //# sourceMappingURL=database.js.map

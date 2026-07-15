@@ -8,69 +8,75 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateOrderDetails = exports.checkProductsAvailability = exports.updateProductInventory = exports.updateProduct = void 0;
-const product_model_1 = require("../../models/product.model");
-const updateProduct = (productId, variants) => {
-    return product_model_1.ProductModel.findOneAndUpdate({ productId }, { $set: { variants } });
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-exports.updateProduct = updateProduct;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getFormattedProducts = exports.generateOrderDetails = exports.checkProductsAvailability = exports.updateProductInventory = void 0;
+const prisma_1 = __importDefault(require("../../config/prisma"));
+const product_1 = require("./product");
+Object.defineProperty(exports, "getFormattedProducts", { enumerable: true, get: function () { return product_1.getFormattedProducts; } });
 const updateProductInventory = (allProducts, cartProducts) => __awaiter(void 0, void 0, void 0, function* () {
-    const record = {};
+    const updates = [];
     allProducts.forEach((product) => {
-        const prod = product;
         cartProducts.forEach((cartProduct) => {
-            const variantIndex = prod.variants.findIndex((variant) => variant.id === cartProduct.selectedVariant);
-            if (variantIndex !== -1) {
-                prod.variants[variantIndex].units -= cartProduct.quantity;
-                record[cartProduct.productId] = prod.variants;
+            if (product.productId !== cartProduct.productId)
+                return;
+            const variant = product.variants.find((entry) => entry.id === cartProduct.selectedVariant);
+            if (variant) {
+                updates.push({
+                    productId: product.productId,
+                    variantId: variant.id,
+                    units: variant.units - cartProduct.quantity,
+                });
             }
         });
     });
     console.log("updating product inventory");
-    const productPromise = Object.entries(record).map(([key, value]) => (0, exports.updateProduct)(key, value));
-    yield Promise.allSettled(productPromise);
+    yield Promise.allSettled(updates.map((update) => prisma_1.default.productVariant.update({
+        where: {
+            productId_variantId: {
+                productId: update.productId,
+                variantId: update.variantId,
+            },
+        },
+        data: { units: Math.max(update.units, 0) },
+    })));
     console.log("product inventory updated");
 });
 exports.updateProductInventory = updateProductInventory;
 const checkProductsAvailability = (allProducts, cartProducts) => {
-    let allProductsAvailable = true;
-    for (let productIndex = 0; productIndex < allProducts.length; productIndex++) {
-        for (let cartProductIndex = 0; cartProductIndex < cartProducts.length; cartProductIndex++) {
-            const addedVariant = allProducts[productIndex].variants.find((variant) => variant.id ===
-                cartProducts[cartProductIndex].selectedVariant);
-            if (addedVariant &&
-                addedVariant.units < cartProducts[cartProductIndex].quantity) {
-                allProductsAvailable = false;
-                break;
-            }
+    for (const cartProduct of cartProducts) {
+        const product = allProducts.find((entry) => entry.productId === cartProduct.productId);
+        const variant = product === null || product === void 0 ? void 0 : product.variants.find((entry) => entry.id === cartProduct.selectedVariant);
+        if (!variant || variant.units < cartProduct.quantity) {
+            return false;
         }
-        if (!allProductsAvailable)
-            break;
     }
-    return allProductsAvailable;
+    return true;
 };
 exports.checkProductsAvailability = checkProductsAvailability;
 const generateOrderDetails = ({ orderId, addressId, userDetails, }) => {
     var _a, _b;
-    return ({
+    const address = (_a = userDetails.addresses) === null || _a === void 0 ? void 0 : _a.find((entry) => entry._id === addressId);
+    return {
         orderId,
         orderTimeStamp: new Date(),
         cartTotal: userDetails.cart.cartTotal,
         total: userDetails.cart.total,
         isDeliveryFeeIncluded: userDetails.cart.isDeliveryFeeIncluded,
-        couponDiscount: userDetails.cart.couponDiscount,
-        products: (_a = userDetails.cart.products) === null || _a === void 0 ? void 0 : _a.map((product) => ({
+        couponDiscount: userDetails.cart.couponDiscount || 0,
+        products: ((_b = userDetails.cart.products) === null || _b === void 0 ? void 0 : _b.map((product) => ({
             productId: product.productId,
-            title: product.title,
+            title: product.title || "",
             price: product.price,
             offerPrice: product.offerPrice,
             quantity: product.quantity,
             thumbnail: product.thumbnail,
             selectedVariant: product.selectedVariant,
-        })),
-        address: (_b = userDetails.addresses) === null || _b === void 0 ? void 0 : _b.find((address) => address._id.toString() === addressId),
-    });
+        }))) || [],
+        address,
+    };
 };
 exports.generateOrderDetails = generateOrderDetails;
 //# sourceMappingURL=payment.js.map

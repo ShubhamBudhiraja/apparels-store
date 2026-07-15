@@ -1,8 +1,8 @@
-import { IUserAddress, IUserData } from '@interface/user';
+import { IUserAddress } from '@interface/user';
 import useApiCall from 'api-managers/base';
 import API_ENDPOINTS from 'api-managers/endpoints';
 
-const useProfileApi = () => {
+const ProfileAPIServices = () => {
     const { getApi, postApi, patchApi, deleteApi } = useApiCall();
 
     const getProfileData = async ({ userId }: { userId: string }) => {
@@ -14,7 +14,13 @@ const useProfileApi = () => {
         return res;
     };
 
-    const updateProfileData = async (payload: IUserData) => {
+    const updateProfileData = async (payload: {
+        userId?: string;
+        firstName?: string;
+        lastName?: string;
+        mobileNo?: string;
+        dob?: Date;
+    }) => {
         const res = await patchApi({
             requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.USER.UPDATE_PROFILE}`,
             requestPayload: payload,
@@ -53,4 +59,4 @@ const useProfileApi = () => {
     return { getProfileData, updateProfileData, addAddress, updateAddress, deleteAddress };
 };
 
-export default useProfileApi;
+export default ProfileAPIServices;

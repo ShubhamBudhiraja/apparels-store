@@ -8,67 +8,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WishlistControllers = void 0;
 const common_1 = require("../lib/utils/common");
-const product_model_1 = require("../models/product.model");
-const user_model_1 = require("../models/user.model");
+const prisma_1 = __importDefault(require("../config/prisma"));
+const user_1 = require("../lib/utils/user");
+const product_1 = require("../lib/utils/product");
 const WishlistControllers = () => {
     const addToWishlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { userId, prodId } = req.body;
+        const emailId = (0, user_1.resolveEmailId)(req.body);
+        const { prodId } = req.body;
         try {
-            const foundProduct = yield product_model_1.ProductModel.findOne({
-                productId: prodId,
-            });
-            const foundUser = yield user_model_1.UserModel.findOne({ userId });
-            if (foundUser) {
-                console.log("user found");
-                if (foundProduct) {
-                    console.log("product found");
-                    const userDetails = foundUser;
-                    if (userDetails.wishlist.find((prod) => prod.productId === prodId)) {
-                        console.log("product already added in wishlist");
-                        return res
-                            .status(400)
-                            .json((0, common_1.generateCommonResponse)(4014));
-                    }
-                    else {
-                        console.log("adding product to wishlist");
-                        const prodPosInCart = userDetails.cart.products.findIndex((prod) => prod.productId === prodId);
-                        if (prodPosInCart !== -1)
-                            userDetails.cart.products[prodPosInCart].inWishlist = true;
-                        const productDetails = {
-                            productId: foundProduct.get("productId"),
-                            title: foundProduct.get("title"),
-                            price: foundProduct.get("price"),
-                            offerPrice: foundProduct.get("offerPrice"),
-                            thumbnail: foundProduct.get("thumbnail"),
-                            discountPercentage: foundProduct.get("discountPercentage"),
-                        };
-                        userDetails.set("wishlist", [
-                            productDetails,
-                            ...userDetails.wishlist,
-                        ]);
-                        yield user_model_1.UserModel.findOneAndUpdate({ userId }, {
-                            $set: {
-                                wishlist: userDetails.wishlist,
-                                cart: userDetails.cart,
-                            },
-                        });
-                        return res
-                            .status(200)
-                            .json((0, common_1.generateCommonResponse)(2013, true));
-                    }
-                }
-                else {
-                    console.log("product not found");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4008));
-                }
+            if (!emailId || !prodId) {
+                return res.status(401).json((0, common_1.generateCommonResponse)(4000));
             }
-            else {
+            const foundProduct = yield (0, product_1.findProductByProductId)(prodId);
+            const foundUser = yield (0, user_1.findUserByEmail)(emailId);
+            if (!foundUser) {
                 console.log("user not found while adding product to wishlist");
                 return res.status(400).json((0, common_1.generateCommonResponse)(4004));
             }
+            if (!foundProduct) {
+                console.log("product not found");
+                return res.status(400).json((0, common_1.generateCommonResponse)(4008));
+            }
+            const existing = foundUser.wishlist.find((item) => item.productId === prodId);
+            if (existing) {
+                console.log("product already added in wishlist");
+                return res.status(400).json((0, common_1.generateCommonResponse)(4014));
+            }
+            console.log("adding product to wishlist");
+            yield prisma_1.default.wishlistItem.create({
+                data: {
+                    userId: foundUser.id,
+                    productId: prodId,
+                },
+            });
+            return res.status(200).json((0, common_1.generateCommonResponse)(2013, true));
         }
         catch (e) {
             console.log("error occured while adding product to wishlist", e);
@@ -76,53 +55,35 @@ const WishlistControllers = () => {
         }
     });
     const deleteFromWishlist = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { userId, prodId } = req.query;
+        const emailId = (0, user_1.resolveEmailId)(req.query);
+        const { prodId } = req.query;
         try {
-            const foundProduct = yield product_model_1.ProductModel.findOne({
-                productId: prodId,
-            });
-            const foundUser = yield user_model_1.UserModel.findOne({ userId });
-            if (foundUser) {
-                console.log("user found");
-                if (foundProduct) {
-                    console.log("product found");
-                    const userDetails = foundUser;
-                    const productIndex = userDetails.wishlist.findIndex((prod) => prod.productId === prodId);
-                    if (productIndex === -1) {
-                        console.log("product not found in wishlist");
-                        return res
-                            .status(400)
-                            .json((0, common_1.generateCommonResponse)(4015));
-                    }
-                    else {
-                        console.log("updating wishlist");
-                        const prodPosInCart = userDetails.cart.products.findIndex((prod) => prod.productId === prodId);
-                        if (prodPosInCart !== -1)
-                            userDetails.cart.products[prodPosInCart].inWishlist = false;
-                        userDetails.wishlist.splice(productIndex, 1);
-                        yield user_model_1.UserModel.findOneAndUpdate({ userId }, {
-                            $set: {
-                                cart: userDetails.cart,
-                                wishlist: userDetails.wishlist,
-                            },
-                        });
-                        return res
-                            .status(200)
-                            .json((0, common_1.generateCommonResponse)(2014, true));
-                    }
-                }
-                else {
-                    console.log("product not found");
-                    return res.status(400).json((0, common_1.generateCommonResponse)(4008));
-                }
+            if (!emailId || !prodId) {
+                return res.status(401).json((0, common_1.generateCommonResponse)(4000));
             }
-            else {
-                console.log("user not found while adding product to cart");
+            const foundProduct = yield (0, product_1.findProductByProductId)(prodId);
+            const foundUser = yield (0, user_1.findUserByEmail)(emailId);
+            if (!foundUser) {
+                console.log("user not found while deleting product from wishlist");
                 return res.status(400).json((0, common_1.generateCommonResponse)(4004));
             }
+            if (!foundProduct) {
+                console.log("product not found");
+                return res.status(400).json((0, common_1.generateCommonResponse)(4008));
+            }
+            const wishlistItem = foundUser.wishlist.find((item) => item.productId === prodId);
+            if (!wishlistItem) {
+                console.log("product not found in wishlist");
+                return res.status(400).json((0, common_1.generateCommonResponse)(4015));
+            }
+            console.log("updating wishlist");
+            yield prisma_1.default.wishlistItem.delete({
+                where: { id: wishlistItem.id },
+            });
+            return res.status(200).json((0, common_1.generateCommonResponse)(2014, true));
         }
         catch (e) {
-            console.log("error occured while adding product to cart", e);
+            console.log("error occured while deleting from wishlist", e);
             return res.status(500).json((0, common_1.generateCommonResponse)(5000));
         }
     });

@@ -42,7 +42,7 @@ const ProductDetails = (props: IProductDetails) => {
 
     const [productData, setProductData] = useState<any>();
     const [relatedProducts, setRelatedProducts] = useState([]);
-    const [selectedVariant, setSelectedVariant] = useState('');
+    const [selectedVariant, setSelectedVariant] = useState<{ units: number; id: string } | null>();
     const [variantCount, setVariantCount] = useState(0);
     const [variantError, setVariantError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +56,7 @@ const ProductDetails = (props: IProductDetails) => {
 
     const fewPiecesMsg = useMemo(() => {
         if (productData && selectedVariant) {
-            const found = productData?.variants?.find((item: any) => item?.id === selectedVariant);
+            const found = productData?.variants?.find((item: any) => item?.id === selectedVariant.id);
             const msg =
                 found?.units < 10 && found?.units > 0 ? dictionary?.fewPiecesLabel?.replace('$', found?.units) : '';
             return msg;
@@ -69,14 +69,14 @@ const ProductDetails = (props: IProductDetails) => {
             return;
         }
         setIsLoading(true);
-        if (userId) await handleAddToCart({ userId, product: productData, selectedVariant });
+        if (userId) await handleAddToCart({ userId, product: productData, selectedVariant: selectedVariant?.id });
         else
             initiateLogin({
                 successCallback: (data?: ILoginModalSuccess) =>
                     handleAddToCart({
                         userId: data?.userId,
                         product: productData,
-                        selectedVariant: selectedVariant,
+                        selectedVariant: selectedVariant?.id,
                     }),
             });
         setIsLoading(false);
@@ -88,7 +88,7 @@ const ProductDetails = (props: IProductDetails) => {
             userId,
             product: productData,
             operation,
-            selectedVariant: selectedVariant,
+            selectedVariant: selectedVariant?.id,
         });
         setIsLoading(false);
     };
@@ -99,7 +99,9 @@ const ProductDetails = (props: IProductDetails) => {
             const prodData = productDetails?.responseBody;
             setProductData(prodData);
             if (prodData?.variants?.length === 1 && prodData?.variants?.[0]?.id === VARIANT_ID.DEFAULT)
-                setSelectedVariant(VARIANT_ID.DEFAULT);
+                setSelectedVariant(prodData?.variants?.[0]);
+            // setSelectedVariant(VARIANT_ID.DEFAULT);
+
             const relatedProductsList = await getRelatedProducts({
                 productId,
                 categoryId: prodData?.category,
@@ -115,7 +117,7 @@ const ProductDetails = (props: IProductDetails) => {
     useEffect(() => {
         if (selectedVariant) {
             const found = cart?.products?.find(
-                (prod: IProductData) => prod?.productId === productId && prod?.selectedVariant === selectedVariant
+                (prod: IProductData) => prod?.productId === productId && prod?.selectedVariant === selectedVariant.id
             );
             if (found?.quantity) setVariantCount(found?.quantity);
             else setVariantCount(0);
@@ -163,7 +165,7 @@ const ProductDetails = (props: IProductDetails) => {
                                 <p>{productData?.shortDescription}</p>
                                 <p>{productData?.description}</p>
                             </div>
-                            {productData?.variants?.length && selectedVariant !== VARIANT_ID.DEFAULT && (
+                            {productData?.variants?.length && selectedVariant?.id !== VARIANT_ID.DEFAULT && (
                                 <div className={style.variants}>
                                     <div className="d-flex align-items-center">
                                         <span className={style.title}>Size</span>
@@ -172,9 +174,9 @@ const ProductDetails = (props: IProductDetails) => {
                                                 SIZE_LABELS[item.id] ? (
                                                     <span
                                                         key={`variant_${item}`}
-                                                        onClick={() => setSelectedVariant(item.id)}
+                                                        onClick={() => setSelectedVariant(item)}
                                                         className={cx(
-                                                            selectedVariant === item.id && style.selected,
+                                                            selectedVariant?.id === item.id && style.selected,
                                                             item.units === 0 && style.disabled
                                                         )}
                                                     >
@@ -210,6 +212,7 @@ const ProductDetails = (props: IProductDetails) => {
                                     loading={isLoading}
                                     handleIncrement={() => handleUpdateQuantity(CART_PRODUCT_OPERATION.INCREASE)}
                                     handleDecrement={() => handleUpdateQuantity(CART_PRODUCT_OPERATION.DECREASE)}
+                                    maxCount={selectedVariant?.units}
                                 />
                             ) : (
                                 <CustomButton

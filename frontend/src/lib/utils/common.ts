@@ -2,7 +2,7 @@ export const formatPrice = (number: number | string | any, canBeDecimal = true) 
     if (isNaN(number)) return number;
     const updatedPrice = new Intl.NumberFormat('en-IN', {
         style: 'currency',
-        currency: 'INR',
+        currency: 'USD',
         minimumFractionDigits: canBeDecimal ? 1 : 0,
         maximumFractionDigits: 2,
     }).format(number);

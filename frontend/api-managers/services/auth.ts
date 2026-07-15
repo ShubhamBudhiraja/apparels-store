@@ -1,8 +1,9 @@
 import useApiCall from 'api-managers/base';
 import API_ENDPOINTS from 'api-managers/endpoints';
+import { IAuthTokenResponse } from '@interface/user';
 
 const useAuthApi = () => {
-    const { postApi } = useApiCall();
+    const { postApi, patchApi } = useApiCall();
 
     const login = async (payload: { userId: string; password: string }) => {
         const res = await postApi({
@@ -10,7 +11,12 @@ const useAuthApi = () => {
             requestPayload: payload,
         });
 
-        return res;
+        return res as
+            | {
+                  status: boolean;
+                  responseBody?: IAuthTokenResponse;
+              }
+            | undefined;
     };
 
     const signUp = async (payload: { userId: string; password: string }) => {
@@ -32,7 +38,25 @@ const useAuthApi = () => {
         return res;
     };
 
-    return { login, signUp, validateOtp };
+    const forgotPassword = async (payload: { userId: string }) => {
+        const res = await postApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.FORGOT_PASSWORD}`,
+            requestPayload: payload,
+        });
+
+        return res;
+    };
+
+    const updatePassword = async (payload: { userId: string; password: string }) => {
+        const res = await patchApi({
+            requestUrl: `${process.env.NEXT_PUBLIC_EXPRESS_BASE_URL}${API_ENDPOINTS.AUTH.UPDATE_PASSWORD}`,
+            requestPayload: payload,
+        });
+
+        return res;
+    };
+
+    return { login, signUp, validateOtp, forgotPassword, updatePassword };
 };
 
 export default useAuthApi;

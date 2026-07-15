@@ -8,80 +8,122 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrdersControllers = void 0;
 const common_1 = require("../lib/utils/common");
-const orders_model_1 = require("../models/orders.model");
+const prisma_1 = __importDefault(require("../config/prisma"));
+const product_1 = require("../lib/utils/product");
+const user_1 = require("../lib/utils/user");
+const orderInclude = {
+    items: true,
+};
 const OrdersControllers = () => {
     const getOrderDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { orderId, userId } = req.query;
-        if (orderId) {
-            const formattedOrderId = orderId.split("_")[0];
-            const foundOrder = yield orders_model_1.OrdersModel.findOne({
-                userId,
-                orderId: formattedOrderId,
+        const emailId = (0, user_1.resolveEmailId)(req.query);
+        const { orderId } = req.query;
+        try {
+            if (!orderId || !emailId) {
+                return res.status(200).json((0, common_1.generateCommonResponse)(4025));
+            }
+            const formattedOrderId = String(orderId).split("_")[0];
+            const foundOrder = yield prisma_1.default.order.findFirst({
+                where: {
+                    userId: emailId,
+                    orderId: formattedOrderId,
+                },
+                include: orderInclude,
             });
             if (foundOrder) {
                 console.log("order details found");
                 return res
                     .status(200)
-                    .json((0, common_1.generateCommonResponse)(2025, true, foundOrder));
+                    .json((0, common_1.generateCommonResponse)(2025, true, (0, product_1.formatOrder)(foundOrder)));
             }
+            return res.status(200).json((0, common_1.generateCommonResponse)(4025));
         }
-        return res.status(200).json((0, common_1.generateCommonResponse)(4025));
+        catch (e) {
+            console.log("error occured while getting order details", e);
+            return res.status(500).json((0, common_1.generateCommonResponse)(5000));
+        }
     });
     const getOrdersByUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { userId, limit, pageNumber, startDate, endDate } = req.query;
-        const ordersLimit = limit || 10;
-        const ordersPage = Number(pageNumber) || 1;
-        const skip = (ordersPage - 1) * ordersLimit;
-        const query = {
-            userId,
-        };
-        if (startDate || endDate) {
-            query.orderTimeStamp = {};
+        const emailId = (0, user_1.resolveEmailId)(req.query);
+        const { limit, pageNumber, startDate, endDate } = req.query;
+        try {
+            if (!emailId) {
+                return res.status(200).json((0, common_1.generateCommonResponse)(4026));
+            }
+            const ordersLimit = Number(limit) || 10;
+            const ordersPage = Number(pageNumber) || 1;
+            const skip = (ordersPage - 1) * ordersLimit;
+            const orderTimeStampFilter = {};
             if (startDate) {
-                query.orderTimeStamp.$gte = new Date(startDate);
+                orderTimeStampFilter.gte = new Date(startDate);
             }
             if (endDate) {
                 const inclusiveEndDate = new Date(endDate);
                 inclusiveEndDate.setHours(23, 59, 59, 999);
-                query.orderTimeStamp.$lte = inclusiveEndDate;
+                orderTimeStampFilter.lte = inclusiveEndDate;
             }
-        }
-        const orders = yield orders_model_1.OrdersModel.find(query)
-            .skip(skip)
-            .limit(ordersLimit)
-            .sort({ orderTimeStamp: -1 });
-        if (orders) {
+            const orders = yield prisma_1.default.order.findMany({
+                where: Object.assign({ userId: emailId }, (Object.keys(orderTimeStampFilter).length
+                    ? { orderTimeStamp: orderTimeStampFilter }
+                    : {})),
+                include: orderInclude,
+                skip,
+                take: ordersLimit + 1,
+                orderBy: { orderTimeStamp: "desc" },
+            });
+            const hasMore = orders.length > ordersLimit;
+            const list = (hasMore ? orders.slice(0, ordersLimit) : orders).map(product_1.formatOrder);
             console.log("orders found");
             return res.status(200).json((0, common_1.generateCommonResponse)(2026, true, {
-                list: orders,
+                list,
                 pagination: {
-                    hasMore: orders.length > ordersLimit,
+                    hasMore,
                     currentPage: ordersPage,
                 },
             }));
         }
-        else
-            return res.status(200).json((0, common_1.generateCommonResponse)(4026));
+        catch (e) {
+            console.log("error occured while getting orders", e);
+            return res.status(500).json((0, common_1.generateCommonResponse)(5000));
+        }
     });
     const rateOrderJourney = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { userId, orderId, description, rating } = req.body;
-        if (orderId) {
-            const formattedOrderId = orderId.split("_")[0];
-            const foundOrder = yield orders_model_1.OrdersModel.findOneAndUpdate({
-                userId,
-                orderId: formattedOrderId,
-            }, { feedback: { description, rating } });
-            if (foundOrder) {
-                console.log("order feedback submitted successfully");
-                return res.status(200).json((0, common_1.generateCommonResponse)(2027, true));
+        const emailId = (0, user_1.resolveEmailId)(req.body);
+        const { orderId, description, rating } = req.body;
+        try {
+            if (!orderId || !emailId) {
+                return res.status(200).json((0, common_1.generateCommonResponse)(4025));
             }
-            else {
+            const formattedOrderId = String(orderId).split("_")[0];
+            const foundOrder = yield prisma_1.default.order.findFirst({
+                where: {
+                    userId: emailId,
+                    orderId: formattedOrderId,
+                },
+            });
+            if (!foundOrder) {
                 console.log("order not found");
                 return res.status(200).json((0, common_1.generateCommonResponse)(4025));
             }
+            yield prisma_1.default.order.update({
+                where: { id: foundOrder.id },
+                data: {
+                    feedbackDescription: description,
+                    feedbackRating: rating,
+                },
+            });
+            console.log("order feedback submitted successfully");
+            return res.status(200).json((0, common_1.generateCommonResponse)(2027, true));
+        }
+        catch (e) {
+            console.log("error occured while rating order", e);
+            return res.status(500).json((0, common_1.generateCommonResponse)(5000));
         }
     });
     return { getOrderDetails, getOrdersByUser, rateOrderJourney };

@@ -1,6 +1,14 @@
 import { generateCommonResponse } from "../lib/utils/common";
-import { ProductModel } from "../models/product.model";
-import { RatingsModel } from "../models/ratings.model";
+import prisma from "../config/prisma";
+import {
+    findProductByProductId,
+    formatProduct,
+} from "../lib/utils/product";
+import {
+    productInclude,
+    resolveCategoryId,
+    resolveProductCategoryFilter,
+} from "../lib/utils/category";
 
 export const ProductControllers = () => {
     const addProduct = async (req: any, res: any) => {
@@ -8,25 +16,61 @@ export const ProductControllers = () => {
         console.log(productData, "productData");
 
         try {
-            const foundProduct = await ProductModel.findOne({
-                productId: productData.productId,
-            });
+            if (!productData.productId) {
+                console.log("product id is missing");
+                return res.status(200).json(generateCommonResponse(4012));
+            }
+
+            const foundProduct = await findProductByProductId(
+                productData.productId,
+            );
 
             if (foundProduct) {
                 console.log("product found");
                 return res.status(200).json(generateCommonResponse(4013));
-            } else {
-                if (productData.productId) {
-                    await ProductModel.create(productData);
-                    console.log("product added");
-                    return res
-                        .status(200)
-                        .json(generateCommonResponse(2011, true));
-                } else {
-                    console.log("product id is missing");
-                    return res.status(200).json(generateCommonResponse(4012));
-                }
             }
+
+            const categoryId = await resolveCategoryId({
+                categoryId: productData.categoryId,
+                segment: productData.segment,
+                category: productData.category,
+            });
+
+            if (!categoryId) {
+                console.log("category not found for product");
+                return res.status(400).json(generateCommonResponse(4032));
+            }
+
+            const variants = Array.isArray(productData.variants)
+                ? productData.variants
+                : [];
+
+            await prisma.product.create({
+                data: {
+                    productId: productData.productId,
+                    title: productData.title,
+                    price: productData.price,
+                    offerPrice: productData.offerPrice,
+                    categoryId,
+                    description: productData.description,
+                    shortDescription: productData.shortDescription,
+                    discountPercentage: productData.discountPercentage,
+                    discountAmount: productData.discountAmount,
+                    images: productData.images || [],
+                    thumbnail: productData.thumbnail,
+                    variants: {
+                        create: variants.map(
+                            (variant: { id: string; units: number }) => ({
+                                variantId: variant.id,
+                                units: variant.units,
+                            }),
+                        ),
+                    },
+                },
+            });
+
+            console.log("product added");
+            return res.status(200).json(generateCommonResponse(2011, true));
         } catch (e) {
             console.log("error occured while adding product", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -37,17 +81,19 @@ export const ProductControllers = () => {
         const { prodId } = req.query;
 
         try {
-            const foundProduct = await ProductModel.findOneAndDelete({
-                productId: prodId,
-            });
+            const foundProduct = await findProductByProductId(prodId);
 
-            if (foundProduct) {
-                console.log("product found");
-                return res.status(200).json(generateCommonResponse(2010, true));
-            } else {
+            if (!foundProduct) {
                 console.log("product not found");
                 return res.status(200).json(generateCommonResponse(4008));
             }
+
+            await prisma.product.delete({
+                where: { productId: prodId },
+            });
+
+            console.log("product found");
+            return res.status(200).json(generateCommonResponse(2010, true));
         } catch (e) {
             console.log("error occured while removing product", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -58,43 +104,71 @@ export const ProductControllers = () => {
         const { prodId, segment = "" } = req.query;
 
         try {
-            const productDetails = await ProductModel.findOne({
-                productId: prodId,
-                segment,
+            const productDetails = await prisma.product.findFirst({
+                where: {
+                    productId: prodId,
+                    ...(segment
+                        ? {
+                              OR: [
+                                  {
+                                      category: {
+                                          slug: segment,
+                                          parentId: null,
+                                      },
+                                  },
+                                  {
+                                      category: {
+                                          parent: { slug: segment },
+                                      },
+                                  },
+                              ],
+                          }
+                        : {}),
+                },
+                include: {
+                    ...productInclude,
+                    reviews: true,
+                },
             });
 
-            if (productDetails) {
-                console.log("product found", productDetails);
-                const productRatings = await RatingsModel.findOne({
-                    productId: prodId,
-                });
-
-                if (productRatings) {
-                    const reviews = productRatings.get("reviews");
-                    const total = reviews.reduce(
-                        (a, b) => a + b.get("rating"),
-                        0
-                    );
-                    productDetails.set(
-                        "ratings",
-                        Math.round(
-                            (total / productRatings.reviews.length) * 10
-                        ) / 10
-                    );
-                    productDetails.set(
-                        "reviewsCount",
-                        productRatings.reviews.length
-                    );
-                    productDetails.set("reviews", productRatings.reviews);
-                }
-
-                return res
-                    .status(200)
-                    .json(generateCommonResponse(2012, true, productDetails));
-            } else {
+            if (!productDetails) {
                 console.log("product not found");
                 return res.status(200).json(generateCommonResponse(4008));
             }
+
+            console.log("product found", productDetails);
+
+            const reviews = productDetails.reviews;
+            const extras =
+                reviews.length > 0
+                    ? {
+                          ratings:
+                              Math.round(
+                                  (reviews.reduce(
+                                      (sum, review) => sum + review.rating,
+                                      0,
+                                  ) /
+                                      reviews.length) *
+                                      10,
+                              ) / 10,
+                          reviewsCount: reviews.length,
+                          reviews: reviews.map((review) => ({
+                              userId: review.userId,
+                              rating: review.rating,
+                              feedback: review.feedback,
+                          })),
+                      }
+                    : undefined;
+
+            return res
+                .status(200)
+                .json(
+                    generateCommonResponse(
+                        2012,
+                        true,
+                        formatProduct(productDetails, extras),
+                    ),
+                );
         } catch (e) {
             console.log("error occured while getting product details", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -103,11 +177,37 @@ export const ProductControllers = () => {
 
     const getAllProducts = async (req: any, res: any) => {
         try {
-            const requestParams = req.query;
-            const products = await ProductModel.find(requestParams);
-            return res
-                .status(200)
-                .json(generateCommonResponse(2012, true, { products }));
+            const { segment, category, productId, categoryId } = req.query;
+            const categoryFilter = await resolveProductCategoryFilter({
+                segment,
+                category,
+                categoryId,
+            });
+
+            if (
+                categoryFilter.categoryId === "__none__" ||
+                (typeof categoryFilter.categoryId === "object" &&
+                    "in" in categoryFilter.categoryId &&
+                    categoryFilter.categoryId.in.includes("__none__"))
+            ) {
+                return res.status(200).json(
+                    generateCommonResponse(2012, true, { products: [] }),
+                );
+            }
+
+            const products = await prisma.product.findMany({
+                where: {
+                    ...categoryFilter,
+                    ...(productId ? { productId } : {}),
+                },
+                include: productInclude,
+            });
+
+            return res.status(200).json(
+                generateCommonResponse(2012, true, {
+                    products: products.map((product) => formatProduct(product)),
+                }),
+            );
         } catch (e) {
             console.log("error occured while getting all products", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -118,8 +218,18 @@ export const ProductControllers = () => {
         try {
             const { prodId, categoryId } = req.query;
 
-            const found = await ProductModel.find({ category: categoryId });
-            const products = found.filter((prod) => prod.productId !== prodId);
+            const found = await prisma.product.findMany({
+                where: {
+                    productId: { not: prodId },
+                    OR: [
+                        { categoryId },
+                        { category: { slug: categoryId } },
+                    ],
+                },
+                include: productInclude,
+            });
+
+            const products = found.map((product) => formatProduct(product));
 
             console.log("related products found", products, found);
 

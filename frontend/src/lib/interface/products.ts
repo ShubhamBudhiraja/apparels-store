@@ -17,5 +17,6 @@ export interface IProductData {
     isAvailable?: boolean;
     quantity: number;
     segment?: string;
+    category?: string;
     selectedVariant?: string;
 }

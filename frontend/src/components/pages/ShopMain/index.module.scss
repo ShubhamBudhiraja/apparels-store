@@ -1,0 +1,155 @@
+@import '@styles/partials/variables';
+@import '@styles/partials/mixins';
+
+.strip {
+    background-color: black;
+    padding: 8px 0;
+    margin-bottom: 48px;
+
+    p {
+        text-align: center;
+        color: white;
+        margin: 0;
+    }
+}
+
+.shopPage {
+    padding-bottom: 64px;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.pageHeading {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.count {
+    margin: 0;
+    color: $color76;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.filters {
+    position: sticky;
+    top: 120px;
+}
+
+.filtersTitle {
+    font-size: 1.125rem;
+    font-weight: $medium;
+    margin-bottom: 24px;
+}
+
+.filterGroup {
+    h3 {
+        font-size: 0.8125rem;
+        font-weight: $medium;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: $color76;
+        margin-bottom: 16px;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    a {
+        color: $color333;
+        text-decoration: none;
+        font-size: 0.9375rem;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: $brandColor;
+        }
+    }
+}
+
+.active {
+    color: $brandColor !important;
+    font-weight: $medium;
+}
+
+.subCategories {
+    margin-top: 8px !important;
+    margin-bottom: 12px !important;
+    padding-left: 14px !important;
+    border-left: 1px solid $borderColor;
+
+    li {
+        margin-bottom: 8px;
+    }
+
+    a {
+        font-size: 0.875rem;
+        color: $color666;
+    }
+}
+
+.clearFilters {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 0.875rem;
+    color: $brandColor;
+    text-decoration: underline;
+}
+
+.productsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px 24px;
+
+    @media (max-width: $lg) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: $sm) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.loadingState,
+.emptyState {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: $color76;
+}
+
+.emptyState a {
+    color: $brandColor;
+    text-decoration: underline;
+}
+
+@media (max-width: $md) {
+    .filters {
+        position: static;
+        margin-bottom: 8px;
+    }
+
+    .pageHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

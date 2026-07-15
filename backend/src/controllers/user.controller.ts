@@ -1,44 +1,33 @@
 import { generateCommonResponse } from "../lib/utils/common";
-import { ProductModel } from "../models/product.model";
-import { UserModel } from "../models/user.model";
+import {
+    buildProfileResponse,
+    findUserByEmail,
+    formatAddress,
+    resolveEmailId,
+} from "../lib/utils/user";
+import prisma from "../config/prisma";
 
 export const UserControllers = () => {
     const getProfile = async (req: any, res: any) => {
-        const { userId } = req.query;
+        const emailId = resolveEmailId(req.query);
 
         try {
-            const found = await UserModel.findOne({ userId });
+            if (!emailId) {
+                return res.status(401).json(generateCommonResponse(4000));
+            }
+
+            const found = await findUserByEmail(emailId);
 
             if (found) {
                 console.log("get profile - user details found");
-                const cart: any = found.get("cart");
-                if (found.cart.products.length) {
-                    const products = await ProductModel.find();
-                    if (found.cart.products.length)
-                        cart.products = cart.products.map((prod: any) => {
-                            const temp = prod;
-                            const foundProduct = products.find(
-                                (item) => item.productId === prod.productId
-                            );
-                            const vars: any = foundProduct?.get("variants");
-                            const availableUnits =
-                                vars?.find(
-                                    (item: any) =>
-                                        item.id === prod.selectedVariant
-                                ).units || 0;
-                            temp.isAvailable = availableUnits > 0;
-
-                            return temp;
-                        });
-                }
-                found.set("cart", cart);
+                const profile = await buildProfileResponse(found);
                 return res
                     .status(200)
-                    .json(generateCommonResponse(2006, true, found));
-            } else {
-                console.log("get profile - user not found");
-                return res.status(200).json(generateCommonResponse(4004));
+                    .json(generateCommonResponse(2006, true, profile));
             }
+
+            console.log("get profile - user not found");
+            return res.status(200).json(generateCommonResponse(4004));
         } catch (e) {
             console.log("error occured while getting profile", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -46,24 +35,37 @@ export const UserControllers = () => {
     };
 
     const updateProfile = async (req: any, res: any) => {
-        const { userId, ...rest } = req.body;
-        delete rest.cart;
-        delete rest.wishlist;
-        delete rest.addresses;
+        const emailId = resolveEmailId(req.body);
+        const { firstName, lastName, mobileNo, dob, dateOfBirth } = req.body;
 
         try {
-            const found = await UserModel.findOneAndUpdate(
-                { userId },
-                { $set: rest }
-            );
+            if (!emailId) {
+                return res.status(401).json(generateCommonResponse(4000));
+            }
 
-            if (found) {
-                console.log("updateProfile user found");
-                return res.status(200).json(generateCommonResponse(2005, true));
-            } else {
+            const existingUser = await prisma.user.findUnique({
+                where: { emailId },
+            });
+
+            if (!existingUser) {
                 console.log("updateProfile user not found");
                 return res.status(200).json(generateCommonResponse(4004));
             }
+
+            await prisma.user.update({
+                where: { emailId },
+                data: {
+                    ...(firstName !== undefined && { firstName }),
+                    ...(lastName !== undefined && { lastName }),
+                    ...(mobileNo !== undefined && { mobileNo }),
+                    ...((dob || dateOfBirth) !== undefined && {
+                        dateOfBirth: dob || dateOfBirth,
+                    }),
+                },
+            });
+
+            console.log("updateProfile user found");
+            return res.status(200).json(generateCommonResponse(2005, true));
         } catch (e) {
             console.log("error occured while updating profile", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -71,33 +73,45 @@ export const UserControllers = () => {
     };
 
     const addAddress = async (req: any, res: any) => {
-        const { userId, address } = req.body;
+        const emailId = resolveEmailId(req.body);
+        const { address } = req.body;
 
         try {
-            const found = await UserModel.findOne({ userId });
-
-            if (found) {
-                console.log("user details found");
-                const userDetails = found;
-
-                userDetails.addresses.push(address);
-
-                const result = await UserModel.findOneAndUpdate(
-                    { userId },
-                    { $set: { addresses: userDetails.addresses } },
-                    { returnDocument: "after" }
-                );
-
-                const newAddressId =
-                    result?.addresses[result.addresses.length - 1].id;
-                console.log("address added", address);
-
-                return res.status(200).json(
-                    generateCommonResponse(2015, true, {
-                        addressId: newAddressId,
-                    })
-                );
+            if (!emailId || !address) {
+                return res.status(401).json(generateCommonResponse(4000));
             }
+
+            const found = await prisma.user.findUnique({
+                where: { emailId },
+            });
+
+            if (!found) {
+                console.log("user not found while adding address");
+                return res.status(200).json(generateCommonResponse(4004));
+            }
+
+            const createdAddress = await prisma.address.create({
+                data: {
+                    userId: found.id,
+                    firstName: address.firstName,
+                    lastName: address.lastName,
+                    mobileNo: address.mobileNo,
+                    houseNo: address.houseNo,
+                    streetAddress: address.streetAddress,
+                    city: address.city,
+                    pincode: address.pincode,
+                    state: address.state,
+                    isDefault: Boolean(address.isDefault),
+                },
+            });
+
+            console.log("address added", formatAddress(createdAddress));
+
+            return res.status(200).json(
+                generateCommonResponse(2015, true, {
+                    addressId: createdAddress.id,
+                }),
+            );
         } catch (e) {
             console.log("error occured while adding address", e);
             return res.status(500).json(generateCommonResponse(5000));
@@ -105,74 +119,98 @@ export const UserControllers = () => {
     };
 
     const updateAddress = async (req: any, res: any) => {
-        const { userId, addressId, ...rest } = req.body;
+        const emailId = resolveEmailId(req.body);
+        const { addressId, ...rest } = req.body;
 
         try {
-            const found = await UserModel.findOne({ userId });
-
-            if (found) {
-                console.log("user details found");
-                const addresses: any = found.get("addresses");
-
-                const addressIndex = found.addresses.findIndex(
-                    (address) => address.id === addressId
-                );
-
-                if (addressIndex === -1) {
-                    console.log("address not found while deleting");
-                    return res.status(200).json(generateCommonResponse(4017));
-                } else {
-                    Object.entries(rest).forEach(([key, value]) => {
-                        addresses[addressIndex][key] = value;
-                    });
-                }
-
-                await UserModel.findOneAndUpdate(
-                    { userId },
-                    { $set: { addresses } }
-                );
-
-                console.log("address updated");
-                return res.status(200).json(generateCommonResponse(2016, true));
+            if (!emailId || !addressId) {
+                return res.status(401).json(generateCommonResponse(4000));
             }
+
+            const found = await prisma.user.findUnique({
+                where: { emailId },
+            });
+
+            if (!found) {
+                console.log("user not found while updating address");
+                return res.status(200).json(generateCommonResponse(4004));
+            }
+
+            const existingAddress = await prisma.address.findFirst({
+                where: { id: addressId, userId: found.id },
+            });
+
+            if (!existingAddress) {
+                console.log("address not found while updating");
+                return res.status(200).json(generateCommonResponse(4017));
+            }
+
+            const {
+                firstName,
+                lastName,
+                mobileNo,
+                houseNo,
+                streetAddress,
+                city,
+                pincode,
+                state,
+                isDefault,
+            } = rest;
+
+            await prisma.address.update({
+                where: { id: addressId },
+                data: {
+                    ...(firstName !== undefined && { firstName }),
+                    ...(lastName !== undefined && { lastName }),
+                    ...(mobileNo !== undefined && { mobileNo }),
+                    ...(houseNo !== undefined && { houseNo }),
+                    ...(streetAddress !== undefined && { streetAddress }),
+                    ...(city !== undefined && { city }),
+                    ...(pincode !== undefined && { pincode }),
+                    ...(state !== undefined && { state }),
+                    ...(isDefault !== undefined && { isDefault }),
+                },
+            });
+
+            console.log("address updated");
+            return res.status(200).json(generateCommonResponse(2016, true));
         } catch (e) {
-            console.log("error occured while adding address", e);
+            console.log("error occured while updating address", e);
             return res.status(500).json(generateCommonResponse(5000));
         }
     };
 
     const deleteAddress = async (req: any, res: any) => {
-        const { userId, addressId } = req.query;
+        const emailId = resolveEmailId(req.query);
+        const { addressId } = req.query;
 
         try {
-            const found = await UserModel.findOne({ userId });
-
-            if (found) {
-                console.log("user details found");
-                const userDetails = found;
-
-                const addressIndex = userDetails.addresses.findIndex(
-                    (address) => address.id === addressId
-                );
-
-                if (addressIndex === -1) {
-                    console.log("address not found while deleting");
-                    return res.status(200).json(generateCommonResponse(4017));
-                } else {
-                    const addresses = userDetails.addresses;
-                    addresses.splice(addressIndex, 1);
-
-                    await UserModel.findOneAndUpdate(
-                        { userId },
-                        { $set: { addresses } }
-                    );
-
-                    console.log("address deleted for addressId -> ", addressId);
-                    return res
-                        .status(200)
-                        .json(generateCommonResponse(2017, true));
-                }
+            if (!emailId || !addressId) {
+                return res.status(401).json(generateCommonResponse(4000));
             }
+
+            const found = await prisma.user.findUnique({
+                where: { emailId },
+            });
+
+            if (!found) {
+                console.log("user not found while deleting address");
+                return res.status(200).json(generateCommonResponse(4004));
+            }
+
+            const existingAddress = await prisma.address.findFirst({
+                where: { id: addressId, userId: found.id },
+            });
+
+            if (!existingAddress) {
+                console.log("address not found while deleting");
+                return res.status(200).json(generateCommonResponse(4017));
+            }
+
+            await prisma.address.delete({ where: { id: addressId } });
+
+            console.log("address deleted for addressId -> ", addressId);
+            return res.status(200).json(generateCommonResponse(2017, true));
         } catch (e) {
             console.log("error occured while deleting address", e);
             return res.status(500).json(generateCommonResponse(5000));

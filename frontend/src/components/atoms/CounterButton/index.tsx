@@ -9,10 +9,11 @@ interface ICounterButton {
     handleDecrement: any;
     className?: string;
     loading?: boolean;
+    maxCount?: number;
 }
 
 const CounterButton = (props: ICounterButton) => {
-    const { count, handleIncrement, handleDecrement, className, loading = false } = props;
+    const { count, handleIncrement, handleDecrement, className, loading = false, maxCount } = props;
 
     return (
         <div className={cx(style.updateBtn, loading && 'justify-content-center', className)}>
@@ -24,7 +25,10 @@ const CounterButton = (props: ICounterButton) => {
                         -
                     </span>
                     <span>{count}</span>
-                    <span className={style.counter} onClick={handleIncrement}>
+                    <span
+                        className={`${style.counter} ${maxCount && count === maxCount ? 'pe-none' : ''}`}
+                        onClick={handleIncrement}
+                    >
                         +
                     </span>
                 </>

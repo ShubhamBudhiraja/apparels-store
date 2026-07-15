@@ -31,7 +31,10 @@ const LoginForm = (props: ILoginForm) => {
 
         if (res?.status) {
             dispatch(LoginModalActions.updateModalState({ show: false }));
-            const profileRes = await storeUser({ userId: formValues?.emailId });
+            const profileRes = await storeUser({
+                userId: formValues?.emailId,
+                token: res?.responseBody?.token,
+            });
 
             if (profileRes) {
                 onSuccess?.({ userId: formValues?.emailId });

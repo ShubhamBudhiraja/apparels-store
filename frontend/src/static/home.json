@@ -31,7 +31,7 @@
             "subHeading": "",
             "description": "",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop",
+            "buttonLink": "/shop?category=men",
             "backgroundImage": "/images/collection1.jpg"
         },
         {
@@ -39,7 +39,7 @@
             "subHeading": "",
             "description": "",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop",
+            "buttonLink": "/shop?category=women",
             "backgroundImage": "/images/collection2.jpg"
         },
         {
@@ -47,7 +47,7 @@
             "subHeading": "",
             "description": "",
             "buttonText": "SHOP NOW",
-            "buttonLink": "/shop",
+            "buttonLink": "/shop?category=kids",
             "backgroundImage": "/images/collection3.jpg"
         }
     ]

@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { IProductData } from "./product";
 
 export interface IUserAddress {
@@ -10,7 +9,8 @@ export interface IUserAddress {
     city: string;
     pincode: string;
     state: string;
-    _id: ObjectId;
+    _id: string;
+    isDefault?: boolean;
 }
 
 export interface IUserCartProducts extends IProductData {

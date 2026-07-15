@@ -21,7 +21,7 @@ const SignupForm = (props: ISignupForm) => {
 
     const { control, handleSubmit, formState, reset } = useForm();
     const { dictionary } = useContext(LayoutContextData);
-    const { signUp, validateOtp } = useAuthApi();
+    const { signUp, validateOtp, login } = useAuthApi();
     const { storeUser } = useProfile();
     const { onSuccess } = useAppSelector((state) => state.loginModal);
     const dispatch = useAppDispatch();
@@ -48,11 +48,20 @@ const SignupForm = (props: ISignupForm) => {
             });
 
             if (otpRes?.status) {
+                const loginRes = await login({
+                    userId: formValues?.emailId,
+                    password: formValues?.password,
+                });
+
                 dispatch(LoginModalActions.updateModalState({ show: false }));
-                const profileRes = await storeUser({ userId: formValues?.emailId });
+
+                const profileRes = await storeUser({
+                    userId: formValues?.emailId,
+                    token: loginRes?.responseBody?.token,
+                });
 
                 if (profileRes) {
-                    onSuccess?.();
+                    onSuccess?.({ userId: formValues?.emailId });
                 }
             }
         }

@@ -37,6 +37,13 @@ const API_ENDPOINTS = {
         GET_ORDER_DETAILS: '/orders/get-order-details',
         SUBMIT_ORDER_FEEDBACK: '/orders/submit-feedback',
     },
+    CATEGORIES: {
+        TREE: '/categories/tree',
+    },
+    SALES: {
+        LIST: '/sales',
+        DETAILS: '/sales/details',
+    },
 };
 
 export default API_ENDPOINTS;

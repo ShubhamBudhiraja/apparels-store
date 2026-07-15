@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = require("dotenv");
 const cors_1 = __importDefault(require("cors"));
-const database_1 = require("./config/database");
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const product_routes_1 = __importDefault(require("./routes/product.routes"));
 const auth_routes_1 = require("./routes/auth.routes");
@@ -15,8 +14,9 @@ const corsHandler_1 = require("./middlewares/corsHandler");
 const payment_routes_1 = __importDefault(require("./routes/payment.routes"));
 const accessHandler_1 = require("./middlewares/accessHandler");
 const orders_routes_1 = require("./routes/orders.routes");
+const category_routes_1 = __importDefault(require("./routes/category.routes"));
+const sale_routes_1 = __importDefault(require("./routes/sale.routes"));
 (0, dotenv_1.config)();
-(0, database_1.connectDB)();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)(corsHandler_1.customCorsOptions));
 app.use(accessHandler_1.handleAppAccess);
@@ -29,8 +29,10 @@ app.use("/user", user_routes_1.default);
 app.use("/product", product_routes_1.default);
 app.use("/payment", payment_routes_1.default);
 app.use("/orders", orders_routes_1.OrdersRoutes);
+app.use("/categories", category_routes_1.default);
+app.use("/sales", sale_routes_1.default);
 app.use(errorHandler_1.ErrorHandler);
-app.listen(process.env.PORT, () => {
-    console.log(`Server is active on ${process.env.PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is active on ${process.env.PORT || 5000}`);
 });
 //# sourceMappingURL=index.js.map

@@ -12,8 +12,8 @@ const SavedAddresses = (props: ISavedAddresses) => {
 
     return (
         <ul className={style.listWrapper}>
-            {addresses?.map((address: IUserAddress, index: number) => (
-                <SingleAddress key={`savedAddress_${index}`} address={address} />
+            {addresses?.map((address: IUserAddress) => (
+                <SingleAddress key={`savedAddress_${address._id}`} address={address} />
             ))}
         </ul>
     );

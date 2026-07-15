@@ -1,6 +1,5 @@
 import { validationResult } from "express-validator";
 import { generateCommonResponse } from "../lib/utils/common";
-import { UserModel } from "../models/user.model";
 import {
     createPaymentOrder,
     getCardDetails,
@@ -8,14 +7,19 @@ import {
     getTransactionStatus,
     handleCardTransaction,
 } from "../config/juspay";
-import { ProductModel } from "../models/product.model";
 import {
     checkProductsAvailability,
     generateOrderDetails,
+    getFormattedProducts,
     updateProductInventory,
 } from "../lib/utils/payment";
-import { OrdersModel } from "../models/orders.model";
 import { config } from "dotenv";
+import prisma from "../config/prisma";
+import {
+    buildProfileResponse,
+    findUserByEmail,
+    resolveEmailId,
+} from "../lib/utils/user";
 
 config();
 
@@ -24,10 +28,13 @@ export const PaymentControllers = () => {
         const errors = validationResult(req);
 
         if (errors.isEmpty()) {
-            const { amount, userId, addressId } = req.body;
+            const emailId = resolveEmailId(req.body);
+            const { amount, addressId } = req.body;
 
             try {
-                const foundUser = await UserModel.findOne({ userId });
+                const foundUser = emailId
+                    ? await findUserByEmail(emailId)
+                    : null;
 
                 if (foundUser) {
                     const timeStamp = new Date();
@@ -35,7 +42,7 @@ export const PaymentControllers = () => {
                     const response = await createPaymentOrder({
                         amount,
                         orderid: orderId,
-                        customerId: userId,
+                        customerId: emailId!,
                     });
 
                     if (response?.status) {
@@ -49,30 +56,28 @@ export const PaymentControllers = () => {
                                     response?.data,
                                 ),
                             );
-                    } else {
-                        console.log("order could not be created");
-                        return res
-                            .status(400)
-                            .json(
-                                generateCommonResponse(4021, false, response),
-                            );
                     }
-                } else {
-                    console.log("user not found while initiating payment");
-                    return res.status(400).json(generateCommonResponse(4004));
+
+                    console.log("order could not be created");
+                    return res
+                        .status(400)
+                        .json(generateCommonResponse(4021, false, response));
                 }
+
+                console.log("user not found while initiating payment");
+                return res.status(400).json(generateCommonResponse(4004));
             } catch (e) {
                 console.log("error occured while creating order", e);
                 return res.status(500).json(generateCommonResponse(5000));
             }
-        } else {
-            console.log("invalid payload received while creating order");
-            return res.status(400).json(
-                generateCommonResponse(4000, false, {
-                    errors: errors.array(),
-                }),
-            );
         }
+
+        console.log("invalid payload received while creating order");
+        return res.status(400).json(
+            generateCommonResponse(4000, false, {
+                errors: errors.array(),
+            }),
+        );
     };
 
     const initiateCardTransaction = async (req: any, res: any) => {
@@ -103,20 +108,20 @@ export const PaymentControllers = () => {
                             response?.data?.payment?.authentication?.url,
                     }),
                 );
-            } else {
-                console.log("card details could not be submitted");
-                return res
-                    .status(400)
-                    .json(generateCommonResponse(4020, false, response));
             }
-        } else {
-            console.log("invalid payload - initiating card transaction");
-            return res.status(400).json(
-                generateCommonResponse(4000, false, {
-                    errors: errors.array(),
-                }),
-            );
+
+            console.log("card details could not be submitted");
+            return res
+                .status(400)
+                .json(generateCommonResponse(4020, false, response));
         }
+
+        console.log("invalid payload - initiating card transaction");
+        return res.status(400).json(
+            generateCommonResponse(4000, false, {
+                errors: errors.array(),
+            }),
+        );
     };
 
     const getSavedCards = async (req: any, res: any) => {
@@ -129,12 +134,12 @@ export const PaymentControllers = () => {
                 return res
                     .status(200)
                     .json(generateCommonResponse(2023, true, response?.data));
-            } else {
-                console.log("cards list not found");
-                return res
-                    .status(400)
-                    .json(generateCommonResponse(4023, false, response));
             }
+
+            console.log("cards list not found");
+            return res
+                .status(400)
+                .json(generateCommonResponse(4023, false, response));
         }
     };
 
@@ -148,12 +153,12 @@ export const PaymentControllers = () => {
                 return res
                     .status(200)
                     .json(generateCommonResponse(2024, true, response?.data));
-            } else {
-                console.log("cards info not found");
-                return res
-                    .status(400)
-                    .json(generateCommonResponse(4024, false, response));
             }
+
+            console.log("cards info not found");
+            return res
+                .status(400)
+                .json(generateCommonResponse(4024, false, response));
         }
     };
 
@@ -177,18 +182,18 @@ export const PaymentControllers = () => {
                         amount: response?.data?.amount,
                     }),
                 );
-            } else {
-                console.log("payment status not found");
-                return res.status(400).json(generateCommonResponse(4022));
             }
-        } else {
-            console.log("invalid payload - payment status");
-            return res.status(400).json(
-                generateCommonResponse(4000, false, {
-                    errors: errors.array(),
-                }),
-            );
+
+            console.log("payment status not found");
+            return res.status(400).json(generateCommonResponse(4022));
         }
+
+        console.log("invalid payload - payment status");
+        return res.status(400).json(
+            generateCommonResponse(4000, false, {
+                errors: errors.array(),
+            }),
+        );
     };
 
     const completePayment = async ({
@@ -200,48 +205,78 @@ export const PaymentControllers = () => {
         orderId: string;
         userId: string;
         addressId: string;
-        userDetails: any;
+        userDetails: Awaited<ReturnType<typeof buildProfileResponse>>;
     }) => {
-        const allProducts = await ProductModel.find();
+        const allProducts = await getFormattedProducts();
 
-        let allProductsAvailable = checkProductsAvailability(
-            allProducts,
-            userDetails.cart.products,
+        const allProductsAvailable = checkProductsAvailability(
+            allProducts as any,
+            userDetails.cart.products as any,
         );
 
         if (!allProductsAvailable) {
             console.log("some products went out of stock");
-
             return false;
         }
         console.log("all products available");
 
-        updateProductInventory(allProducts, userDetails.cart.products);
+        await updateProductInventory(
+            allProducts as any,
+            userDetails.cart.products as any,
+        );
 
         const orderDetails = generateOrderDetails({
             orderId,
-            userDetails: userDetails,
+            userDetails: userDetails as any,
             addressId,
         });
 
-        await OrdersModel.create({
-            userId,
-            ...orderDetails,
-            status: "delivered",
+        await prisma.order.create({
+            data: {
+                userId,
+                orderId: orderDetails.orderId,
+                orderTimeStamp: orderDetails.orderTimeStamp,
+                status: "delivered",
+                couponDiscount: orderDetails.couponDiscount || 0,
+                cartTotal: orderDetails.cartTotal,
+                total: orderDetails.total,
+                isDeliveryFeeIncluded:
+                    orderDetails.isDeliveryFeeIncluded || false,
+                addressFirstName: orderDetails.address?.firstName,
+                addressLastName: orderDetails.address?.lastName,
+                addressMobileNo: orderDetails.address?.mobileNo,
+                addressHouseNo: orderDetails.address?.houseNo,
+                addressStreetAddress: orderDetails.address?.streetAddress,
+                addressCity: orderDetails.address?.city,
+                addressPincode: orderDetails.address?.pincode,
+                addressState: orderDetails.address?.state,
+                items: {
+                    create: orderDetails.products.map((product) => ({
+                        productId: product.productId || "",
+                        title: product.title || "",
+                        price: product.price,
+                        offerPrice: product.offerPrice,
+                        quantity: product.quantity,
+                        thumbnail: product.thumbnail,
+                        selectedVariant: product.selectedVariant,
+                    })),
+                },
+            },
         });
         console.log("orders collection updated");
 
-        const cart = {
-            cartTotal: 0,
-            total: 0,
-            products: [],
-            isDeliveryFeeIncluded: false,
-            couponDiscount: 0,
-        };
+        const dbUser = await prisma.user.findUnique({
+            where: { emailId: userId },
+            include: { cart: true },
+        });
 
-        await UserModel.findOneAndUpdate({ userId }, { $set: { cart } });
+        if (dbUser?.cart) {
+            await prisma.cartItem.deleteMany({
+                where: { cartId: dbUser.cart.id },
+            });
+        }
+
         console.log("user cart updated");
-
         return true;
     };
 
@@ -258,9 +293,7 @@ export const PaymentControllers = () => {
             content: { order },
         } = req.body;
         try {
-            const foundUser: any = await UserModel.findOne({
-                userId: order.customer_id,
-            });
+            const foundUser = await findUserByEmail(order.customer_id);
 
             console.log(order, "order");
 
@@ -268,11 +301,12 @@ export const PaymentControllers = () => {
                 if (order.status_id === 21) {
                     console.log(order.status_id, "order.status_id");
                     const [orderId, addressId] = order.order_id.split("_");
+                    const profile = await buildProfileResponse(foundUser);
                     const status = await completePayment({
                         orderId,
                         userId: order.customer_id,
                         addressId,
-                        userDetails: foundUser,
+                        userDetails: profile,
                     });
 
                     if (status)

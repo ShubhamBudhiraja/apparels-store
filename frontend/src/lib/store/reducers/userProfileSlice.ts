@@ -11,7 +11,7 @@ const userProfileSlice = createSlice({
     name: 'userProfileSlice',
     initialState,
     reducers: {
-        updateCustomerDetails: (state, action: PayloadAction<IProfileDetails>) => {
+        updateCustomerDetails: (state, action: PayloadAction<IProfileDetails | IUserData>) => {
             return { ...state, ...action.payload };
         },
         updateCart: (state, action: PayloadAction<ICartData>) => {
@@ -39,6 +39,7 @@ const userProfileSlice = createSlice({
             );
             return { ...state, addresses };
         },
+        resetProfile: () => initialState,
     },
 });
 

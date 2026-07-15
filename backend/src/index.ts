@@ -1,7 +1,6 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { Response } from "express";
 import { config } from "dotenv";
 import cors from "cors";
-import { connectDB } from "./config/database";
 import UserRoutes from "./routes/user.routes";
 import ProductRoutes from "./routes/product.routes";
 import { AuthRoutes } from "./routes/auth.routes";
@@ -10,9 +9,10 @@ import { customCorsOptions } from "./middlewares/corsHandler";
 import PaymentRoutes from "./routes/payment.routes";
 import { handleAppAccess } from "./middlewares/accessHandler";
 import { OrdersRoutes } from "./routes/orders.routes";
+import CategoryRoutes from "./routes/category.routes";
+import SaleRoutes from "./routes/sale.routes";
 
 config();
-connectDB();
 
 const app = express();
 
@@ -28,9 +28,11 @@ app.use("/user", UserRoutes);
 app.use("/product", ProductRoutes);
 app.use("/payment", PaymentRoutes);
 app.use("/orders", OrdersRoutes);
+app.use("/categories", CategoryRoutes);
+app.use("/sales", SaleRoutes);
 
 app.use(ErrorHandler);
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server is active on ${process.env.PORT}`);
+app.listen(process.env.PORT || 5000, () => {
+    console.log(`Server is active on ${process.env.PORT || 5000}`);
 });

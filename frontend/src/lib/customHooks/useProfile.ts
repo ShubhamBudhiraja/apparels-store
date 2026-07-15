@@ -2,7 +2,7 @@ import useProfileApi from 'api-managers/services/profile';
 import { STORAGE_KEY, STORAGE_TYPE } from '@enums/storage';
 import { removeStorageItem, setStorageItem } from '@utils/storage';
 import { useAppDispatch } from '@store';
-import { ILoginModalSuccess, IUserAddress, IUserData } from '@interface/user';
+import { ILoginModalSuccess, IUserAddress } from '@interface/user';
 import { LoginModalActions } from '@store/reducers/loginModalSlice';
 import { UserDataActions } from '@store/reducers/userProfileSlice';
 
@@ -14,7 +14,19 @@ const useProfile = () => {
         dispatch(LoginModalActions.updateModalState({ show: true, onSuccess: loginProps?.successCallback }));
     };
 
-    const storeUser = async ({ userId }: { userId: string }) => {
+    const persistAccessToken = (token?: string) => {
+        if (!token) return;
+
+        setStorageItem({
+            key: STORAGE_KEY.ACCESS_TOKEN,
+            value: token,
+            storageType: STORAGE_TYPE.COOKIE,
+        });
+    };
+
+    const storeUser = async ({ userId, token }: { userId: string; token?: string }) => {
+        if (token) persistAccessToken(token);
+
         const profileRes = await getProfileData({ userId });
 
         if (profileRes?.status) {
@@ -24,28 +36,53 @@ const useProfile = () => {
                 storageType: STORAGE_TYPE.COOKIE,
             });
 
-            const selectedAddress = profileRes?.responseBody?.addresses?.length
-                ? profileRes?.responseBody?.addresses?.[0]?._id
-                : undefined;
+            const addresses = profileRes?.responseBody?.addresses || [];
+            const selectedAddress =
+                addresses.find((address: IUserAddress) => address.isDefault)?._id || addresses[0]?._id;
 
-            dispatch(UserDataActions.updateCustomerDetails({ ...profileRes?.responseBody, selectedAddress }));
+            dispatch(
+                UserDataActions.updateCustomerDetails({
+                    ...profileRes?.responseBody,
+                    userId: profileRes?.responseBody?.userId || userId,
+                    emailId: profileRes?.responseBody?.emailId || userId,
+                    selectedAddress,
+                })
+            );
             return true;
-        } else {
-            removeStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
-            return false;
         }
+
+        removeStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
+        removeStorageItem({ key: STORAGE_KEY.ACCESS_TOKEN, storageType: STORAGE_TYPE.COOKIE });
+        return false;
     };
 
-    const handleUpdateProfile = async (userId: string, valuesToUpdate: IUserData) => {
+    const refreshProfile = async (userId?: string) => {
+        if (!userId) return false;
+        return storeUser({ userId });
+    };
+
+    const handleUpdateProfile = async (
+        userId: string,
+        valuesToUpdate: {
+            firstName?: string;
+            lastName?: string;
+            mobileNo?: string;
+            dob?: Date;
+        }
+    ) => {
         const res = await updateProfileData({ userId, ...valuesToUpdate });
 
         if (res?.status) {
             dispatch(UserDataActions.updateCustomerDetails({ ...valuesToUpdate }));
         }
+
+        return res;
     };
 
     const handleLogout = () => {
         removeStorageItem({ key: STORAGE_KEY.USERID, storageType: STORAGE_TYPE.COOKIE });
+        removeStorageItem({ key: STORAGE_KEY.ACCESS_TOKEN, storageType: STORAGE_TYPE.COOKIE });
+        dispatch(UserDataActions.resetProfile());
         window.location.reload();
     };
 
@@ -90,6 +127,7 @@ const useProfile = () => {
     return {
         initiateLogin,
         storeUser,
+        refreshProfile,
         handleUpdateProfile,
         handleLogout,
         handleAddAddress,

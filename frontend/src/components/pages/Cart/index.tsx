@@ -10,8 +10,12 @@ const Cart = () => {
 
     return (
         <ul className={style.productsWrapper}>
-            {cart?.products?.map((product: IProductData, index: number) => (
-                <ProductWrapper key={`product_${index}`} userId={userId} productData={product} />
+            {cart?.products?.map((product: IProductData) => (
+                <ProductWrapper
+                    key={`${product.productId}_${product.selectedVariant}`}
+                    userId={userId}
+                    productData={product}
+                />
             ))}
         </ul>
     );

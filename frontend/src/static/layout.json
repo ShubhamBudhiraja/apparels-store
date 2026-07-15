@@ -69,7 +69,7 @@
             "menuItems": [
                 {
                     "title": "Men",
-                    "link": "",
+                    "link": "/shop?category=men",
                     "subMenu": [
                         { "title": "Shirts", "link": "/shop?category=men&subCategory=shirts" },
                         { "title": "T-Shirts", "link": "/shop?category=men&subCategory=t-shirts" },
@@ -83,30 +83,30 @@
                 },
                 {
                     "title": "Women",
-                    "link": "",
+                    "link": "/shop?category=women",
                     "subMenu": [
-                        { "title": "Shirts", "link": "/shop?category=men&subCategory=shirts" },
-                        { "title": "T-Shirts", "link": "/shop?category=men&subCategory=t-shirts" },
-                        { "title": "Jeans", "link": "/shop?category=men&subCategory=jeans" },
-                        { "title": "Bags", "link": "/shop?category=men&subCategory=bags" },
-                        { "title": "Jackets", "link": "/shop?category=men&subCategory=jackets" },
-                        { "title": "Trousers", "link": "/shop?category=men&subCategory=trousers" },
-                        { "title": "Shorts", "link": "/shop?category=men&subCategory=shorts" },
-                        { "title": "Shoes", "link": "/shop?category=men&subCategory=shoes" }
+                        { "title": "Shirts", "link": "/shop?category=women&subCategory=shirts" },
+                        { "title": "T-Shirts", "link": "/shop?category=women&subCategory=t-shirts" },
+                        { "title": "Jeans", "link": "/shop?category=women&subCategory=jeans" },
+                        { "title": "Bags", "link": "/shop?category=women&subCategory=bags" },
+                        { "title": "Jackets", "link": "/shop?category=women&subCategory=jackets" },
+                        { "title": "Trousers", "link": "/shop?category=women&subCategory=trousers" },
+                        { "title": "Shorts", "link": "/shop?category=women&subCategory=shorts" },
+                        { "title": "Shoes", "link": "/shop?category=women&subCategory=shoes" }
                     ]
                 },
                 {
                     "title": "Kids",
-                    "link": "",
+                    "link": "/shop?category=kids",
                     "subMenu": [
-                        { "title": "Shirts", "link": "/shop?category=men&subCategory=shirts" },
-                        { "title": "T-Shirts", "link": "/shop?category=men&subCategory=t-shirts" },
-                        { "title": "Jeans", "link": "/shop?category=men&subCategory=jeans" },
-                        { "title": "Bags", "link": "/shop?category=men&subCategory=bags" },
-                        { "title": "Jackets", "link": "/shop?category=men&subCategory=jackets" },
-                        { "title": "Trousers", "link": "/shop?category=men&subCategory=trousers" },
-                        { "title": "Shorts", "link": "/shop?category=men&subCategory=shorts" },
-                        { "title": "Shoes", "link": "/shop?category=men&subCategory=shoes" }
+                        { "title": "Shirts", "link": "/shop?category=kids&subCategory=shirts" },
+                        { "title": "T-Shirts", "link": "/shop?category=kids&subCategory=t-shirts" },
+                        { "title": "Jeans", "link": "/shop?category=kids&subCategory=jeans" },
+                        { "title": "Bags", "link": "/shop?category=kids&subCategory=bags" },
+                        { "title": "Jackets", "link": "/shop?category=kids&subCategory=jackets" },
+                        { "title": "Trousers", "link": "/shop?category=kids&subCategory=trousers" },
+                        { "title": "Shorts", "link": "/shop?category=kids&subCategory=shorts" },
+                        { "title": "Shoes", "link": "/shop?category=kids&subCategory=shoes" }
                     ]
                 }
             ]
